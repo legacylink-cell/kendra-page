@@ -6,12 +6,12 @@ import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingC
 import api, { apiErr } from "@/lib/api";
 
 const IMG = {
-  hero: "https://images.unsplash.com/photo-1548690312-e3b507d8c110?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
-  about: "https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
-  g1: "https://images.unsplash.com/photo-1574680088814-c9e8a10d8a4d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHw0fHxzdHJvbmclMjBmaXRuZXNzJTIwd29tYW4lMjBneW0lMjB3YXJtJTIwbGlnaHR8ZW58MHx8fHwxNzg1MTE4MjQwfDA&ixlib=rb-4.1.0&q=85",
-  g2: "https://images.unsplash.com/photo-1618168220187-ef594ca55286?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzR8MHwxfHNlYXJjaHwxfHxzdHJvbmclMjB3b21hbiUyMHdlaWdodGxpZnRpbmclMjBneW0lMjB3YXJtJTIwbGlnaHR8ZW58MHx8fHwxNzg1MTE4NTA3fDA&ixlib=rb-4.1.0&q=85",
-  g3: "https://images.unsplash.com/photo-1546483875-ad9014c88eba?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGR1bWJiZWxsJTIwdHJhaW5pbmclMjBkZXRlcm1pbmVkfGVufDB8fHx8MTc4NTExODUwOHww&ixlib=rb-4.1.0&q=85",
-  g4: "https://images.unsplash.com/photo-1590556409324-aa1d726e5c3c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBmaXRuZXNzJTIwa2V0dGxlYmVsbCUyMHdvcmtvdXR8ZW58MHx8fHwxNzg1MTE4NTA4fDA&ixlib=rb-4.1.0&q=85",
+  hero: "https://images.unsplash.com/photo-1708011108776-45ad9e625269?w=1920&q=80&auto=format&fit=crop",
+  about: "/kendra.jpg",
+  g1: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=1000&q=80&auto=format&fit=crop",
+  g2: "https://images.unsplash.com/photo-1708011108850-49646bd34503?w=1000&q=80&auto=format&fit=crop",
+  g3: "https://images.pexels.com/photos/7900679/pexels-photo-7900679.jpeg?auto=compress&cs=tinysrgb&w=1000",
+  g4: "https://images.pexels.com/photos/6739123/pexels-photo-6739123.jpeg?auto=compress&cs=tinysrgb&w=1000",
 };
 
 const Reveal = ({ children, delay = 0 }) => (
@@ -126,8 +126,9 @@ const Home = () => {
               Coaching that treats your goals like they're sacred.
             </h2>
             <p className="text-brand-muted leading-relaxed mb-5">
-              Kendra Albritton built KP Studio for one reason: too many women were being handed generic programs
-              and told to shrink. She coaches the opposite — get <span className="text-brand-text">stronger</span>,
+              Kendra Albritton is a personal trainer and group fitness coach at <span className="text-brand-text">Shapes Fitness</span>,
+              the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were
+              handed generic programs and told to shrink. She coaches the opposite — get <span className="text-brand-text">stronger</span>,
               take up space, and train with intention.
             </p>
             <p className="text-brand-muted leading-relaxed mb-8">
