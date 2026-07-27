@@ -113,8 +113,12 @@ const Home = () => {
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
-              <img src={IMG.about} alt="Kendra Albritton" className="w-full aspect-[4/5] object-cover" />
-              <div className="absolute -bottom-6 -right-4 bg-brand-bronze text-brand-bg p-6 hidden sm:block">
+              <div className="relative overflow-hidden bg-gradient-to-b from-brand-bronze to-brand-bronzeDark">
+                <img src={IMG.about} alt="Kendra Albritton" className="w-full aspect-[4/5] object-cover object-top mix-blend-luminosity opacity-90 contrast-[1.05]" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/10 to-transparent" />
+                <div className="absolute inset-0 ring-1 ring-inset ring-brand-line" />
+              </div>
+              <div className="absolute -bottom-6 -right-4 bg-brand-bronze text-brand-bg p-6 hidden sm:block shadow-xl">
                 <p className="font-display text-5xl leading-none">10+</p>
                 <p className="text-xs uppercase tracking-[0.2em] mt-1">Years coaching women</p>
               </div>
