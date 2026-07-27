@@ -1,0 +1,121 @@
+{
+  "theme": "hybrid_fullstack",
+  "concept": "Warm & Powerful. A dual-experience platform. The public marketing site is an editorial, dark-themed magazine spread (Iron & Bronze) designed to elevate Kendra Albritton to the top 1%. The admin portal is a functional, light-themed workspace (Sand & Stone) for legal and operational management.",
+  "typography": {
+    "marketing": {
+      "headings": {
+        "fontFamily": "Cormorant Garamond",
+        "weights": ["300", "400", "600"],
+        "usage": "H1, H2, large display text. Must use tight tracking (tracking-tighter) and tight leading (leading-none)."
+      },
+      "body": {
+        "fontFamily": "Outfit",
+        "weights": ["300", "400", "500"],
+        "usage": "Paragraphs, navigation, buttons. High legibility, geometric contrast to the serif headings."
+      }
+    },
+    "admin": {
+      "headings": {
+        "fontFamily": "Outfit",
+        "weights": ["500", "600", "700"],
+        "usage": "Dashboard titles, metric numbers, card headers."
+      },
+      "body": {
+        "fontFamily": "Manrope",
+        "weights": ["400", "500"],
+        "usage": "Data tables, forms, labels. Excellent for dense data readability."
+      }
+    },
+    "rules": "Never center body text. Use large serif headings with strong left alignment for the marketing site. Use uppercase wide-tracking labels (text-xs tracking-[0.2em]) for overlines and section markers."
+  },
+  "colors": {
+    "marketing_theme_dark": {
+      "base": "#0A0A0B",
+      "surface": "#141312",
+      "surface_glass": "rgba(20, 19, 18, 0.7)",
+      "primary_accent": "#C17D59",
+      "secondary_accent": "#8A5A40",
+      "text_primary": "#F2EAE5",
+      "text_secondary": "#A39B95",
+      "border": "#2A2624",
+      "description": "Used ONLY for the public marketing website."
+    },
+    "admin_theme_light": {
+      "base": "#F5F3F0",
+      "surface": "#FFFFFF",
+      "primary_accent": "#C17D59",
+      "text_primary": "#1C1B1A",
+      "text_secondary": "#5C5856",
+      "border": "#E5E0DA",
+      "success": "#476A49",
+      "danger": "#A04A45",
+      "description": "Used ONLY for the admin dashboard."
+    }
+  },
+  "visual_enhancers": {
+    "marketing": {
+      "texture": "Subtle grain/noise overlay on the dark backgrounds to remove digital flatness.",
+      "glassmorphism": "Used for sticky header. backdrop-blur-xl with border-b border-[#2A2624].",
+      "image_treatment": "Black/Bronze gradient overlays. Never use flat black over images. Example: bg-gradient-to-r from-black/80 via-black/40 to-transparent."
+    },
+    "admin": {
+      "cards": "Flat white background, 1px subtle border (#E5E0DA), no shadow by default. Hover adds shadow-sm and -translate-y-[1px].",
+      "forms": "High contrast borders for inputs, clearly indicating focus states with ring-2 ring-[#C17D59]."
+    }
+  },
+  "grids_and_layouts": {
+    "marketing": {
+      "spacing": "Generous. p-12, p-24, gap-16.",
+      "hero": "Asymmetrical. Huge serif heading on the left, high-contrast image on the right or background with strong gradient overlay.",
+      "bento_features": "Mode A (Tetris Grid). grid-cols-12, wide gaps, asymmetrical span logic for Services/Programs."
+    },
+    "admin": {
+      "spacing": "Dense. p-4, p-6, gap-4.",
+      "dashboard": "Mode B (High Density). grid-cols-4 or grid-cols-12. Metric cards top row, main charts/tables below. Sidebar navigation."
+    }
+  },
+  "components": {
+    "marketing": {
+      "marquee": "Use react-fast-marquee for an 'Editorial Ribbon' of fitness mantras (e.g. STRENGTH • RESILIENCE • POWER).",
+      "buttons": "Sharp edges (rounded-none or rounded-sm). Dark background with bronze border, or solid Bronze for primary CTA."
+    },
+    "admin": {
+      "shadcn_ui": "Use Table, Dialog, Form, Input, Select, Tabs, Card. Must customize radii to be sharp (rounded-sm) and match the admin color palette.",
+      "contracts": "PDF generation should trigger a download. Show visual status badges (Pending, Signed, Uploaded) for contracts/waivers."
+    }
+  },
+  "motion": {
+    "marketing": {
+      "scroll": "Smooth momentum scrolling (use Lenis if possible, or CSS smooth scroll).",
+      "reveal": "Staggered fade-up for typography using framer-motion.",
+      "hover": "Images subtly scale up (scale-105) with long duration (duration-700)."
+    },
+    "admin": {
+      "transitions": "Fast and snappy. duration-150 ease-in-out.",
+      "interactions": "Clear hover states on table rows (bg-black/5)."
+    }
+  },
+  "image_urls": [
+    {
+      "url": "https://images.unsplash.com/photo-1548690312-e3b507d8c110?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
+      "category": "Hero / Intense Training",
+      "description": "Woman holding black rope. Use for the main hero section with a strong dark/bronze gradient overlay."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
+      "category": "Portrait / About Section",
+      "description": "Powerful portrait of female trainer in black top. Use for the 'About Kendra Albritton' section."
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1574680088814-c9e8a10d8a4d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHw0fHxzdHJvbmclMjBmaXRuZXNzJTIwd29tYW4lMjBneW0lMjB3YXJtJTIwbGlnaHR8ZW58MHx8fHwxNzg1MTE4MjQwfDA&ixlib=rb-4.1.0&q=85",
+      "category": "Gallery / Programs",
+      "description": "Woman in black sports bra working out. Use for Services or Transformation gallery."
+    }
+  ],
+  "accessibility": {
+    "contrast": "Ensure all text meets APCA/WCAG standards. The bronze accent (#C17D59) must only be used on black or white backgrounds to ensure legibility.",
+    "testing": "All interactive elements MUST include data-testid attributes (e.g., data-testid='login-button', data-testid='client-table-row')."
+  },
+  "instructions_to_main_agent": "1. Build two distinct layout systems: A dark-themed public layout (HTML/Tailwind + Framer Motion) and a light-themed admin layout (Shadcn + dense grids). 2. For the Admin Portal, implement mock client data, a contract/waiver mock PDF generator button, and payment logging forms. 3. DO NOT use generic fonts like Inter for headings. Ensure Cormorant Garamond is imported and applied to marketing headings.",
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "Do not center align the app container. Create depth through layered design elements. Never use generic 'AI slop' aesthetics. No generic gradients. Add data-testid to all interactive components. Do not use fully transparent backgrounds behind nav text. Use react-icons or lucide-react for iconography. DO NOT use placeholder image URLs; use the provided image URLs."
+}
