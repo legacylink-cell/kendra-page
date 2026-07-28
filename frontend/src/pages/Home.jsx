@@ -6,8 +6,8 @@ import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingC
 import api, { apiErr } from "@/lib/api";
 
 const IMG = {
-  hero: "https://images.unsplash.com/photo-1708011108776-45ad9e625269?w=1920&q=80&auto=format&fit=crop",
-  about: "/kendra.jpg",
+  hero: "/kendra.jpg?v=2",
+  about: "/kendra-selfie.jpg",
   g1: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=1000&q=80&auto=format&fit=crop",
   g2: "https://images.unsplash.com/photo-1708011108850-49646bd34503?w=1000&q=80&auto=format&fit=crop",
   g3: "https://images.pexels.com/photos/7900679/pexels-photo-7900679.jpeg?auto=compress&cs=tinysrgb&w=1000",
@@ -16,6 +16,7 @@ const IMG = {
   selfie: "/kendra-selfie.jpg",
   cable: "/kendra-cable.jpg",
   community: "/kp-community.jpg",
+  marathon: "/kendra-marathon.jpg",
 };
 
 const Reveal = ({ children, delay = 0 }) => (
@@ -66,23 +67,26 @@ const Home = () => {
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0">
-          <img src={IMG.hero} alt="Woman training with battle ropes" className="w-full h-full object-cover object-center" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/85 to-[#0A0A0B]/30" />
-          <div className="absolute inset-0 grain opacity-[0.15] mix-blend-overlay" />
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0A0A0B]">
+        <div className="absolute inset-0 lg:left-[46%]">
+          <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover object-[50%_18%]" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/75 to-[#0A0A0B]/20 lg:hidden" />
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B]/70 to-transparent" />
+          <div className="absolute inset-0 grain opacity-[0.12] mix-blend-overlay" />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 lg:pt-0">
+          <div className="lg:max-w-xl">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="text-brand-bronze uppercase tracking-[0.35em] text-xs mb-6">
             Strength for women · by a woman
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display font-light text-6xl sm:text-7xl lg:text-8xl leading-[0.9] tracking-tight max-w-4xl">
-            Train like the woman<br /> you're <span className="italic text-brand-bronze">becoming.</span>
+            className="font-display font-light text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
+            Train like the woman you're <span className="italic text-brand-bronze">becoming.</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
-            className="text-brand-muted text-lg max-w-xl mt-8 leading-relaxed">
+            className="text-brand-muted text-lg max-w-lg mt-8 leading-relaxed">
             KP Studio is the private strength practice of <span className="text-brand-text">Kendra Albritton</span> — where
             women build real power, unshakeable confidence, and results that outlast any trend.
           </motion.p>
@@ -98,6 +102,7 @@ const Home = () => {
               View programs
             </a>
           </motion.div>
+          </div>
         </div>
       </section>
 
@@ -196,10 +201,9 @@ const Home = () => {
               </a>
             </div>
           </Reveal>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { src: IMG.barbell, cap: "Strength platform", pos: "object-center" },
-              { src: IMG.selfie, cap: "Kendra Albritton", pos: "object-top" },
               { src: IMG.cable, cap: "Every rep, coached", pos: "object-center" },
             ].map((g, i) => (
               <Reveal key={i} delay={i * 0.1}>
@@ -215,16 +219,36 @@ const Home = () => {
           {/* COMMUNITY */}
           <Reveal>
             <div className="relative overflow-hidden mt-4">
-              <img src={IMG.community} alt="The women of KP Studio" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
+              <img src={IMG.community} alt="Women Kendra has trained" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
               <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
                 <p className="font-display text-4xl lg:text-5xl text-brand-text leading-none">Stronger together.</p>
-                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">The women of KP Studio</p>
+                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">Women Kendra has trained</p>
               </div>
             </div>
           </Reveal>
 
-          {/* TESTIMONIALS */}
+          {/* INSPIRE — beyond the studio */}
+          <Reveal>
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-[#141312] border border-brand-line p-6 lg:p-10">
+              <div className="relative overflow-hidden">
+                <img src={IMG.marathon} alt="Kendra and her fiancé at the 2024 half marathon finish line" className="w-full aspect-[4/3] object-cover" />
+                <div className="absolute bottom-4 left-4 bg-brand-bronze text-brand-bg px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
+              </div>
+              <div>
+                <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
+                <h3 className="font-display text-4xl lg:text-5xl leading-none tracking-tight mb-5">She lives it, too.</h3>
+                <p className="text-brand-muted leading-relaxed mb-4">
+                  Kendra doesn't just coach the work — she does it. Here she is with her fiancé crossing the finish line
+                  of the 2024 Tour des Fleurs half marathon, medals earned.
+                </p>
+                <p className="text-brand-muted leading-relaxed">
+                  Strength isn't a look — it's a life. Train with Kendra and you're learning from someone who shows up
+                  for her own goals every single day.
+                </p>
+              </div>
+            </div>
+          </Reveal>
           <div className="grid md:grid-cols-3 gap-6 mt-20">
             {testimonials.map((t, i) => (
               <Reveal key={i} delay={i * 0.12}>
