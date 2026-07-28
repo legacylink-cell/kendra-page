@@ -12,6 +12,10 @@ const IMG = {
   g2: "https://images.unsplash.com/photo-1708011108850-49646bd34503?w=1000&q=80&auto=format&fit=crop",
   g3: "https://images.pexels.com/photos/7900679/pexels-photo-7900679.jpeg?auto=compress&cs=tinysrgb&w=1000",
   g4: "https://images.pexels.com/photos/6739123/pexels-photo-6739123.jpeg?auto=compress&cs=tinysrgb&w=1000",
+  barbell: "/kendra-barbell.jpg",
+  selfie: "/kendra-selfie.jpg",
+  cable: "/kendra-cable.jpg",
+  community: "/kp-community.jpg",
 };
 
 const Reveal = ({ children, delay = 0 }) => (
@@ -192,15 +196,33 @@ const Home = () => {
               </a>
             </div>
           </Reveal>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {[IMG.g2, IMG.g1, IMG.g4, IMG.g3].map((src, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { src: IMG.barbell, cap: "Strength platform", pos: "object-center" },
+              { src: IMG.selfie, cap: "Kendra Albritton", pos: "object-top" },
+              { src: IMG.cable, cap: "Every rep, coached", pos: "object-center" },
+            ].map((g, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="overflow-hidden">
-                  <img src={src} alt="Client training" className={`w-full object-cover hover:scale-105 transition-transform duration-700 ${i % 2 ? "aspect-[3/4]" : "aspect-[3/4] mt-0"}`} />
+                <div className="relative overflow-hidden group">
+                  <img src={g.src} alt={g.cap} className={`w-full aspect-[3/4] object-cover ${g.pos} group-hover:scale-105 transition-transform duration-700`} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                  <span className="absolute bottom-4 left-4 text-xs uppercase tracking-[0.2em] text-brand-text">{g.cap}</span>
                 </div>
               </Reveal>
             ))}
           </div>
+
+          {/* COMMUNITY */}
+          <Reveal>
+            <div className="relative overflow-hidden mt-4">
+              <img src={IMG.community} alt="The women of KP Studio" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
+                <p className="font-display text-4xl lg:text-5xl text-brand-text leading-none">Stronger together.</p>
+                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">The women of KP Studio</p>
+              </div>
+            </div>
+          </Reveal>
 
           {/* TESTIMONIALS */}
           <div className="grid md:grid-cols-3 gap-6 mt-20">
