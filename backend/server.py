@@ -514,6 +514,47 @@ async def delete_lead(lead_id: str, user: dict = Depends(get_current_user)):
 
 
 # ---------------------------------------------------------------------------
+# Training sessions (scheduling)
+# ---------------------------------------------------------------------------
+class SessionInput(BaseModel):
+    date: str
+    time: Optional[str] = ""
+    duration: Optional[str] = "60 min"
+    note: Optional[str] = ""
+    status: Optional[str] = "scheduled"
+
+
+@api_router.get("/sessions")
+async def list_all_sessions(user: dict = Depends(get_current_user)):
+    return await db.sessions.find({}, {"_id": 0}).sort("date", 1).to_list(2000)
+
+
+@api_router.get("/clients/{client_id}/sessions")
+async def list_client_sessions(client_id: str, user: dict = Depends(get_current_user)):
+    return await db.sessions.find({"client_id": client_id}, {"_id": 0}).sort("date", 1).to_list(1000)
+
+
+@api_router.post("/clients/{client_id}/sessions")
+async def add_session(client_id: str, body: SessionInput, user: dict = Depends(get_current_user)):
+    c = await db.clients.find_one({"id": client_id}, {"_id": 0})
+    if not c:
+        raise HTTPException(status_code=404, detail="Client not found")
+    doc = body.model_dump()
+    doc["id"] = str(uuid.uuid4())
+    doc["client_id"] = client_id
+    doc["client_name"] = c.get("name", "")
+    doc["created_at"] = now_iso()
+    await db.sessions.insert_one(dict(doc))
+    return clean(doc)
+
+
+@api_router.delete("/sessions/{session_id}")
+async def delete_session(session_id: str, user: dict = Depends(get_current_user)):
+    await db.sessions.delete_one({"id": session_id})
+    return {"ok": True}
+
+
+# ---------------------------------------------------------------------------
 # Dashboard
 # ---------------------------------------------------------------------------
 @api_router.get("/dashboard/stats")
@@ -533,9 +574,11 @@ async def dashboard_stats(user: dict = Depends(get_current_user)):
         if m:
             trend[m] = trend.get(m, 0) + p["amount"]
     trend_list = [{"month": k, "revenue": v} for k, v in sorted(trend.items())][-6:]
+    today = datetime.now(timezone.utc).date().isoformat()
+    upcoming_sessions = await db.sessions.count_documents({"date": {"$gte": today}})
     return {"active_clients": active, "total_clients": total, "pending_contracts": pending,
-            "new_leads": new_leads, "revenue_month": revenue_month, "revenue_total": revenue_total,
-            "trend": trend_list}
+            "new_leads": new_leads, "upcoming_sessions": upcoming_sessions,
+            "revenue_month": revenue_month, "revenue_total": revenue_total, "trend": trend_list}
 
 
 # ---------------------------------------------------------------------------

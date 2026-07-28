@@ -1,21 +1,25 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "@/lib/api";
-import { Users, FileClock, Inbox, DollarSign, ArrowUpRight } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from "recharts";
+import { Users, FileClock, CalendarDays, DollarSign, ArrowUpRight } from "lucide-react";
+import Calendar from "@/components/admin/Calendar";
 
 const money = (n) => `$${(n || 0).toLocaleString(undefined, { minimumFractionDigits: 0 })}`;
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
+  const [sessions, setSessions] = useState([]);
 
-  useEffect(() => { api.get("/dashboard/stats").then((r) => setStats(r.data)); }, []);
+  useEffect(() => {
+    api.get("/dashboard/stats").then((r) => setStats(r.data));
+    api.get("/sessions").then((r) => setSessions(r.data));
+  }, []);
 
   const cards = stats ? [
     { label: "Active Clients", value: stats.active_clients, sub: `${stats.total_clients} total`, icon: Users },
     { label: "Revenue · This Month", value: money(stats.revenue_month), sub: `${money(stats.revenue_total)} all-time`, icon: DollarSign },
     { label: "Pending Contracts", value: stats.pending_contracts, sub: "awaiting signature", icon: FileClock },
-    { label: "New Leads", value: stats.new_leads, sub: "from website", icon: Inbox },
+    { label: "Upcoming Sessions", value: stats.upcoming_sessions, sub: "scheduled ahead", icon: CalendarDays },
   ] : [];
 
   return (
@@ -44,21 +48,11 @@ export default function Dashboard() {
       </div>
 
       <div className="bg-white border border-border rounded-lg p-6">
-        <h2 className="font-semibold mb-6">Revenue trend</h2>
-        <div className="h-72">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={stats?.trend || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#EFEAE4" vertical={false} />
-              <XAxis dataKey="month" stroke="#9c968f" fontSize={12} tickLine={false} axisLine={false} />
-              <YAxis stroke="#9c968f" fontSize={12} tickLine={false} axisLine={false} tickFormatter={money} />
-              <Tooltip formatter={(v) => money(v)} contentStyle={{ borderRadius: 8, border: "1px solid #E5E0DA" }} />
-              <Line type="monotone" dataKey="revenue" stroke="#C17D59" strokeWidth={2.5} dot={{ r: 4, fill: "#C17D59" }} />
-            </LineChart>
-          </ResponsiveContainer>
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="font-semibold">Training calendar</h2>
+          <span className="text-xs text-muted-foreground">Clients locked in by date &amp; time</span>
         </div>
-        {(!stats?.trend || stats.trend.length === 0) && (
-          <p className="text-center text-sm text-muted-foreground -mt-40 pb-40">Log payments to see revenue trends here.</p>
-        )}
+        <Calendar sessions={sessions} />
       </div>
     </div>
   );

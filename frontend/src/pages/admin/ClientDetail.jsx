@@ -3,9 +3,9 @@ import { useParams, Link } from "react-router-dom";
 import api, { API, apiErr } from "@/lib/api";
 import Modal, { Field, inputCls } from "@/components/admin/Modal";
 import { toast } from "sonner";
-import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck } from "lucide-react";
+import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays } from "lucide-react";
 
-const tabs = ["Overview", "Contracts & Waivers", "Payments"];
+const tabs = ["Overview", "Schedule", "Contracts & Waivers", "Payments"];
 
 const contractStatus = { generated: "bg-amber-100 text-amber-800", signed: "bg-green-100 text-green-800" };
 
@@ -18,6 +18,9 @@ export default function ClientDetail() {
   const [showContract, setShowContract] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [sessions, setSessions] = useState([]);
+  const [showSession, setShowSession] = useState(false);
+  const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "" });
 
   const [cForm, setCForm] = useState({ package: "1:1 Personal Training", sessions: 12, rate: 0, session_length: "60 minutes", start_date: "", end_date: "", cancellation_hours: 24, include_media_release: true });
   const [pForm, setPForm] = useState({ amount: "", method: "Card", date: new Date().toISOString().slice(0, 10), note: "", status: "paid" });
@@ -27,6 +30,7 @@ export default function ClientDetail() {
     api.get(`/clients/${id}`).then((r) => { setClient(r.data); setEForm(r.data); });
     api.get(`/clients/${id}/contracts`).then((r) => setContracts(r.data));
     api.get(`/clients/${id}/payments`).then((r) => setPayments(r.data));
+    api.get(`/clients/${id}/sessions`).then((r) => setSessions(r.data));
   }, [id]);
   useEffect(() => { load(); }, [load]);
 
@@ -71,6 +75,16 @@ export default function ClientDetail() {
     } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
   };
   const delPayment = async (pid) => { await api.delete(`/payments/${pid}`); load(); };
+
+  const addSession = async (e) => {
+    e.preventDefault();
+    try {
+      await api.post(`/clients/${id}/sessions`, sForm);
+      toast.success("Training day added");
+      setShowSession(false); load();
+    } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
+  const delSession = async (sid) => { await api.delete(`/sessions/${sid}`); load(); };
 
   const saveEdit = async (e) => {
     e.preventDefault();
@@ -117,6 +131,32 @@ export default function ClientDetail() {
           <div className="bg-white border border-border rounded-lg p-5"><p className="text-xs uppercase text-muted-foreground tracking-wide mb-2">Program & Rate</p><p className="text-sm">{client.package || "—"}</p><p className="text-sm text-muted-foreground">${(client.rate || 0).toLocaleString()}</p></div>
           <div className="bg-white border border-border rounded-lg p-5"><p className="text-xs uppercase text-muted-foreground tracking-wide mb-2">Total paid</p><p className="text-2xl font-bold">${totalPaid.toLocaleString()}</p></div>
           <div className="bg-white border border-border rounded-lg p-5 md:col-span-3"><p className="text-xs uppercase text-muted-foreground tracking-wide mb-2 flex items-center gap-2"><ShieldCheck className="h-3.5 w-3.5" /> Medical notes</p><p className="text-sm">{client.medical_notes || "None recorded"}</p></div>
+        </div>
+      )}
+
+      {tab === "Schedule" && (
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <p className="text-sm text-muted-foreground">Lock in {client.name.split(" ")[0]}'s training days &amp; times.</p>
+            <button onClick={() => setShowSession(true)} data-testid="add-session-btn" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-md text-sm font-medium hover:opacity-90"><Plus className="h-4 w-4" /> Add training day</button>
+          </div>
+          <div className="bg-white border border-border rounded-lg overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-secondary/60 text-left text-xs uppercase text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="px-5 py-3 font-medium">Time</th><th className="px-5 py-3 font-medium">Duration</th><th className="px-5 py-3 font-medium">Note</th><th></th></tr></thead>
+              <tbody>
+                {sessions.map((s) => (
+                  <tr key={s.id} data-testid={`session-${s.id}`} className="border-t border-border">
+                    <td className="px-5 py-3 font-medium">{new Date(s.date + "T00:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</td>
+                    <td className="px-5 py-3">{s.time || "—"}</td>
+                    <td className="px-5 py-3 text-muted-foreground">{s.duration}</td>
+                    <td className="px-5 py-3 text-muted-foreground">{s.note || "—"}</td>
+                    <td className="px-5 py-3 text-right"><button onClick={() => delSession(s.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button></td>
+                  </tr>
+                ))}
+                {sessions.length === 0 && <tr><td colSpan={5} className="px-5 py-10 text-center text-muted-foreground">No training days scheduled yet.</td></tr>}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
 
@@ -198,6 +238,22 @@ export default function ClientDetail() {
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={() => setShowContract(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
             <button type="submit" data-testid="save-contract-btn" className="px-4 py-2.5 rounded-md text-sm bg-primary text-primary-foreground font-medium hover:opacity-90">Generate</button>
+          </div>
+        </form>
+      </Modal>
+
+      {/* Session modal */}
+      <Modal open={showSession} onClose={() => setShowSession(false)} title="Add training day" testid="session-modal">
+        <form onSubmit={addSession} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Date"><input type="date" required className={inputCls} value={sForm.date} onChange={(e) => setSForm({ ...sForm, date: e.target.value })} data-testid="session-date" /></Field>
+            <Field label="Time"><input type="time" className={inputCls} value={sForm.time} onChange={(e) => setSForm({ ...sForm, time: e.target.value })} data-testid="session-time" /></Field>
+          </div>
+          <Field label="Duration"><select className={inputCls} value={sForm.duration} onChange={(e) => setSForm({ ...sForm, duration: e.target.value })}><option>30 min</option><option>45 min</option><option>60 min</option><option>90 min</option></select></Field>
+          <Field label="Note"><input className={inputCls} value={sForm.note} onChange={(e) => setSForm({ ...sForm, note: e.target.value })} placeholder="e.g. Lower body focus" /></Field>
+          <div className="flex justify-end gap-3 pt-2">
+            <button type="button" onClick={() => setShowSession(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
+            <button type="submit" data-testid="save-session-btn" className="px-4 py-2.5 rounded-md text-sm bg-primary text-primary-foreground font-medium hover:opacity-90">Add day</button>
           </div>
         </form>
       </Modal>
