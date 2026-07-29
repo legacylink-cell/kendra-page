@@ -120,7 +120,7 @@ const Home = () => {
       </div>
 
       {/* ABOUT */}
-      <section id="about" className="py-28 px-6 lg:px-10 bg-[#B6E6E9] text-[#1E6E6F]">
+      <section id="about" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
@@ -134,7 +134,7 @@ const Home = () => {
             </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
+            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
             <h2 className="font-display text-5xl lg:text-6xl leading-none tracking-tight mb-8">
               Coaching that treats your goals like they're sacred.
             </h2>
@@ -189,12 +189,12 @@ const Home = () => {
       </section>
 
       {/* RESULTS / GALLERY */}
-      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F2D9B7] text-[#1E6E6F]">
+      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
               <div>
-                <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
+                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
                 <h2 className="font-display text-5xl lg:text-6xl tracking-tight leading-none">Real women. Real strength.</h2>
               </div>
               <a href="#contact" className="text-[#2F6E6D] hover:text-[#1E6E6F] text-sm inline-flex items-center gap-2">
@@ -237,7 +237,7 @@ const Home = () => {
                 <div className="absolute bottom-4 left-4 bg-brand-bronze text-[#1E6E6F] px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
               </div>
               <div>
-                <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
+                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
                 <h3 className="font-display text-4xl lg:text-5xl leading-none tracking-tight mb-5">She lives it, too.</h3>
                 <p className="text-[#2F6E6D] leading-relaxed mb-4">
                   Kendra doesn't just coach the work — she does it. Here she is with her fiancé crossing the finish line
