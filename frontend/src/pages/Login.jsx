@@ -36,7 +36,7 @@ export default function Login() {
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-md">
           <div className="text-center mb-10">
-            <div className="font-display text-4xl">Coach K Studio</div>
+            <div className="font-display text-4xl">CK Studio</div>
             <p className="text-xs uppercase tracking-[0.3em] text-brand-bronze mt-2">Trainer Portal</p>
           </div>
           <form onSubmit={submit} data-testid="login-form" className="space-y-5 bg-[#2A8687] border border-brand-line p-8">

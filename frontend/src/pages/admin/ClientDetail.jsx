@@ -196,7 +196,7 @@ export default function ClientDetail() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `CoachKStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
+                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `CKStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
                   <button onClick={() => emailContract(c.id)} disabled={!client.email} data-testid={`email-contract-${c.id}`} title={client.email ? "Email agreement to client" : "Add a client email first"} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"><Send className="h-4 w-4" /> Email</button>
                   <label className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary cursor-pointer" data-testid={`upload-contract-${c.id}`}>
                     <Upload className="h-4 w-4" /> Upload signed

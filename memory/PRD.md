@@ -4,7 +4,7 @@
 Website + backend admin portal for a female personal trainer (KP Studio, trainer Kendra Albritton, who trains women). Portal must: add clients; per client generate a training contract with an attached liability waiver, download it, upload the signed copy back, and log payments; plus other legal protections. Public website must be bold and best-in-class. Emergent badge removed.
 
 ## User Choices
-- Brand: KP Studio · Trainer: Kendra Albritton (women-only coaching)
+- Brand: CK Studio (artistic wordmark, italic caramel K) · Trainer: Kendra Albritton (women-only coaching)
 - Contracts: downloadable PDF now (email later)
 - Signing: offline — email PDF, client signs, upload signed copy back
 - Payments: manual logging
@@ -37,12 +37,25 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Fonts: Playfair Display (display) + Manrope (body) via Google Fonts; new hero image /kendra-white.jpg (AI white-bg cutout).
 - Frontend e2e test: 100% pass (iteration_2.json), no bugs. Backend unchanged.
 
+## Round 3–4 (2026-07-29) — Rebrand, Email, Insights, Session Tracking
+- Rebrand: KP Studio → "CK Studio" (artistic wordmark: C + italic caramel K). Applied across site, admin, PDF, emails. Coach K abbreviated to CK per user.
+- Location: "Argyle, TX" (announcement + footer). Contact email: kalbritton13@gmail.com (footer mailto + owner notifications + reply-to).
+- Footer: Instagram + Facebook social icon links; "Payments accepted: PayPal · Venmo · Zelle".
+- Email (Emergent-managed Resend): lead-submit notifies owner (reply-to = prospect); admin "Email" button on each contract sends the PDF as attachment to the client (status → "sent"). Sender name "CK Studio · Kendra Albritton" (platform sending address; not literal gmail).
+- Enquire prefill: program "Enquire" buttons set the contact form goal + scroll to contact.
+- Session tracking: PUT /sessions/{id} status (scheduled/completed/no-show) with colored selects + calendar chip colors; recurring weekly sessions (weekday chips + weeks) via POST /clients/{id}/sessions/recurring.
+- Website Insights admin tab: real tracking via POST /api/track (page_view w/ device+load time, scroll depth, clicks, form_submit) + GET /api/insights aggregation (views trend, top sources, device split, scroll funnel, inquiry types, most-viewed, top clicks, conversion). Facebook/Instagram = disabled "Connect" placeholders.
+- Payments: added PayPal, Venmo, Zelle methods.
+- Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
+- Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
+
 ## Backlog
 - P1: Email contracts to clients directly (Resend/SendGrid).
 - P1: In-portal digital signature capture.
 - P2: Stripe payments / invoicing.
-- P2: Session scheduling & attendance tracking.
-- P2: Brute-force lockout on login; env-driven cookie Secure flag for local dev.
+- P2: Live Facebook/Instagram insights (replace placeholders once accounts connected).
+- P2: Rate-limit/origin-check on POST /api/track.
+- Tech debt: split server.py (913 lines) into routers; extract ClientDetail tabs into components.
 
 ## Credentials
 See /app/memory/test_credentials.md (admin: kendra@kpstudio.com / KPStudio2026!).

@@ -131,7 +131,7 @@ const Home = () => {
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
               className="text-[#4A4744] text-lg max-w-lg mt-8 leading-relaxed">
-              Coach K Studio is the private strength practice of <span className="text-[#1C1B1A] font-semibold">Kendra Albritton</span> —
+              CK Studio is the private strength practice of <span className="text-[#1C1B1A] font-semibold">Kendra Albritton</span> —
               where women build real power, unshakeable confidence, and results that outlast any trend.
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
@@ -180,7 +180,7 @@ const Home = () => {
             </h2>
             <p className="text-[#4A4744] text-lg leading-relaxed mb-5">
               Kendra Albritton is a personal trainer and group fitness coach at <span className="text-[#1C1B1A] font-medium">Shapes Fitness</span>,
-              the boutique women's club in Flower Mound, TX. She built Coach K Studio for one reason: too many women were handed generic
+              the boutique women's club in Flower Mound, TX. She built CK Studio for one reason: too many women were handed generic
               programs and told to shrink. She coaches the opposite — get <span className="text-[#1C1B1A] font-medium">stronger</span>,
               take up space, and train with intention.
             </p>
@@ -393,7 +393,7 @@ const Home = () => {
             </h2>
             <p className="text-[#4A4744] text-lg leading-relaxed max-w-md">
               Spots are limited and every client is coached personally. Tell Kendra about your goals and she'll
-              reach out to see if Coach K Studio is the right fit.
+              reach out to see if CK Studio is the right fit.
             </p>
           </Reveal>
           <Reveal delay={0.15}>

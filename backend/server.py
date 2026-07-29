@@ -50,7 +50,7 @@ storage_key = None
 # Emergent managed email (Resend) — base URL is a constant, never from env.
 EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 EMAIL_KEY = os.environ.get("EMERGENT_EMAIL_KEY")
-EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Coach K Studio")
+EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "CK Studio")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -350,7 +350,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     small = ParagraphStyle("small", parent=styles["Normal"], fontSize=8, leading=11, textColor=colors.grey)
 
     el = []
-    el.append(Paragraph("COACH K STUDIO", h_brand))
+    el.append(Paragraph("CK STUDIO", h_brand))
     el.append(Paragraph("KENDRA ALBRITTON &nbsp;•&nbsp; PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_sub))
     el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceAfter=12))
 
@@ -394,7 +394,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         "Client confirms they are participating voluntarily and have been advised to obtain a physician's clearance prior to beginning any exercise program.",
     ])
     section("5. Release &amp; Waiver of Liability", [
-        "In consideration of being permitted to participate in training with Kendra Albritton / Coach K Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
+        "In consideration of being permitted to participate in training with Kendra Albritton / CK Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
         "Client agrees to <b>indemnify and hold harmless</b> the Trainer from any claims brought by Client or on Client's behalf.",
     ])
     section("6. Medical Readiness (PAR-Q)", [
@@ -416,9 +416,9 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     el.append(tq)
 
     section("7. Voluntary Engagement &amp; Independent Choice", [
-        "Client affirms that they have chosen Coach K Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
-        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or Coach K Studio</b>.",
-        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and Coach K Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
+        "Client affirms that they have chosen CK Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
+        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or CK Studio</b>.",
+        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and CK Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
     ])
     section("8. Confidentiality", [
         "The Trainer will keep Client's personal and health information confidential and use it solely to deliver services, except as required by law.",
@@ -450,7 +450,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     sig = [
         [Paragraph("", sig_style), Paragraph("Kendra Albritton", sig_style)],
         [Paragraph(f"<b>Client Signature</b> — {client_name}<br/>Date: __________________", lbl),
-         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, Coach K Studio<br/>Date: {eff}", lbl)],
+         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, CK Studio<br/>Date: {eff}", lbl)],
     ]
     ts = Table(sig, colWidths=[3.25 * inch, 3.25 * inch], rowHeights=[34, 26])
     ts.setStyle(TableStyle([
@@ -465,7 +465,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     ]))
     el.append(ts)
     el.append(Spacer(1, 8))
-    el.append(Paragraph("Coach K Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
+    el.append(Paragraph("CK Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
 
     doc.build(el)
     buf.seek(0)
@@ -491,7 +491,7 @@ async def contract_pdf(contract_id: str, request: Request, auth: Optional[str] =
         raise HTTPException(status_code=404, detail="Contract not found")
     c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
     pdf = build_contract_pdf(c, ct)
-    fname = f"CoachKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     return Response(content=pdf, media_type="application/pdf",
                     headers={"Content-Disposition": f'attachment; filename="{fname}"'})
 
@@ -534,24 +534,24 @@ async def email_contract(contract_id: str, user: dict = Depends(get_current_user
     if not c.get("email"):
         raise HTTPException(status_code=400, detail="This client has no email on file. Add one first.")
     pdf = build_contract_pdf(c, ct)
-    fname = f"CoachKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     first = (c.get("name", "there") or "there").split(" ")[0]
     reply = OWNER_EMAIL or ""
     html = f"""
     <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
       <tr><td style="padding:8px 0;">
-        <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">Coach K Studio</p>
+        <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">CK Studio</p>
         <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Albritton · Personal Training</p>
         <p>Hi {first},</p>
         <p>Attached is your personal training agreement (with the liability waiver, PAR-Q, and studio policies).</p>
         <p><b>Next steps:</b> please review, sign, and send the signed copy back to
            <a href="mailto:{reply}">{reply}</a>. Once received, we'll get your first session booked.</p>
         <p>Can't wait to get started.</p>
-        <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">Coach K Studio</span></p>
+        <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">CK Studio</span></p>
       </td></tr>
     </table>"""
     try:
-        await send_email(c["email"], "Your Coach K Studio training agreement", html,
+        await send_email(c["email"], "Your CK Studio training agreement", html,
                          reply_to=OWNER_EMAIL, attachments=[{"filename": fname, "content": pdf}])
     except Exception as e:
         logger.error(f"Contract email failed: {e}")
@@ -894,7 +894,7 @@ async def startup():
 
 @api_router.get("/")
 async def root():
-    return {"message": "Coach K Studio API"}
+    return {"message": "CK Studio API"}
 
 
 app.include_router(api_router)

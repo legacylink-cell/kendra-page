@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { Menu, X, ArrowUpRight, Facebook, Instagram } from "lucide-react";
 
 const links = [
   { href: "#about", label: "About" },
@@ -28,8 +28,8 @@ export const MarketingNav = () => {
       <div className={`transition-colors duration-300 ${scrolled ? "bg-[#EFE9E1]/95 backdrop-blur-md border-b border-[#DCD4C7]" : "bg-transparent"}`}>
         <nav className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
           <a href="#top" className="flex flex-col leading-none" data-testid="nav-logo">
-            <span className="font-display text-2xl md:text-[26px] tracking-tight text-[#1C1B1A]">Coach K Studio</span>
-            <span className="text-[9px] tracking-[0.35em] text-[#A9784E] uppercase mt-0.5">Kendra Albritton</span>
+            <span className="font-display text-3xl md:text-[34px] tracking-[-0.02em] text-[#1C1B1A]">C<span className="italic text-[#A9784E]">K</span> <span className="tracking-tight">Studio</span></span>
+            <span className="text-[9px] tracking-[0.4em] text-[#A9784E] uppercase mt-1">Kendra Albritton</span>
           </a>
           <div className="hidden lg:flex items-center gap-9">
             {links.map((l) => (
@@ -70,10 +70,20 @@ export const MarketingFooter = () => (
   <footer className="bg-[#1C1B1A] text-[#EFE9E1] py-20 px-6 md:px-12" data-testid="marketing-footer">
     <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
       <div>
-        <div className="font-display text-4xl">Coach K Studio</div>
+        <div className="font-display text-5xl md:text-6xl tracking-[-0.02em]">C<span className="italic text-[#A9784E]">K</span> <span className="tracking-tight">Studio</span></div>
         <p className="text-[#EFE9E1]/60 mt-4 max-w-xs text-sm leading-relaxed">
           Strength coaching for women, by Kendra Albritton. Build the body — and the belief — to match.
         </p>
+        <div className="flex items-center gap-3 mt-6" data-testid="footer-socials">
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-testid="footer-instagram"
+             className="h-9 w-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#A9784E] hover:border-[#A9784E] transition-colors">
+            <Instagram className="h-4 w-4" />
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" data-testid="footer-facebook"
+             className="h-9 w-9 rounded-full border border-white/20 flex items-center justify-center hover:bg-[#A9784E] hover:border-[#A9784E] transition-colors">
+            <Facebook className="h-4 w-4" />
+          </a>
+        </div>
       </div>
       <div className="text-sm text-[#EFE9E1]/70 space-y-3">
         <p className="text-[#A9784E] uppercase tracking-[0.25em] text-xs mb-4">Explore</p>
@@ -84,14 +94,14 @@ export const MarketingFooter = () => (
       </div>
       <div className="text-sm text-[#EFE9E1]/70 space-y-3">
         <p className="text-[#A9784E] uppercase tracking-[0.25em] text-xs mb-4">Studio</p>
-        <p>hello@kpstudio.com</p>
+        <a href="mailto:kalbritton13@gmail.com" className="block hover:text-white transition-colors" data-testid="footer-email">kalbritton13@gmail.com</a>
         <p>Argyle, TX · By appointment only</p>
         <p>Payments accepted: PayPal · Venmo · Zelle</p>
         <Link to="/admin/login" className="inline-block hover:text-white transition-colors mt-2" data-testid="footer-login-link">Trainer Login</Link>
       </div>
     </div>
     <div className="max-w-7xl mx-auto mt-14 pt-6 border-t border-white/10 text-xs text-[#EFE9E1]/50 flex flex-col sm:flex-row justify-between gap-2">
-      <span>© {new Date().getFullYear()} Coach K Studio. All rights reserved.</span>
+      <span>© {new Date().getFullYear()} CK Studio. All rights reserved.</span>
       <span>
         Designed by{" "}
         <a href="https://mozeid.com/" target="_blank" rel="noopener noreferrer"
