@@ -49,6 +49,12 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-29 — Portal admin controls + insights cleanup
+- Client management: Edit / Archive-Restore / Delete actions on Clients list (row menu) and ClientDetail; status filters (Active/Lead/Archived/All); delete cascades contracts+payments (existing API).
+- "Reset portal data": Dashboard Danger Zone + protected POST /api/admin/reset-data (requires confirm="RESET"); wipes clients/contracts/payments/sessions/leads/events, keeps login. Preview DB wiped now. reset_data.py maintenance script added.
+- Insights now exclude Emergent preview traffic (host/referrer containing emergentagent.com); real production (emergent.host) still counted. track.js now sends window.location.host; TrackInput has host field.
+- Theme change to "Alive & Free" (Poppins/Roboto, sand/clay palette) previewed at /theme-preview only — user put ON HOLD, live site untouched.
+
 ## Backlog
 - P1: Email contracts to clients directly (Resend/SendGrid).
 - P1: In-portal digital signature capture.

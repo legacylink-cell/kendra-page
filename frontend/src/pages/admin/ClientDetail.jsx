@@ -1,9 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import api, { API, apiErr } from "@/lib/api";
 import Modal, { Field, inputCls } from "@/components/admin/Modal";
 import { toast } from "sonner";
-import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays, Send, Repeat } from "lucide-react";
+import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays, Send, Repeat, Archive, ArchiveRestore } from "lucide-react";
 
 const tabs = ["Overview", "Schedule", "Contracts & Waivers", "Payments"];
 
@@ -12,6 +12,7 @@ const sessionStatusCls = (s) => ({ completed: "bg-green-100 text-green-800", "no
 
 export default function ClientDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [client, setClient] = useState(null);
   const [contracts, setContracts] = useState([]);
   const [payments, setPayments] = useState([]);
@@ -19,6 +20,7 @@ export default function ClientDetail() {
   const [showContract, setShowContract] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [showSession, setShowSession] = useState(false);
   const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "", repeat: false, weekdays: [], weeks: 4 });
@@ -113,6 +115,23 @@ export default function ClientDetail() {
     } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
   };
 
+  const archiveClient = async () => {
+    const next = client.status === "archived" ? "active" : "archived";
+    try {
+      await api.put(`/clients/${id}`, { ...client, status: next });
+      toast.success(next === "archived" ? "Client archived" : "Client restored");
+      load();
+    } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
+
+  const deleteClient = async () => {
+    try {
+      await api.delete(`/clients/${id}`);
+      toast.success("Client deleted");
+      navigate("/admin/clients");
+    } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
+
   if (!client) return <div className="text-muted-foreground">Loading…</div>;
   const totalPaid = payments.filter((p) => p.status === "paid").reduce((s, p) => s + p.amount, 0);
 
@@ -132,7 +151,13 @@ export default function ClientDetail() {
               </div>
             </div>
           </div>
-          <button onClick={() => setShowEdit(true)} data-testid="edit-client-btn" className="text-sm border border-border px-4 py-2 rounded-md hover:bg-secondary">Edit</button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => setShowEdit(true)} data-testid="edit-client-btn" className="text-sm border border-border px-4 py-2 rounded-md hover:bg-secondary">Edit</button>
+            <button onClick={archiveClient} data-testid="archive-client-btn" className="inline-flex items-center gap-1.5 text-sm border border-border px-4 py-2 rounded-md hover:bg-secondary">
+              {client.status === "archived" ? <><ArchiveRestore className="h-4 w-4" /> Restore</> : <><Archive className="h-4 w-4" /> Archive</>}
+            </button>
+            <button onClick={() => setShowDelete(true)} data-testid="delete-client-btn" className="inline-flex items-center gap-1.5 text-sm border border-border px-4 py-2 rounded-md text-destructive hover:bg-red-50"><Trash2 className="h-4 w-4" /> Delete</button>
+          </div>
         </div>
       </div>
 
@@ -320,7 +345,7 @@ export default function ClientDetail() {
             <Field label="Program"><input className={inputCls} value={eForm.package || ""} onChange={(e) => setEForm({ ...eForm, package: e.target.value })} /></Field>
             <Field label="Rate ($)"><input type="number" className={inputCls} value={eForm.rate || 0} onChange={(e) => setEForm({ ...eForm, rate: e.target.value })} /></Field>
           </div>
-          <Field label="Status"><select className={inputCls} value={eForm.status || "active"} onChange={(e) => setEForm({ ...eForm, status: e.target.value })}><option value="active">Active</option><option value="lead">Lead</option><option value="inactive">Inactive</option></select></Field>
+          <Field label="Status"><select className={inputCls} value={eForm.status || "active"} onChange={(e) => setEForm({ ...eForm, status: e.target.value })}><option value="active">Active</option><option value="lead">Lead</option><option value="inactive">Inactive</option><option value="archived">Archived</option></select></Field>
           <Field label="Goals"><textarea rows={2} className={inputCls} value={eForm.goals || ""} onChange={(e) => setEForm({ ...eForm, goals: e.target.value })} /></Field>
           <Field label="Medical notes"><textarea rows={2} className={inputCls} value={eForm.medical_notes || ""} onChange={(e) => setEForm({ ...eForm, medical_notes: e.target.value })} /></Field>
           <Field label="Emergency contact"><input className={inputCls} value={eForm.emergency_contact || ""} onChange={(e) => setEForm({ ...eForm, emergency_contact: e.target.value })} /></Field>
@@ -329,6 +354,16 @@ export default function ClientDetail() {
             <button type="submit" data-testid="save-edit-btn" className="px-4 py-2.5 rounded-md text-sm bg-primary text-primary-foreground font-medium hover:opacity-90">Save</button>
           </div>
         </form>
+      </Modal>
+      {/* Delete client confirm */}
+      <Modal open={showDelete} onClose={() => setShowDelete(false)} title="Delete client?" testid="delete-client-modal">
+        <p className="text-sm text-muted-foreground">
+          This permanently deletes <span className="font-semibold text-foreground">{client.name}</span> along with their contracts and payments. This can't be undone.
+        </p>
+        <div className="flex justify-end gap-3 pt-5">
+          <button type="button" onClick={() => setShowDelete(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
+          <button onClick={deleteClient} data-testid="confirm-delete-client-btn" className="px-4 py-2.5 rounded-md text-sm bg-destructive text-destructive-foreground font-medium hover:opacity-90">Delete client</button>
+        </div>
       </Modal>
     </div>
   );

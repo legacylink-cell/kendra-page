@@ -741,6 +741,7 @@ class TrackInput(BaseModel):
     type: str
     path: Optional[str] = "/"
     referrer: Optional[str] = ""
+    host: Optional[str] = ""
     device: Optional[str] = "desktop"
     label: Optional[str] = ""
     value: Optional[float] = None
@@ -782,9 +783,17 @@ def _inquiry_type(text: str) -> str:
     return "General"
 
 
+def _is_preview_traffic(e: dict) -> bool:
+    """Exclude Emergent preview/editor traffic (*.emergentagent.com).
+    The real production site (emergent.host) is intentionally NOT excluded."""
+    blob = f"{e.get('host','')} {e.get('referrer','')}".lower()
+    return "emergentagent.com" in blob
+
+
 @api_router.get("/insights")
 async def insights(user: dict = Depends(get_current_user)):
     events = await db.events.find({}, {"_id": 0}).to_list(50000)
+    events = [e for e in events if not _is_preview_traffic(e)]
     leads = await db.leads.find({}, {"_id": 0}).to_list(5000)
     clients_count = await db.clients.count_documents({})
 
@@ -844,6 +853,23 @@ async def insights(user: dict = Depends(get_current_user)):
 # ---------------------------------------------------------------------------
 # Dashboard
 # ---------------------------------------------------------------------------
+class ResetInput(BaseModel):
+    confirm: str = ""
+
+
+@api_router.post("/admin/reset-data")
+async def reset_data(body: ResetInput, user: dict = Depends(get_current_user)):
+    """Wipe all client/business data for a clean slate. Keeps admin login(s)."""
+    if body.confirm != "RESET":
+        raise HTTPException(status_code=400, detail='Type RESET to confirm.')
+    deleted = {}
+    for coll in ("clients", "contracts", "payments", "sessions", "leads", "events"):
+        res = await db[coll].delete_many({})
+        deleted[coll] = res.deleted_count
+    logger.info(f"Portal data reset by {user.get('email')}: {deleted}")
+    return {"ok": True, "deleted": deleted}
+
+
 @api_router.get("/dashboard/stats")
 async def dashboard_stats(user: dict = Depends(get_current_user)):
     active = await db.clients.count_documents({"status": "active"})

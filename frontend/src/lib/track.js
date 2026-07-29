@@ -7,6 +7,7 @@ export function track(type, extra = {}) {
       type,
       path: window.location.pathname || "/",
       referrer: document.referrer || "",
+      host: window.location.host || "",
       device,
       ...extra,
     });
