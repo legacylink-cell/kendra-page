@@ -66,41 +66,41 @@ const Home = () => {
   };
 
   return (
-    <div id="top" className="bg-white text-[#1E6E6F] font-sans selection:bg-brand-bronze">
+    <div id="top" className="bg-[#B6E6E9] text-[#1E6E6F] font-sans selection:bg-brand-bronze">
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#F4FBFB]">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#B6E6E9]">
         <div className="absolute inset-0 lg:left-[46%]">
           <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover object-[50%_18%]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#F4FBFB] via-[#F4FBFB]/85 to-[#F4FBFB]/10 lg:hidden" />
-          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#F4FBFB] via-[#F4FBFB]/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#F4FBFB]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#B6E6E9] via-[#B6E6E9]/85 to-[#B6E6E9]/10 lg:hidden" />
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#B6E6E9] via-[#B6E6E9]/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#B6E6E9]/30 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 lg:pt-0">
           <div className="lg:max-w-xl">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="text-[#12857F] uppercase tracking-[0.35em] text-xs mb-6">
+            className="text-[#1E6E6F] uppercase tracking-[0.35em] text-xs mb-6">
             Strength for women · by a woman
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
             className="font-display font-light text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-[#1E6E6F]">
-            Train like the woman you're <span className="italic text-[#2AA3A8]">becoming.</span>
+            Train like the woman you're <span className="italic text-[#4EC6D4]">becoming.</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
-            className="text-[#3F7E7C] text-lg max-w-lg mt-8 leading-relaxed">
+            className="text-[#1E6E6F] text-lg max-w-lg mt-8 leading-relaxed">
             KP Studio is the private strength practice of <span className="text-[#1E6E6F] font-semibold">Kendra Albritton</span> — where
             women build real power, unshakeable confidence, and results that outlast any trend.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-wrap gap-4 mt-10">
             <a href="#contact" data-testid="hero-cta-start"
-              className="group inline-flex items-center gap-3 bg-brand-bronze text-[#0B3A3B] px-8 py-4 font-semibold hover:bg-[#1E6E6F] hover:text-white transition-colors">
+              className="group inline-flex items-center gap-3 bg-brand-bronze text-[#1E6E6F] px-8 py-4 font-semibold hover:bg-[#1E6E6F] hover:text-[#B6E6E9] transition-colors">
               Start your transformation
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a href="#programs" data-testid="hero-cta-programs"
-              className="inline-flex items-center gap-2 border border-[#1E6E6F] text-[#1E6E6F] px-8 py-4 hover:bg-[#1E6E6F] hover:text-white transition-colors">
+              className="inline-flex items-center gap-2 border border-[#1E6E6F] text-[#1E6E6F] px-8 py-4 hover:bg-[#1E6E6F] hover:text-[#B6E6E9] transition-colors">
               View programs
             </a>
           </motion.div>
@@ -113,14 +113,14 @@ const Home = () => {
         <div className="marquee-track">
           {[...marquee, ...marquee, ...marquee, ...marquee].map((w, i) => (
             <span key={i} className="font-display text-4xl md:text-5xl mx-8 text-[#1E6E6F] whitespace-nowrap flex items-center gap-16">
-              {w} <span className="text-white text-2xl">✦</span>
+              {w} <span className="text-[#B6E6E9] text-2xl">✦</span>
             </span>
           ))}
         </div>
       </div>
 
       {/* ABOUT */}
-      <section id="about" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
+      <section id="about" className="py-28 px-6 lg:px-10 bg-[#F2D9B7] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
@@ -134,17 +134,17 @@ const Home = () => {
             </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
+            <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
             <h2 className="font-display text-5xl lg:text-6xl leading-none tracking-tight mb-8">
               Coaching that treats your goals like they're sacred.
             </h2>
-            <p className="text-[#2F6E6D] leading-relaxed mb-5">
+            <p className="text-[#1E6E6F] leading-relaxed mb-5">
               Kendra Albritton is a personal trainer and group fitness coach at <span className="text-[#1E6E6F] font-medium">Shapes Fitness</span>,
               the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were
               handed generic programs and told to shrink. She coaches the opposite — get <span className="text-[#1E6E6F] font-medium">stronger</span>,
               take up space, and train with intention.
             </p>
-            <p className="text-[#2F6E6D] leading-relaxed mb-8">
+            <p className="text-[#1E6E6F] leading-relaxed mb-8">
               Every program is built around your body, your history, and your life. No guesswork, no fads —
               just expert programming and relentless accountability.
             </p>
@@ -160,10 +160,10 @@ const Home = () => {
       </section>
 
       {/* PROGRAMS */}
-      <section id="programs" className="py-28 px-6 lg:px-10 bg-white border-y border-[#D8EDEB]">
+      <section id="programs" className="py-28 px-6 lg:px-10 bg-[#B6E6E9] border-y border-[#7AC7BD]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
-            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-4">The Work</p>
+            <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-4">The Work</p>
             <h2 className="font-display text-5xl lg:text-6xl tracking-tight max-w-2xl leading-none text-[#1E6E6F]">
               Choose how you want to get strong.
             </h2>
@@ -171,14 +171,14 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.12}>
-                <div data-testid={`program-${i}`} className="group h-full bg-[#F4FBFB] border border-[#CDE9E6] p-8 hover:border-brand-bronze hover:shadow-lg transition-all">
+                <div data-testid={`program-${i}`} className="group h-full bg-[#F2D9B7] border border-[#7AC7BD] p-8 hover:border-brand-bronze hover:shadow-lg transition-all">
                   <div className="flex items-center justify-between mb-8">
-                    <p.icon className="h-8 w-8 text-[#159B9B]" />
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#3F7E7C] border border-[#CDE9E6] px-3 py-1">{p.tag}</span>
+                    <p.icon className="h-8 w-8 text-[#1E6E6F]" />
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#1E6E6F] border border-[#7AC7BD] px-3 py-1">{p.tag}</span>
                   </div>
                   <h3 className="font-display text-3xl mb-4 text-[#1E6E6F]">{p.title}</h3>
-                  <p className="text-[#3F7E7C] text-sm leading-relaxed">{p.desc}</p>
-                  <a href="#contact" className="inline-flex items-center gap-2 text-[#159B9B] text-sm mt-8 group-hover:gap-3 transition-all font-medium">
+                  <p className="text-[#1E6E6F] text-sm leading-relaxed">{p.desc}</p>
+                  <a href="#contact" className="inline-flex items-center gap-2 text-[#1E6E6F] text-sm mt-8 group-hover:gap-3 transition-all font-medium">
                     Enquire <ArrowRight className="h-4 w-4" />
                   </a>
                 </div>
@@ -189,15 +189,15 @@ const Home = () => {
       </section>
 
       {/* RESULTS / GALLERY */}
-      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
+      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F2D9B7] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
               <div>
-                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
+                <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
                 <h2 className="font-display text-5xl lg:text-6xl tracking-tight leading-none">Real women. Real strength.</h2>
               </div>
-              <a href="#contact" className="text-[#2F6E6D] hover:text-[#1E6E6F] text-sm inline-flex items-center gap-2">
+              <a href="#contact" className="text-[#1E6E6F] hover:text-[#1E6E6F] text-sm inline-flex items-center gap-2">
                 Your story is next <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -231,19 +231,19 @@ const Home = () => {
 
           {/* INSPIRE — beyond the studio */}
           <Reveal>
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-white border border-[#7AC7BD] p-6 lg:p-10 shadow-sm">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-[#B6E6E9] border border-[#7AC7BD] p-6 lg:p-10 shadow-sm">
               <div className="relative overflow-hidden">
                 <img src={IMG.marathon} alt="Kendra and her fiancé at the 2024 half marathon finish line" className="w-full aspect-[4/3] object-cover" />
                 <div className="absolute bottom-4 left-4 bg-brand-bronze text-[#1E6E6F] px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
               </div>
               <div>
-                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
+                <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
                 <h3 className="font-display text-4xl lg:text-5xl leading-none tracking-tight mb-5">She lives it, too.</h3>
-                <p className="text-[#2F6E6D] leading-relaxed mb-4">
+                <p className="text-[#1E6E6F] leading-relaxed mb-4">
                   Kendra doesn't just coach the work — she does it. Here she is with her fiancé crossing the finish line
                   of the 2024 Tour des Fleurs half marathon, medals earned.
                 </p>
-                <p className="text-[#2F6E6D] leading-relaxed">
+                <p className="text-[#1E6E6F] leading-relaxed">
                   Strength isn't a look — it's a life. Train with Kendra and you're learning from someone who shows up
                   for her own goals every single day.
                 </p>
@@ -253,11 +253,11 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-20">
             {testimonials.map((t, i) => (
               <Reveal key={i} delay={i * 0.12}>
-                <div className="border border-[#7AC7BD] p-8 h-full bg-white shadow-sm">
+                <div className="border border-[#7AC7BD] p-8 h-full bg-[#B6E6E9] shadow-sm">
                   <p className="text-brand-bronze text-4xl font-display leading-none mb-4">“</p>
                   <p className="text-[#1E6E6F] leading-relaxed mb-6">{t.q}</p>
                   <p className="text-sm text-[#1E6E6F] font-medium">{t.n}</p>
-                  <p className="text-xs text-[#4C7A77] uppercase tracking-[0.15em] mt-1">{t.r}</p>
+                  <p className="text-xs text-[#1E6E6F] uppercase tracking-[0.15em] mt-1">{t.r}</p>
                 </div>
               </Reveal>
             ))}
@@ -266,14 +266,14 @@ const Home = () => {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
+      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#B6E6E9] text-[#1E6E6F]">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
           <Reveal>
-            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
+            <p className="text-[#1E6E6F] uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
             <h2 className="font-display text-5xl lg:text-6xl tracking-tight leading-none mb-6">
               Let's build the strongest version of you.
             </h2>
-            <p className="text-[#3F7E7C] leading-relaxed max-w-md">
+            <p className="text-[#1E6E6F] leading-relaxed max-w-md">
               Spots are limited and every client is coached personally. Tell Kendra about your goals and she'll
               reach out to see if KP Studio is the right fit.
             </p>
@@ -283,22 +283,22 @@ const Home = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   data-testid="lead-name" placeholder="Full name"
-                  className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   data-testid="lead-phone" placeholder="Phone"
-                  className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               </div>
               <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                 data-testid="lead-email" placeholder="Email address"
-                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}
                 data-testid="lead-goal" placeholder="Your main goal (e.g. get stronger, lose fat, feel confident)"
-                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="lead-message" placeholder="Anything else Kendra should know?" rows={4}
-                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none resize-none" />
+                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
-                className="w-full bg-brand-bronze text-[#0B3A3B] py-4 font-semibold hover:bg-[#1E6E6F] hover:text-white transition-colors disabled:opacity-60">
+                className="w-full bg-brand-bronze text-[#1E6E6F] py-4 font-semibold hover:bg-[#1E6E6F] hover:text-[#B6E6E9] transition-colors disabled:opacity-60">
                 {sending ? "Sending…" : "Send message"}
               </button>
             </form>

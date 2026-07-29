@@ -5,19 +5,19 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
+        display: ['"Playfair Display"', 'serif'],
         sans: ['Outfit', 'sans-serif'],
         admin: ['Manrope', 'sans-serif'],
       },
       colors: {
         brand: {
           bg: '#1E6E6F',
-          surface: '#2A8687',
+          surface: '#7AC7BD',
           bronze: '#4EC6D4',
           bronzeDark: '#7AC7BD',
-          text: '#EAFBFB',
-          muted: '#BFE6E2',
-          line: '#3A9392',
+          text: '#B6E6E9',
+          muted: '#7AC7BD',
+          line: '#7AC7BD',
           sand: '#F2D9B7',
           glass: '#7AC7BD',
           mist: '#B6E6E9',
