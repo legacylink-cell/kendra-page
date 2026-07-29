@@ -290,6 +290,17 @@ async def delete_contract(contract_id: str, user: dict = Depends(get_current_use
     return {"ok": True}
 
 
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+SIG_FONT = "Helvetica-Oblique"
+try:
+    pdfmetrics.registerFont(TTFont("GreatVibes", str(ROOT_DIR / "fonts" / "GreatVibes-Regular.ttf")))
+    SIG_FONT = "GreatVibes"
+except Exception as _e:
+    logger.warning(f"Signature font not loaded: {_e}")
+
+
 def build_contract_pdf(c: dict, ct: dict) -> bytes:
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter, topMargin=0.7 * inch, bottomMargin=0.7 * inch,
@@ -302,8 +313,8 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     h_sub = ParagraphStyle("sub", parent=styles["Normal"], fontSize=8, textColor=colors.grey,
                            spaceAfter=14, leading=11, tracking=2)
     h1 = ParagraphStyle("h1", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=12,
-                        textColor=dark, spaceBefore=14, spaceAfter=6)
-    body = ParagraphStyle("body", parent=styles["Normal"], fontSize=9.5, leading=14, textColor=dark, spaceAfter=6)
+                        textColor=dark, spaceBefore=10, spaceAfter=5)
+    body = ParagraphStyle("body", parent=styles["Normal"], fontSize=9.5, leading=13, textColor=dark, spaceAfter=5)
     small = ParagraphStyle("small", parent=styles["Normal"], fontSize=8, leading=11, textColor=colors.grey)
 
     el = []
@@ -391,19 +402,37 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         "This document constitutes the entire agreement between the parties and supersedes any prior understanding. Client confirms they have read and understood this agreement in full.",
     ])
 
-    el.append(Spacer(1, 18))
-    el.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#E5E0DA"), spaceAfter=10))
+    eff_raw = ct.get("start_date") or (ct.get("created_at", "") or now_iso())[:10]
+    try:
+        eff = datetime.strptime(eff_raw, "%Y-%m-%d").strftime("%B %d, %Y")
+    except Exception:
+        eff = eff_raw
+
+    el.append(Spacer(1, 8))
+    el.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#E5E0DA"), spaceAfter=6))
+    el.append(Paragraph(f"Effective date of this agreement: <b>{eff}</b>", body))
+
+    sig_style = ParagraphStyle("sigfont", parent=styles["Normal"], fontName=SIG_FONT, fontSize=26, textColor=dark, leading=28)
+    lbl = ParagraphStyle("siglbl", parent=small, fontSize=8.5, leading=12)
+    client_name = c.get("name", "")
     sig = [
-        [Paragraph("Client Signature", small), Paragraph("Date", small), Paragraph("Trainer Signature", small), Paragraph("Date", small)],
-        ["", "", "", ""],
-        [Paragraph(f"<b>{c.get('name','')}</b>", small), "", Paragraph("<b>Kendra Albritton</b>", small), ""],
+        [Paragraph("", sig_style), Paragraph("Kendra Albritton", sig_style)],
+        [Paragraph(f"<b>Client Signature</b> — {client_name}<br/>Date: __________________", lbl),
+         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, KP Studio<br/>Date: {eff}", lbl)],
     ]
-    ts = Table(sig, colWidths=[1.9 * inch, 1.0 * inch, 1.9 * inch, 1.0 * inch], rowHeights=[14, 30, 14])
-    ts.setStyle(TableStyle([("LINEBELOW", (0, 1), (0, 1), 0.8, dark), ("LINEBELOW", (1, 1), (1, 1), 0.8, dark),
-                            ("LINEBELOW", (2, 1), (2, 1), 0.8, dark), ("LINEBELOW", (3, 1), (3, 1), 0.8, dark),
-                            ("VALIGN", (0, 0), (-1, -1), "BOTTOM")]))
+    ts = Table(sig, colWidths=[3.25 * inch, 3.25 * inch], rowHeights=[34, 26])
+    ts.setStyle(TableStyle([
+        ("LINEBELOW", (0, 0), (0, 0), 0.8, dark),
+        ("LINEBELOW", (1, 0), (1, 0), 0.8, dark),
+        ("VALIGN", (0, 0), (-1, 0), "BOTTOM"),
+        ("VALIGN", (0, 1), (-1, 1), "TOP"),
+        ("LEFTPADDING", (0, 0), (-1, -1), 0),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 16),
+        ("BOTTOMPADDING", (0, 0), (-1, 0), 2),
+        ("TOPPADDING", (0, 1), (-1, 1), 4),
+    ]))
     el.append(ts)
-    el.append(Spacer(1, 10))
+    el.append(Spacer(1, 8))
     el.append(Paragraph("KP Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
 
     doc.build(el)
