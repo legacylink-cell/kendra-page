@@ -21,9 +21,7 @@ export const MarketingNav = () => {
   return (
     <header
       data-testid="marketing-nav"
-      className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-[#1E6E6F]/80 backdrop-blur-xl border-b border-brand-line" : "border-b border-transparent"
-      }`}
+      className="fixed top-0 inset-x-0 z-50 bg-[#1E6E6F] border-b border-[#2A8687]"
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
         <a href="#top" className="flex flex-col leading-none" data-testid="nav-logo">

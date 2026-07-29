@@ -66,42 +66,41 @@ const Home = () => {
   };
 
   return (
-    <div id="top" className="bg-[#1E6E6F] text-brand-text font-sans selection:bg-brand-bronze">
+    <div id="top" className="bg-white text-[#1E6E6F] font-sans selection:bg-brand-bronze">
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#1E6E6F]">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#F4FBFB]">
         <div className="absolute inset-0 lg:left-[46%]">
           <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover object-[50%_18%]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1E6E6F] via-[#1E6E6F]/75 to-[#1E6E6F]/20 lg:hidden" />
-          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#1E6E6F] via-[#1E6E6F]/10 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1E6E6F]/70 to-transparent" />
-          <div className="absolute inset-0 grain opacity-[0.12] mix-blend-overlay" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#F4FBFB] via-[#F4FBFB]/85 to-[#F4FBFB]/10 lg:hidden" />
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#F4FBFB] via-[#F4FBFB]/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#F4FBFB]/30 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 lg:pt-0">
           <div className="lg:max-w-xl">
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-            className="text-brand-bronze uppercase tracking-[0.35em] text-xs mb-6">
+            className="text-[#12857F] uppercase tracking-[0.35em] text-xs mb-6">
             Strength for women · by a woman
           </motion.p>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display font-light text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight">
-            Train like the woman you're <span className="italic text-brand-bronze">becoming.</span>
+            className="font-display font-light text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-tight text-[#1E6E6F]">
+            Train like the woman you're <span className="italic text-[#2AA3A8]">becoming.</span>
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
-            className="text-brand-muted text-lg max-w-lg mt-8 leading-relaxed">
-            KP Studio is the private strength practice of <span className="text-brand-text">Kendra Albritton</span> — where
+            className="text-[#3F7E7C] text-lg max-w-lg mt-8 leading-relaxed">
+            KP Studio is the private strength practice of <span className="text-[#1E6E6F] font-semibold">Kendra Albritton</span> — where
             women build real power, unshakeable confidence, and results that outlast any trend.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
             className="flex flex-wrap gap-4 mt-10">
             <a href="#contact" data-testid="hero-cta-start"
-              className="group inline-flex items-center gap-3 bg-brand-bronze text-brand-bg px-8 py-4 font-medium hover:bg-brand-text transition-colors">
+              className="group inline-flex items-center gap-3 bg-brand-bronze text-[#0B3A3B] px-8 py-4 font-semibold hover:bg-[#1E6E6F] hover:text-white transition-colors">
               Start your transformation
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a href="#programs" data-testid="hero-cta-programs"
-              className="inline-flex items-center gap-2 border border-brand-sand text-brand-sand px-8 py-4 hover:bg-brand-sand hover:text-brand-bg transition-colors">
+              className="inline-flex items-center gap-2 border border-[#1E6E6F] text-[#1E6E6F] px-8 py-4 hover:bg-[#1E6E6F] hover:text-white transition-colors">
               View programs
             </a>
           </motion.div>
@@ -161,25 +160,25 @@ const Home = () => {
       </section>
 
       {/* PROGRAMS */}
-      <section id="programs" className="py-28 px-6 lg:px-10 bg-[#2A8687] border-y border-brand-line">
+      <section id="programs" className="py-28 px-6 lg:px-10 bg-white border-y border-[#D8EDEB]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
-            <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-4">The Work</p>
-            <h2 className="font-display text-5xl lg:text-6xl tracking-tight max-w-2xl leading-none">
+            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-4">The Work</p>
+            <h2 className="font-display text-5xl lg:text-6xl tracking-tight max-w-2xl leading-none text-[#1E6E6F]">
               Choose how you want to get strong.
             </h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.12}>
-                <div data-testid={`program-${i}`} className="group h-full bg-[#1E6E6F] border border-brand-line p-8 hover:border-brand-bronze transition-colors">
+                <div data-testid={`program-${i}`} className="group h-full bg-[#F4FBFB] border border-[#CDE9E6] p-8 hover:border-brand-bronze hover:shadow-lg transition-all">
                   <div className="flex items-center justify-between mb-8">
-                    <p.icon className="h-8 w-8 text-brand-bronze" />
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-brand-muted border border-brand-line px-3 py-1">{p.tag}</span>
+                    <p.icon className="h-8 w-8 text-[#159B9B]" />
+                    <span className="text-[10px] uppercase tracking-[0.2em] text-[#3F7E7C] border border-[#CDE9E6] px-3 py-1">{p.tag}</span>
                   </div>
-                  <h3 className="font-display text-3xl mb-4">{p.title}</h3>
-                  <p className="text-brand-muted text-sm leading-relaxed">{p.desc}</p>
-                  <a href="#contact" className="inline-flex items-center gap-2 text-brand-bronze text-sm mt-8 group-hover:gap-3 transition-all">
+                  <h3 className="font-display text-3xl mb-4 text-[#1E6E6F]">{p.title}</h3>
+                  <p className="text-[#3F7E7C] text-sm leading-relaxed">{p.desc}</p>
+                  <a href="#contact" className="inline-flex items-center gap-2 text-[#159B9B] text-sm mt-8 group-hover:gap-3 transition-all font-medium">
                     Enquire <ArrowRight className="h-4 w-4" />
                   </a>
                 </div>
@@ -267,14 +266,14 @@ const Home = () => {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#1E6E6F] text-brand-text">
+      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#F4FBFB] text-[#1E6E6F]">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
           <Reveal>
-            <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
+            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
             <h2 className="font-display text-5xl lg:text-6xl tracking-tight leading-none mb-6">
               Let's build the strongest version of you.
             </h2>
-            <p className="text-brand-muted leading-relaxed max-w-md">
+            <p className="text-[#3F7E7C] leading-relaxed max-w-md">
               Spots are limited and every client is coached personally. Tell Kendra about your goals and she'll
               reach out to see if KP Studio is the right fit.
             </p>
@@ -284,22 +283,22 @@ const Home = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   data-testid="lead-name" placeholder="Full name"
-                  className="w-full bg-[#2A8687] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   data-testid="lead-phone" placeholder="Phone"
-                  className="w-full bg-[#2A8687] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
               </div>
               <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                 data-testid="lead-email" placeholder="Email address"
-                className="w-full bg-[#2A8687] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}
                 data-testid="lead-goal" placeholder="Your main goal (e.g. get stronger, lose fat, feel confident)"
-                className="w-full bg-[#2A8687] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none" />
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="lead-message" placeholder="Anything else Kendra should know?" rows={4}
-                className="w-full bg-[#2A8687] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
+                className="w-full bg-white border border-[#CDE9E6] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AA6A3] focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
-                className="w-full bg-brand-bronze text-[#1E6E6F] py-4 font-semibold hover:bg-brand-text transition-colors disabled:opacity-60">
+                className="w-full bg-brand-bronze text-[#0B3A3B] py-4 font-semibold hover:bg-[#1E6E6F] hover:text-white transition-colors disabled:opacity-60">
                 {sending ? "Sending…" : "Send message"}
               </button>
             </form>
