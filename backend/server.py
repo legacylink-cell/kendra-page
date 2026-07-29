@@ -341,18 +341,21 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     dark = colors.HexColor("#1C1B1A")
     styles = getSampleStyleSheet()
     h_brand = ParagraphStyle("brand", parent=styles["Title"], fontName="Helvetica-Bold",
-                             fontSize=22, textColor=bronze, spaceAfter=2, leading=24)
-    h_sub = ParagraphStyle("sub", parent=styles["Normal"], fontSize=8, textColor=colors.grey,
-                           spaceAfter=14, leading=11, tracking=2)
+                             fontSize=24, textColor=bronze, spaceAfter=9, leading=27, alignment=1)
+    h_sub = ParagraphStyle("sub", parent=styles["Normal"], fontSize=8.5, textColor=colors.grey,
+                           spaceAfter=3, leading=12, alignment=1)
+    h_doc = ParagraphStyle("doc", parent=styles["Normal"], fontName="Helvetica-Bold", fontSize=9,
+                           textColor=dark, spaceAfter=2, leading=13, alignment=1)
     h1 = ParagraphStyle("h1", parent=styles["Heading2"], fontName="Helvetica-Bold", fontSize=12,
-                        textColor=dark, spaceBefore=10, spaceAfter=5)
+                        textColor=dark, spaceBefore=12, spaceAfter=6)
     body = ParagraphStyle("body", parent=styles["Normal"], fontSize=9.5, leading=13, textColor=dark, spaceAfter=5)
     small = ParagraphStyle("small", parent=styles["Normal"], fontSize=8, leading=11, textColor=colors.grey)
 
     el = []
-    el.append(Paragraph("CK STUDIO", h_brand))
-    el.append(Paragraph("KENDRA ALBRITTON &nbsp;•&nbsp; PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_sub))
-    el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceAfter=12))
+    el.append(Paragraph("CK&nbsp;STUDIO", h_brand))
+    el.append(Paragraph("K&nbsp;E&nbsp;N&nbsp;D&nbsp;R&nbsp;A&nbsp;&nbsp;&nbsp;A&nbsp;L&nbsp;B&nbsp;R&nbsp;I&nbsp;T&nbsp;T&nbsp;O&nbsp;N", h_sub))
+    el.append(Paragraph("PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_doc))
+    el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceBefore=12, spaceAfter=18))
 
     el.append(Paragraph("1. Parties &amp; Program", h1))
     data = [
