@@ -27,7 +27,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0C2926] text-brand-text flex flex-col font-sans">
+    <div className="min-h-screen bg-[#1E6E6F] text-brand-text flex flex-col font-sans">
       <div className="p-6">
         <Link to="/" className="inline-flex items-center gap-2 text-brand-muted hover:text-brand-text text-sm" data-testid="back-home">
           <ArrowLeft className="h-4 w-4" /> Back to site
@@ -39,18 +39,18 @@ export default function Login() {
             <div className="font-display text-4xl">KP Studio</div>
             <p className="text-xs uppercase tracking-[0.3em] text-brand-bronze mt-2">Trainer Portal</p>
           </div>
-          <form onSubmit={submit} data-testid="login-form" className="space-y-5 bg-[#17403E] border border-brand-line p-8">
+          <form onSubmit={submit} data-testid="login-form" className="space-y-5 bg-[#2A8687] border border-brand-line p-8">
             <div>
               <label className="text-xs uppercase tracking-[0.15em] text-brand-muted">Email</label>
               <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
                 data-testid="login-email"
-                className="w-full mt-2 bg-[#0C2926] border border-brand-line px-4 py-3 text-brand-text focus:border-brand-bronze focus:outline-none" />
+                className="w-full mt-2 bg-[#1E6E6F] border border-brand-line px-4 py-3 text-brand-text focus:border-brand-bronze focus:outline-none" />
             </div>
             <div>
               <label className="text-xs uppercase tracking-[0.15em] text-brand-muted">Password</label>
               <input type="password" required value={password} onChange={(e) => setPassword(e.target.value)}
                 data-testid="login-password"
-                className="w-full mt-2 bg-[#0C2926] border border-brand-line px-4 py-3 text-brand-text focus:border-brand-bronze focus:outline-none" />
+                className="w-full mt-2 bg-[#1E6E6F] border border-brand-line px-4 py-3 text-brand-text focus:border-brand-bronze focus:outline-none" />
             </div>
             {error && <p className="text-sm text-red-400" data-testid="login-error">{error}</p>}
             <button type="submit" disabled={loading} data-testid="login-submit"
