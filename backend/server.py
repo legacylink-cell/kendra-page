@@ -372,17 +372,22 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
                             ("TOPPADDING", (0, 0), (-1, -1), 4), ("BOTTOMPADDING", (0, 0), (-1, -1), 4)]))
     el.append(tq)
 
-    section("7. Confidentiality", [
+    section("7. Voluntary Engagement &amp; Independent Choice", [
+        "Client affirms that they have chosen KP Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
+        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or KP Studio</b>.",
+        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and KP Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
+    ])
+    section("8. Confidentiality", [
         "The Trainer will keep Client's personal and health information confidential and use it solely to deliver services, except as required by law.",
     ])
     if ct.get("include_media_release", True):
-        section("8. Photo &amp; Media Release (optional)", [
+        section("9. Photo &amp; Media Release (optional)", [
             "Client grants permission for photos/video taken during training to be used for promotional purposes. Client may opt out by initialling here: __________.",
         ])
-    section("9. Termination", [
+    section("10. Termination", [
         "Either party may terminate this agreement with written notice. Prepaid, unused sessions may be handled at the Trainer's discretion consistent with Section 2.",
     ])
-    section("10. Entire Agreement", [
+    section("11. Entire Agreement", [
         "This document constitutes the entire agreement between the parties and supersedes any prior understanding. Client confirms they have read and understood this agreement in full.",
     ])
 
