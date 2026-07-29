@@ -82,6 +82,12 @@ def create_refresh_token(user_id: str) -> str:
     return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
 
 
+def create_contract_token(contract_id: str) -> str:
+    payload = {"cid": contract_id, "type": "contract_dl",
+               "exp": datetime.now(timezone.utc) + timedelta(days=60)}
+    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORITHM)
+
+
 def set_auth_cookies(response: Response, access: str, refresh: str):
     response.set_cookie("access_token", access, httponly=True, secure=True, samesite="none", max_age=3600, path="/")
     response.set_cookie("refresh_token", refresh, httponly=True, secure=True, samesite="none", max_age=604800, path="/")
@@ -526,6 +532,25 @@ async def get_signed(contract_id: str, request: Request, auth: Optional[str] = Q
                     headers={"Content-Disposition": f'inline; filename="{ct.get("signed_filename","signed")}"'})
 
 
+@api_router.get("/contracts/{contract_id}/download")
+async def download_contract(contract_id: str, token: str = Query(...)):
+    """Public, token-secured PDF download used in the client email link."""
+    try:
+        payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
+    except jwt.InvalidTokenError:
+        raise HTTPException(status_code=401, detail="This link has expired. Ask Kendra to resend it.")
+    if payload.get("type") != "contract_dl" or payload.get("cid") != contract_id:
+        raise HTTPException(status_code=401, detail="Invalid download link")
+    ct = await db.contracts.find_one({"id": contract_id}, {"_id": 0})
+    if not ct:
+        raise HTTPException(status_code=404, detail="Contract not found")
+    c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
+    pdf = build_contract_pdf(c, ct)
+    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    return Response(content=pdf, media_type="application/pdf",
+                    headers={"Content-Disposition": f'inline; filename="{fname}"'})
+
+
 @api_router.post("/contracts/{contract_id}/email")
 async def email_contract(contract_id: str, user: dict = Depends(get_current_user)):
     ct = await db.contracts.find_one({"id": contract_id}, {"_id": 0})
@@ -536,26 +561,29 @@ async def email_contract(contract_id: str, user: dict = Depends(get_current_user
         raise HTTPException(status_code=404, detail="Client not found")
     if not c.get("email"):
         raise HTTPException(status_code=400, detail="This client has no email on file. Add one first.")
-    pdf = build_contract_pdf(c, ct)
-    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     first = (c.get("name", "there") or "there").split(" ")[0]
     reply = OWNER_EMAIL or ""
+    token = create_contract_token(contract_id)
+    link = f"{FRONTEND_URL}/api/contracts/{contract_id}/download?token={token}"
     html = f"""
     <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
       <tr><td style="padding:8px 0;">
         <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">CK Studio</p>
         <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Albritton · Personal Training</p>
         <p>Hi {first},</p>
-        <p>Attached is your personal training agreement (with the liability waiver, PAR-Q, and studio policies).</p>
-        <p><b>Next steps:</b> please review, sign, and send the signed copy back to
+        <p>Your personal training agreement is ready — it includes the liability waiver, PAR-Q, and studio policies. Click below to open and download your copy (PDF):</p>
+        <p style="margin:22px 0;">
+          <a href="{link}" style="background:#A9784E;color:#ffffff;text-decoration:none;padding:13px 26px;border-radius:6px;font-weight:bold;display:inline-block;">View &amp; download your agreement</a>
+        </p>
+        <p style="font-size:12px;color:#8a8a8a;margin:0 0 18px;">If the button doesn't work, paste this link into your browser:<br/>{link}</p>
+        <p><b>Next steps:</b> please review, print &amp; sign, then send the signed copy back to
            <a href="mailto:{reply}">{reply}</a>. Once received, we'll get your first session booked.</p>
         <p>Can't wait to get started.</p>
         <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">CK Studio</span></p>
       </td></tr>
     </table>"""
     try:
-        await send_email(c["email"], "Your CK Studio training agreement", html,
-                         reply_to=OWNER_EMAIL, attachments=[{"filename": fname, "content": pdf}])
+        await send_email(c["email"], "Your CK Studio training agreement", html, reply_to=OWNER_EMAIL)
     except Exception as e:
         logger.error(f"Contract email failed: {e}")
         raise HTTPException(status_code=502, detail="Could not send the email. Please try again.")

@@ -49,6 +49,10 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-29 — Contract email: link instead of attachment
+- Emergent-managed Resend proxy does NOT support attachments (playbook payload = to/subject/html/from_name/contact_email only), so the PDF never arrived. Fixed: email now embeds a secure, token-signed download link to GET /api/contracts/{id}/download?token=... (JWT type=contract_dl, 60-day exp). Verified end-to-end (valid PDF 32KB, bad token→401).
+- From address (…emergentmails.com) is platform-fixed and cannot be changed on the managed integration; only display name (EMAIL_FROM_NAME="CK Studio · Kendra Albritton") and reply-to (OWNER_EMAIL) are set. To send from a coachkstudio.com address would require the user's own Resend account + domain DNS verification.
+
 ## 2026-07-29 — Portal admin controls + insights cleanup
 - Client management: Edit / Archive-Restore / Delete actions on Clients list (row menu) and ClientDetail; status filters (Active/Lead/Archived/All); delete cascades contracts+payments (existing API).
 - "Reset portal data": Dashboard Danger Zone + protected POST /api/admin/reset-data (requires confirm="RESET"); wipes clients/contracts/payments/sessions/leads/events, keeps login. Preview DB wiped now. reset_data.py maintenance script added.
