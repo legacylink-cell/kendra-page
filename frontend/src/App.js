@@ -10,6 +10,7 @@ import Dashboard from "@/pages/admin/Dashboard";
 import Clients from "@/pages/admin/Clients";
 import ClientDetail from "@/pages/admin/ClientDetail";
 import Insights from "@/pages/admin/Insights";
+import ThemePreview from "@/pages/ThemePreview";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/theme-preview" element={<ThemePreview />} />
             <Route path="/admin/login" element={<Login />} />
             <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />
