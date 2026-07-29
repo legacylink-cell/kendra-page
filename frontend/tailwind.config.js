@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       fontFamily: {
         display: ['"Playfair Display"', 'serif'],
+        body: ['Manrope', 'sans-serif'],
         sans: ['Outfit', 'sans-serif'],
         admin: ['Manrope', 'sans-serif'],
       },
