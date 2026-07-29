@@ -22,7 +22,7 @@ export const MarketingNav = () => {
     <header
       data-testid="marketing-nav"
       className={`fixed top-0 inset-x-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-brand-line" : "border-b border-transparent"
+        scrolled ? "bg-[#0C2926]/80 backdrop-blur-xl border-b border-brand-line" : "border-b border-transparent"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
@@ -37,21 +37,16 @@ export const MarketingNav = () => {
               {l.label}
             </a>
           ))}
-          <Link to="/admin/login" data-testid="nav-portal"
-                className="text-sm border border-brand-bronze text-brand-bronze px-5 py-2 hover:bg-brand-bronze hover:text-brand-bg transition-colors">
-            Client Portal
-          </Link>
         </div>
         <button className="md:hidden text-brand-text" onClick={() => setOpen(!open)} data-testid="nav-toggle">
           {open ? <X /> : <Menu />}
         </button>
       </nav>
       {open && (
-        <div className="md:hidden bg-[#0A0A0B] border-t border-brand-line px-6 py-6 flex flex-col gap-5">
+        <div className="md:hidden bg-[#0C2926] border-t border-brand-line px-6 py-6 flex flex-col gap-5">
           {links.map((l) => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)} className="text-brand-muted text-lg">{l.label}</a>
           ))}
-          <Link to="/admin/login" className="text-brand-bronze">Client Portal →</Link>
         </div>
       )}
     </header>
@@ -59,7 +54,7 @@ export const MarketingNav = () => {
 };
 
 export const MarketingFooter = () => (
-  <footer className="bg-[#0A0A0B] border-t border-brand-line py-16 px-6 lg:px-10" data-testid="marketing-footer">
+  <footer className="bg-[#0C2926] border-t border-brand-line py-16 px-6 lg:px-10" data-testid="marketing-footer">
     <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
       <div>
         <div className="font-display text-3xl text-brand-text">KP Studio</div>

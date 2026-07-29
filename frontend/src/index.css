@@ -11,31 +11,31 @@ body {
 
 @layer base {
     :root {
-        /* Warm light "Sand & Stone" theme for the admin portal (shadcn) */
-        --background: 40 20% 96%;
-        --foreground: 30 6% 11%;
+        /* Coastal light theme for the admin portal (shadcn) */
+        --background: 178 30% 96%;
+        --foreground: 180 24% 12%;
         --card: 0 0% 100%;
-        --card-foreground: 30 6% 11%;
+        --card-foreground: 180 24% 12%;
         --popover: 0 0% 100%;
-        --popover-foreground: 30 6% 11%;
-        --primary: 22 46% 55%;
-        --primary-foreground: 40 30% 98%;
-        --secondary: 36 20% 92%;
-        --secondary-foreground: 30 6% 15%;
-        --muted: 36 18% 92%;
-        --muted-foreground: 30 5% 40%;
-        --accent: 22 40% 92%;
-        --accent-foreground: 22 46% 30%;
-        --destructive: 3 45% 45%;
+        --popover-foreground: 180 24% 12%;
+        --primary: 179 66% 27%;
+        --primary-foreground: 180 40% 98%;
+        --secondary: 174 24% 91%;
+        --secondary-foreground: 180 24% 18%;
+        --muted: 174 20% 92%;
+        --muted-foreground: 182 12% 40%;
+        --accent: 176 42% 88%;
+        --accent-foreground: 179 60% 22%;
+        --destructive: 3 58% 48%;
         --destructive-foreground: 0 0% 98%;
-        --border: 36 18% 87%;
-        --input: 36 18% 87%;
-        --ring: 22 46% 55%;
-        --chart-1: 22 46% 55%;
-        --chart-2: 130 18% 35%;
-        --chart-3: 30 30% 45%;
-        --chart-4: 43 50% 60%;
-        --chart-5: 3 45% 55%;
+        --border: 174 24% 86%;
+        --input: 174 24% 86%;
+        --ring: 179 66% 34%;
+        --chart-1: 186 62% 57%;
+        --chart-2: 179 66% 30%;
+        --chart-3: 172 30% 63%;
+        --chart-4: 38 66% 83%;
+        --chart-5: 3 58% 58%;
         --radius: 0.35rem;
     }
 }
@@ -59,7 +59,7 @@ body {
 .grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
 }
-::selection { background: #C17D59; color: #0A0A0B; }
+::selection { background: #4EC6D4; color: #0C2926; }
 
 @layer base {
     [data-debug-wrapper="true"] { display: contents !important; }

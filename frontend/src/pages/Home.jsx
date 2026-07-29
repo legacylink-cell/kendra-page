@@ -66,16 +66,16 @@ const Home = () => {
   };
 
   return (
-    <div id="top" className="bg-[#0A0A0B] text-brand-text font-sans selection:bg-brand-bronze">
+    <div id="top" className="bg-[#0C2926] text-brand-text font-sans selection:bg-brand-bronze">
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0A0A0B]">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0C2926]">
         <div className="absolute inset-0 lg:left-[46%]">
           <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover object-[50%_18%]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/75 to-[#0A0A0B]/20 lg:hidden" />
-          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#0A0A0B] via-[#0A0A0B]/10 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0B]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0C2926] via-[#0C2926]/75 to-[#0C2926]/20 lg:hidden" />
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#0C2926] via-[#0C2926]/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0C2926]/70 to-transparent" />
           <div className="absolute inset-0 grain opacity-[0.12] mix-blend-overlay" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 lg:pt-0">
@@ -101,7 +101,7 @@ const Home = () => {
               <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </a>
             <a href="#programs" data-testid="hero-cta-programs"
-              className="inline-flex items-center gap-2 border border-brand-line text-brand-text px-8 py-4 hover:border-brand-bronze transition-colors">
+              className="inline-flex items-center gap-2 border border-brand-sand text-brand-sand px-8 py-4 hover:bg-brand-sand hover:text-brand-bg transition-colors">
               View programs
             </a>
           </motion.div>
@@ -110,7 +110,7 @@ const Home = () => {
       </section>
 
       {/* MARQUEE */}
-      <div className="border-y border-brand-line bg-[#141312] py-6 overflow-hidden">
+      <div className="border-y border-brand-line bg-[#17403E] py-6 overflow-hidden">
         <div className="marquee-track">
           {[...marquee, ...marquee, ...marquee, ...marquee].map((w, i) => (
             <span key={i} className="font-display text-4xl md:text-5xl mx-8 text-brand-text/40 whitespace-nowrap flex items-center gap-16">
@@ -162,7 +162,7 @@ const Home = () => {
       </section>
 
       {/* PROGRAMS */}
-      <section id="programs" className="py-28 px-6 lg:px-10 bg-[#141312] border-y border-brand-line">
+      <section id="programs" className="py-28 px-6 lg:px-10 bg-[#17403E] border-y border-brand-line">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-4">The Work</p>
@@ -173,7 +173,7 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.12}>
-                <div data-testid={`program-${i}`} className="group h-full bg-[#0A0A0B] border border-brand-line p-8 hover:border-brand-bronze transition-colors">
+                <div data-testid={`program-${i}`} className="group h-full bg-[#0C2926] border border-brand-line p-8 hover:border-brand-bronze transition-colors">
                   <div className="flex items-center justify-between mb-8">
                     <p.icon className="h-8 w-8 text-brand-bronze" />
                     <span className="text-[10px] uppercase tracking-[0.2em] text-brand-muted border border-brand-line px-3 py-1">{p.tag}</span>
@@ -233,7 +233,7 @@ const Home = () => {
 
           {/* INSPIRE — beyond the studio */}
           <Reveal>
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-[#141312] border border-brand-line p-6 lg:p-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-[#17403E] border border-brand-line p-6 lg:p-10">
               <div className="relative overflow-hidden">
                 <img src={IMG.marathon} alt="Kendra and her fiancé at the 2024 half marathon finish line" className="w-full aspect-[4/3] object-cover" />
                 <div className="absolute bottom-4 left-4 bg-brand-bronze text-brand-bg px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
@@ -255,7 +255,7 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-20">
             {testimonials.map((t, i) => (
               <Reveal key={i} delay={i * 0.12}>
-                <div className="border border-brand-line p-8 h-full bg-[#141312]">
+                <div className="border border-brand-line p-8 h-full bg-[#17403E]">
                   <p className="text-brand-bronze text-4xl font-display leading-none mb-4">“</p>
                   <p className="text-brand-text leading-relaxed mb-6">{t.q}</p>
                   <p className="text-sm text-brand-text font-medium">{t.n}</p>
@@ -268,7 +268,7 @@ const Home = () => {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#141312] border-t border-brand-line">
+      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#17403E] border-t border-brand-line">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
           <Reveal>
             <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
@@ -285,20 +285,20 @@ const Home = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   data-testid="lead-name" placeholder="Full name"
-                  className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   data-testid="lead-phone" placeholder="Phone"
-                  className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               </div>
               <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                 data-testid="lead-email" placeholder="Email address"
-                className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}
                 data-testid="lead-goal" placeholder="Your main goal (e.g. get stronger, lose fat, feel confident)"
-                className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="lead-message" placeholder="Anything else Kendra should know?" rows={4}
-                className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
+                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
                 className="w-full bg-brand-bronze text-brand-bg py-4 font-medium hover:bg-brand-text transition-colors disabled:opacity-60">
                 {sending ? "Sending…" : "Send message"}

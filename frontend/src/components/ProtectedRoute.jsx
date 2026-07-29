@@ -6,8 +6,8 @@ export default function ProtectedRoute({ children }) {
   const { user } = useAuth();
   if (user === null)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F5F3F0]" data-testid="auth-loading">
-        <Loader2 className="h-6 w-6 animate-spin text-[#C17D59]" />
+      <div className="min-h-screen flex items-center justify-center bg-[#EAF6F5]" data-testid="auth-loading">
+        <Loader2 className="h-6 w-6 animate-spin text-[#167C79]" />
       </div>
     );
   if (!user) return <Navigate to="/admin/login" replace />;
