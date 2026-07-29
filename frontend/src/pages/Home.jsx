@@ -70,12 +70,12 @@ const Home = () => {
       <MarketingNav />
 
       {/* HERO */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#B6E6E9]">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-white">
         <div className="absolute inset-0 lg:left-[46%]">
           <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover object-[50%_18%]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#B6E6E9] via-[#B6E6E9]/85 to-[#B6E6E9]/10 lg:hidden" />
-          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-[#B6E6E9] via-[#B6E6E9]/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#B6E6E9]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/10 lg:hidden" />
+          <div className="absolute inset-0 hidden lg:block bg-gradient-to-r from-white via-white/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white/30 to-transparent" />
         </div>
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 w-full pt-28 lg:pt-0">
           <div className="lg:max-w-xl">
