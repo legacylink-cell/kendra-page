@@ -9,7 +9,7 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Signing: offline — email PDF, client signs, upload signed copy back
 - Payments: manual logging
 - Auth: email + password (JWT)
-- Visual direction: "Warm & Powerful" — dark editorial marketing site (Iron & Bronze), light Sand & Stone admin
+- Visual direction: "Warm & Powerful". NOTE (2026-07-29): marketing site fully redesigned to a warm editorial "wellness" aesthetic modeled on jessicamanning.com — cream/beige (#EFE9E1 / #F5F2ED), taupe cards (#E5DCCF), caramel-bronze accent (#A9784E), charcoal text (#1C1B1A); Playfair Display headings + Manrope body. (Superseded the earlier dark Iron&Bronze and the interim aqua/teal coastal palette.)
 
 ## Architecture
 - Frontend: React (CRACO), Tailwind, framer-motion, recharts, sonner. Dual theme: dark marketing site + light admin portal.
@@ -29,6 +29,13 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Payments: manual logging per client, totals, delete.
 - Leads inbox: view website enquiries, convert to client, delete.
 - Full test pass: backend 23/23, frontend e2e 100%.
+
+## Marketing Redesign (2026-07-29)
+- Full editorial redesign of Home.jsx + MarketingChrome.jsx to match jessicamanning.com.
+- New sections: Hero (mix-blend white-bg portrait on cream), Meet Kendra (overlapping photo collage), "This is you" (About You bullets), "What Makes This Different" (taupe card), Programs grid (6 rounded taupe cards w/ Enquire pill buttons), Results/Gallery collage, Testimonials carousel (dark section, prev/next arrows, 5 quotes), caramel CTA banner, cream Contact form, dark footer.
+- Nav: caramel announcement bar + light cream nav (charcoal links, caramel "Start Here" CTA, Trainer Login).
+- Fonts: Playfair Display (display) + Manrope (body) via Google Fonts; new hero image /kendra-white.jpg (AI white-bg cutout).
+- Frontend e2e test: 100% pass (iteration_2.json), no bugs. Backend unchanged.
 
 ## Backlog
 - P1: Email contracts to clients directly (Resend/SendGrid).
