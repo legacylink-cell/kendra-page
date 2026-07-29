@@ -27,7 +27,7 @@ export default function Dashboard() {
       <div className="flex items-end justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Welcome back, Kendra</h1>
-          <p className="text-muted-foreground mt-1">Here's how KP Studio is moving today.</p>
+          <p className="text-muted-foreground mt-1">Here's how Coach K Studio is moving today.</p>
         </div>
         <Link to="/admin/clients" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-md text-sm font-medium hover:opacity-90" data-testid="dash-manage-clients">
           Manage clients <ArrowUpRight className="h-4 w-4" />

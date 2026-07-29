@@ -8,11 +8,15 @@ load_dotenv(ROOT_DIR / '.env')
 import logging
 import uuid
 import io
+import base64
+import httpx
 import jwt
 import bcrypt
 import requests
 from datetime import datetime, timezone, timedelta
 from typing import List, Optional
+from collections import Counter, defaultdict
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, APIRouter, Request, Response, HTTPException, Depends, UploadFile, File, Form, Query, Header
 from fastapi.concurrency import run_in_threadpool
@@ -42,6 +46,12 @@ STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
 EMERGENT_KEY = os.environ.get("EMERGENT_LLM_KEY")
 APP_NAME = "kpstudio"
 storage_key = None
+
+# Emergent managed email (Resend) — base URL is a constant, never from env.
+EMAIL_BASE_URL = "https://integrations.emergentagent.com"
+EMAIL_KEY = os.environ.get("EMERGENT_EMAIL_KEY")
+EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "Coach K Studio")
+OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -127,6 +137,28 @@ def get_object(path: str):
     resp = requests.get(f"{STORAGE_URL}/objects/{path}", headers={"X-Storage-Key": key}, timeout=60)
     resp.raise_for_status()
     return resp.content, resp.headers.get("Content-Type", "application/octet-stream")
+
+
+# ---------------------------------------------------------------------------
+# Email helper (Emergent managed Resend)
+# ---------------------------------------------------------------------------
+async def send_email(to: str, subject: str, html: str, reply_to: str = None, attachments: list = None):
+    if not EMAIL_KEY:
+        logger.warning("EMERGENT_EMAIL_KEY not set; skipping email send")
+        return None
+    payload = {"to": [to], "subject": subject, "html": html, "from_name": EMAIL_FROM_NAME}
+    if reply_to:
+        payload["contact_email"] = reply_to
+    if attachments:
+        payload["attachments"] = [
+            {"filename": a["filename"], "content": base64.b64encode(a["content"]).decode("utf-8")}
+            for a in attachments
+        ]
+    async with httpx.AsyncClient(timeout=30) as hc:
+        resp = await hc.post(f"{EMAIL_BASE_URL}/api/v1/email/send",
+                             headers={"X-Email-Key": EMAIL_KEY}, json=payload)
+    resp.raise_for_status()
+    return resp.json()
 
 
 # ---------------------------------------------------------------------------
@@ -318,7 +350,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     small = ParagraphStyle("small", parent=styles["Normal"], fontSize=8, leading=11, textColor=colors.grey)
 
     el = []
-    el.append(Paragraph("KP STUDIO", h_brand))
+    el.append(Paragraph("COACH K STUDIO", h_brand))
     el.append(Paragraph("KENDRA ALBRITTON &nbsp;•&nbsp; PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_sub))
     el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceAfter=12))
 
@@ -362,7 +394,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         "Client confirms they are participating voluntarily and have been advised to obtain a physician's clearance prior to beginning any exercise program.",
     ])
     section("5. Release &amp; Waiver of Liability", [
-        "In consideration of being permitted to participate in training with Kendra Albritton / KP Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
+        "In consideration of being permitted to participate in training with Kendra Albritton / Coach K Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
         "Client agrees to <b>indemnify and hold harmless</b> the Trainer from any claims brought by Client or on Client's behalf.",
     ])
     section("6. Medical Readiness (PAR-Q)", [
@@ -384,9 +416,9 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     el.append(tq)
 
     section("7. Voluntary Engagement &amp; Independent Choice", [
-        "Client affirms that they have chosen KP Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
-        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or KP Studio</b>.",
-        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and KP Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
+        "Client affirms that they have chosen Coach K Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
+        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or Coach K Studio</b>.",
+        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and Coach K Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
     ])
     section("8. Confidentiality", [
         "The Trainer will keep Client's personal and health information confidential and use it solely to deliver services, except as required by law.",
@@ -418,7 +450,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     sig = [
         [Paragraph("", sig_style), Paragraph("Kendra Albritton", sig_style)],
         [Paragraph(f"<b>Client Signature</b> — {client_name}<br/>Date: __________________", lbl),
-         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, KP Studio<br/>Date: {eff}", lbl)],
+         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, Coach K Studio<br/>Date: {eff}", lbl)],
     ]
     ts = Table(sig, colWidths=[3.25 * inch, 3.25 * inch], rowHeights=[34, 26])
     ts.setStyle(TableStyle([
@@ -433,7 +465,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     ]))
     el.append(ts)
     el.append(Spacer(1, 8))
-    el.append(Paragraph("KP Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
+    el.append(Paragraph("Coach K Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
 
     doc.build(el)
     buf.seek(0)
@@ -459,7 +491,7 @@ async def contract_pdf(contract_id: str, request: Request, auth: Optional[str] =
         raise HTTPException(status_code=404, detail="Contract not found")
     c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
     pdf = build_contract_pdf(c, ct)
-    fname = f"KPStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    fname = f"CoachKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     return Response(content=pdf, media_type="application/pdf",
                     headers={"Content-Disposition": f'attachment; filename="{fname}"'})
 
@@ -489,6 +521,45 @@ async def get_signed(contract_id: str, request: Request, auth: Optional[str] = Q
     data, ctype = await run_in_threadpool(get_object, ct["signed_path"])
     return Response(content=data, media_type=ct.get("signed_content_type", ctype),
                     headers={"Content-Disposition": f'inline; filename="{ct.get("signed_filename","signed")}"'})
+
+
+@api_router.post("/contracts/{contract_id}/email")
+async def email_contract(contract_id: str, user: dict = Depends(get_current_user)):
+    ct = await db.contracts.find_one({"id": contract_id}, {"_id": 0})
+    if not ct:
+        raise HTTPException(status_code=404, detail="Contract not found")
+    c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
+    if not c:
+        raise HTTPException(status_code=404, detail="Client not found")
+    if not c.get("email"):
+        raise HTTPException(status_code=400, detail="This client has no email on file. Add one first.")
+    pdf = build_contract_pdf(c, ct)
+    fname = f"CoachKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    first = (c.get("name", "there") or "there").split(" ")[0]
+    reply = OWNER_EMAIL or ""
+    html = f"""
+    <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
+      <tr><td style="padding:8px 0;">
+        <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">Coach K Studio</p>
+        <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Albritton · Personal Training</p>
+        <p>Hi {first},</p>
+        <p>Attached is your personal training agreement (with the liability waiver, PAR-Q, and studio policies).</p>
+        <p><b>Next steps:</b> please review, sign, and send the signed copy back to
+           <a href="mailto:{reply}">{reply}</a>. Once received, we'll get your first session booked.</p>
+        <p>Can't wait to get started.</p>
+        <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">Coach K Studio</span></p>
+      </td></tr>
+    </table>"""
+    try:
+        await send_email(c["email"], "Your Coach K Studio training agreement", html,
+                         reply_to=OWNER_EMAIL, attachments=[{"filename": fname, "content": pdf}])
+    except Exception as e:
+        logger.error(f"Contract email failed: {e}")
+        raise HTTPException(status_code=502, detail="Could not send the email. Please try again.")
+    await db.contracts.update_one({"id": contract_id}, {"$set": {
+        "status": "sent" if ct.get("status") != "signed" else "signed",
+        "sent_to": c["email"], "sent_at": now_iso()}})
+    return await db.contracts.find_one({"id": contract_id}, {"_id": 0})
 
 
 # ---------------------------------------------------------------------------
@@ -527,6 +598,24 @@ async def create_lead(body: LeadInput):
     doc["status"] = "new"
     doc["created_at"] = now_iso()
     await db.leads.insert_one(dict(doc))
+    if OWNER_EMAIL:
+        try:
+            html = f"""
+            <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
+              <tr><td>
+                <p style="font-size:16px;color:#A9784E;font-weight:bold;margin:0 0 12px;">New website enquiry</p>
+                <p style="margin:4px 0;"><b>Name:</b> {doc.get('name','')}</p>
+                <p style="margin:4px 0;"><b>Email:</b> {doc.get('email','')}</p>
+                <p style="margin:4px 0;"><b>Phone:</b> {doc.get('phone','') or '—'}</p>
+                <p style="margin:4px 0;"><b>Goal:</b> {doc.get('goal','') or '—'}</p>
+                <p style="margin:12px 0 4px;"><b>Message:</b></p>
+                <p style="margin:0;white-space:pre-wrap;">{doc.get('message','') or '—'}</p>
+                <p style="color:#8a8a8a;font-size:12px;margin-top:18px;">Reply directly to this email to reach {doc.get('name','the client')}.</p>
+              </td></tr>
+            </table>"""
+            await send_email(OWNER_EMAIL, f"New enquiry — {doc.get('name','')}", html, reply_to=doc.get("email"))
+        except Exception as e:
+            logger.error(f"Lead notification email failed: {e}")
     return {"ok": True, "id": doc["id"]}
 
 
@@ -588,6 +677,167 @@ async def delete_session(session_id: str, user: dict = Depends(get_current_user)
     return {"ok": True}
 
 
+class SessionUpdate(BaseModel):
+    status: Optional[str] = None
+    note: Optional[str] = None
+    time: Optional[str] = None
+    duration: Optional[str] = None
+    date: Optional[str] = None
+
+
+@api_router.put("/sessions/{session_id}")
+async def update_session(session_id: str, body: SessionUpdate, user: dict = Depends(get_current_user)):
+    upd = {k: v for k, v in body.model_dump().items() if v is not None}
+    if not upd:
+        return {"ok": True}
+    res = await db.sessions.update_one({"id": session_id}, {"$set": upd})
+    if res.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Session not found")
+    return await db.sessions.find_one({"id": session_id}, {"_id": 0})
+
+
+class RecurringInput(BaseModel):
+    start_date: str
+    weeks: int = 4
+    weekdays: List[int] = []   # 0=Mon .. 6=Sun (Python weekday)
+    time: Optional[str] = ""
+    duration: Optional[str] = "60 min"
+    note: Optional[str] = ""
+
+
+@api_router.post("/clients/{client_id}/sessions/recurring")
+async def add_recurring_sessions(client_id: str, body: RecurringInput, user: dict = Depends(get_current_user)):
+    c = await db.clients.find_one({"id": client_id}, {"_id": 0})
+    if not c:
+        raise HTTPException(status_code=404, detail="Client not found")
+    if not body.weekdays:
+        raise HTTPException(status_code=400, detail="Pick at least one weekday")
+    try:
+        start = datetime.strptime(body.start_date, "%Y-%m-%d").date()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid start date")
+    wd = set(body.weekdays)
+    docs = []
+    for i in range(max(body.weeks, 1) * 7):
+        d = start + timedelta(days=i)
+        if d.weekday() in wd:
+            docs.append({
+                "id": str(uuid.uuid4()), "client_id": client_id, "client_name": c.get("name", ""),
+                "date": d.isoformat(), "time": body.time or "", "duration": body.duration or "60 min",
+                "note": body.note or "", "status": "scheduled", "created_at": now_iso(),
+            })
+    if docs:
+        await db.sessions.insert_many([dict(x) for x in docs])
+    return {"ok": True, "created": len(docs)}
+
+
+# ---------------------------------------------------------------------------
+# Website analytics (tracking + insights)
+# ---------------------------------------------------------------------------
+class TrackInput(BaseModel):
+    type: str
+    path: Optional[str] = "/"
+    referrer: Optional[str] = ""
+    device: Optional[str] = "desktop"
+    label: Optional[str] = ""
+    value: Optional[float] = None
+
+
+@api_router.post("/track")
+async def track_event(body: TrackInput):
+    doc = body.model_dump()
+    doc["created_at"] = now_iso()
+    try:
+        await db.events.insert_one(doc)
+    except Exception as e:
+        logger.error(f"track failed: {e}")
+    return {"ok": True}
+
+
+def _host(ref: str) -> str:
+    if not ref:
+        return "Direct"
+    try:
+        h = urlparse(ref).netloc or "Direct"
+        return h.replace("www.", "") or "Direct"
+    except Exception:
+        return "Direct"
+
+
+def _inquiry_type(text: str) -> str:
+    g = (text or "").lower()
+    if any(k in g for k in ["postnatal", "postpartum", "pregnan", "mama"]):
+        return "Pre/Postnatal"
+    if any(k in g for k in ["nutrition", "fat", "weight", "diet"]):
+        return "Nutrition / Weight"
+    if "online" in g:
+        return "Online Coaching"
+    if "group" in g:
+        return "Small Group"
+    if any(k in g for k in ["strong", "strength", "1:1", "personal", "confiden"]):
+        return "1:1 Strength"
+    return "General"
+
+
+@api_router.get("/insights")
+async def insights(user: dict = Depends(get_current_user)):
+    events = await db.events.find({}, {"_id": 0}).to_list(50000)
+    leads = await db.leads.find({}, {"_id": 0}).to_list(5000)
+    clients_count = await db.clients.count_documents({})
+
+    pv = [e for e in events if e.get("type") == "page_view"]
+    clicks = [e for e in events if e.get("type") == "click"]
+    scrolls = [e for e in events if e.get("type") == "scroll"]
+    forms = [e for e in events if e.get("type") == "form_submit"]
+
+    total_views = len(pv)
+    total_inquiries = len(leads)
+    conversion = round(total_inquiries / total_views * 100, 1) if total_views else 0.0
+    lead_to_client = round(clients_count / total_inquiries * 100, 1) if total_inquiries else 0.0
+
+    by_day = defaultdict(int)
+    for e in pv:
+        d = str(e.get("created_at", ""))[:10]
+        if d:
+            by_day[d] += 1
+    days = sorted(by_day)[-14:]
+    views_trend = [{"date": d, "views": by_day[d]} for d in days]
+
+    dev = Counter((e.get("device") or "desktop") for e in pv)
+    device_split = [{"name": k.title(), "value": v} for k, v in dev.items()]
+    mobile_pct = round(dev.get("mobile", 0) / total_views * 100, 1) if total_views else 0.0
+
+    loads = [e["value"] for e in pv if isinstance(e.get("value"), (int, float)) and e["value"] > 0]
+    avg_load = round(sum(loads) / len(loads)) if loads else 0
+    mob_loads = [e["value"] for e in pv if e.get("device") == "mobile" and isinstance(e.get("value"), (int, float)) and e["value"] > 0]
+    mobile_load = round(sum(mob_loads) / len(mob_loads)) if mob_loads else 0
+
+    src = Counter(_host(e.get("referrer", "")) for e in pv)
+    top_sources = [{"source": k, "visits": v} for k, v in src.most_common(6)]
+
+    sc = Counter(int(e.get("value") or 0) for e in scrolls)
+    scroll_funnel = [{"depth": f"{m}%", "count": sc.get(m, 0)} for m in (25, 50, 75, 100)]
+
+    clk = Counter(e.get("label", "") for e in clicks if e.get("label"))
+    top_clicks = [{"label": k, "count": v} for k, v in clk.most_common(6)]
+
+    mv = Counter(e.get("path", "/") for e in pv)
+    most_viewed_pages = [{"page": k, "views": v} for k, v in mv.most_common(6)]
+
+    it = Counter(_inquiry_type(l.get("goal") or l.get("message")) for l in leads)
+    inquiry_types = [{"type": k, "count": v} for k, v in it.most_common()]
+
+    return {
+        "total_views": total_views, "total_inquiries": total_inquiries,
+        "total_clicks": len(clicks), "total_forms": len(forms) or total_inquiries,
+        "conversion": conversion, "lead_to_client": lead_to_client, "clients": clients_count,
+        "avg_load_ms": avg_load, "mobile_load_ms": mobile_load, "mobile_pct": mobile_pct,
+        "views_trend": views_trend, "device_split": device_split, "top_sources": top_sources,
+        "scroll_funnel": scroll_funnel, "top_clicks": top_clicks,
+        "most_viewed_pages": most_viewed_pages, "inquiry_types": inquiry_types,
+    }
+
+
 # ---------------------------------------------------------------------------
 # Dashboard
 # ---------------------------------------------------------------------------
@@ -644,7 +894,7 @@ async def startup():
 
 @api_router.get("/")
 async def root():
-    return {"message": "KP Studio API"}
+    return {"message": "Coach K Studio API"}
 
 
 app.include_router(api_router)

@@ -23,12 +23,12 @@ export const MarketingNav = () => {
     <header data-testid="marketing-nav" className="fixed top-0 inset-x-0 z-50">
       {/* Announcement bar */}
       <div className="bg-[#A9784E] text-white text-center text-[11px] sm:text-xs tracking-[0.15em] uppercase py-2.5 px-4" data-testid="announcement-bar">
-        Now coaching women in Flower Mound, TX — virtual &amp; in-person
+        Now coaching women in Argyle, TX — virtual &amp; in-person
       </div>
       <div className={`transition-colors duration-300 ${scrolled ? "bg-[#EFE9E1]/95 backdrop-blur-md border-b border-[#DCD4C7]" : "bg-transparent"}`}>
         <nav className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
           <a href="#top" className="flex flex-col leading-none" data-testid="nav-logo">
-            <span className="font-display text-2xl md:text-[26px] tracking-tight text-[#1C1B1A]">KP Studio</span>
+            <span className="font-display text-2xl md:text-[26px] tracking-tight text-[#1C1B1A]">Coach K Studio</span>
             <span className="text-[9px] tracking-[0.35em] text-[#A9784E] uppercase mt-0.5">Kendra Albritton</span>
           </a>
           <div className="hidden lg:flex items-center gap-9">
@@ -70,7 +70,7 @@ export const MarketingFooter = () => (
   <footer className="bg-[#1C1B1A] text-[#EFE9E1] py-20 px-6 md:px-12" data-testid="marketing-footer">
     <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
       <div>
-        <div className="font-display text-4xl">KP Studio</div>
+        <div className="font-display text-4xl">Coach K Studio</div>
         <p className="text-[#EFE9E1]/60 mt-4 max-w-xs text-sm leading-relaxed">
           Strength coaching for women, by Kendra Albritton. Build the body — and the belief — to match.
         </p>
@@ -85,12 +85,13 @@ export const MarketingFooter = () => (
       <div className="text-sm text-[#EFE9E1]/70 space-y-3">
         <p className="text-[#A9784E] uppercase tracking-[0.25em] text-xs mb-4">Studio</p>
         <p>hello@kpstudio.com</p>
-        <p>Flower Mound, TX · By appointment only</p>
+        <p>Argyle, TX · By appointment only</p>
+        <p>Payments accepted: PayPal · Venmo · Zelle</p>
         <Link to="/admin/login" className="inline-block hover:text-white transition-colors mt-2" data-testid="footer-login-link">Trainer Login</Link>
       </div>
     </div>
     <div className="max-w-7xl mx-auto mt-14 pt-6 border-t border-white/10 text-xs text-[#EFE9E1]/50 flex flex-col sm:flex-row justify-between gap-2">
-      <span>© {new Date().getFullYear()} KP Studio. All rights reserved.</span>
+      <span>© {new Date().getFullYear()} Coach K Studio. All rights reserved.</span>
       <span>
         Designed by{" "}
         <a href="https://mozeid.com/" target="_blank" rel="noopener noreferrer"

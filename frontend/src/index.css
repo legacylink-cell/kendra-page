@@ -11,30 +11,30 @@ body {
 
 @layer base {
     :root {
-        /* Coastal palette light theme for the admin portal (shadcn) */
-        --background: 184 45% 94%;
-        --foreground: 181 57% 22%;
+        /* Warm editorial palette (matches the marketing site) */
+        --background: 37 33% 91%;
+        --foreground: 30 6% 11%;
         --card: 0 0% 100%;
-        --card-foreground: 181 57% 22%;
+        --card-foreground: 30 6% 11%;
         --popover: 0 0% 100%;
-        --popover-foreground: 181 57% 22%;
-        --primary: 187 60% 57%;
-        --primary-foreground: 181 66% 16%;
-        --secondary: 184 45% 90%;
-        --secondary-foreground: 181 57% 22%;
-        --muted: 184 35% 91%;
-        --muted-foreground: 184 15% 40%;
-        --accent: 37 65% 88%;
-        --accent-foreground: 181 57% 22%;
+        --popover-foreground: 30 6% 11%;
+        --primary: 28 37% 48%;
+        --primary-foreground: 40 33% 96%;
+        --secondary: 36 30% 86%;
+        --secondary-foreground: 30 6% 18%;
+        --muted: 36 28% 88%;
+        --muted-foreground: 30 5% 38%;
+        --accent: 35 60% 82%;
+        --accent-foreground: 30 6% 15%;
         --destructive: 3 58% 48%;
         --destructive-foreground: 0 0% 98%;
-        --border: 174 38% 80%;
-        --input: 174 38% 80%;
-        --ring: 187 60% 50%;
-        --chart-1: 187 60% 57%;
-        --chart-2: 181 57% 30%;
-        --chart-3: 172 41% 63%;
-        --chart-4: 37 70% 75%;
+        --border: 36 24% 82%;
+        --input: 36 24% 82%;
+        --ring: 28 37% 48%;
+        --chart-1: 28 37% 48%;
+        --chart-2: 30 6% 20%;
+        --chart-3: 36 30% 70%;
+        --chart-4: 35 55% 70%;
         --chart-5: 3 58% 58%;
         --radius: 0.35rem;
     }

@@ -39,11 +39,14 @@ export default function Calendar({ sessions = [] }) {
             <div key={i} className="bg-white min-h-[92px] p-1.5" data-testid={`cal-day-${ds}`}>
               <div className={`text-xs mb-1 inline-flex items-center justify-center h-6 w-6 rounded-full ${isToday ? "bg-primary text-primary-foreground font-semibold" : "text-muted-foreground"}`}>{d}</div>
               <div className="space-y-1">
-                {day.slice(0, 3).map((s) => (
-                  <div key={s.id} title={`${s.client_name} ${s.time || ""}`} className="text-[11px] leading-tight bg-primary/10 text-primary rounded px-1.5 py-0.5 truncate">
-                    {s.time && <span className="font-medium">{s.time}</span>} {s.client_name}
-                  </div>
-                ))}
+                {day.slice(0, 3).map((s) => {
+                  const cls = s.status === "completed" ? "bg-green-100 text-green-700" : s.status === "no-show" ? "bg-red-100 text-red-700 line-through" : "bg-primary/10 text-primary";
+                  return (
+                    <div key={s.id} title={`${s.client_name} ${s.time || ""} ${s.status || ""}`} className={`text-[11px] leading-tight rounded px-1.5 py-0.5 truncate ${cls}`}>
+                      {s.time && <span className="font-medium">{s.time}</span>} {s.client_name}
+                    </div>
+                  );
+                })}
                 {day.length > 3 && <div className="text-[10px] text-muted-foreground px-1">+{day.length - 3} more</div>}
               </div>
             </div>

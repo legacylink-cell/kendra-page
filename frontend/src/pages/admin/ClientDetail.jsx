@@ -3,11 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import api, { API, apiErr } from "@/lib/api";
 import Modal, { Field, inputCls } from "@/components/admin/Modal";
 import { toast } from "sonner";
-import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays } from "lucide-react";
+import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays, Send, Repeat } from "lucide-react";
 
 const tabs = ["Overview", "Schedule", "Contracts & Waivers", "Payments"];
 
-const contractStatus = { generated: "bg-amber-100 text-amber-800", signed: "bg-green-100 text-green-800" };
+const contractStatus = { generated: "bg-amber-100 text-amber-800", sent: "bg-blue-100 text-blue-800", signed: "bg-green-100 text-green-800" };
+const sessionStatusCls = (s) => ({ completed: "bg-green-100 text-green-800", "no-show": "bg-red-100 text-red-800" }[s] || "bg-secondary text-muted-foreground");
 
 export default function ClientDetail() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export default function ClientDetail() {
   const [showEdit, setShowEdit] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [showSession, setShowSession] = useState(false);
-  const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "" });
+  const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "", repeat: false, weekdays: [], weeks: 4 });
 
   const [cForm, setCForm] = useState({ package: "1:1 Personal Training", sessions: 12, rate: 0, session_length: "60 minutes", start_date: "", end_date: "", cancellation_hours: 24, include_media_release: true });
   const [pForm, setPForm] = useState({ amount: "", method: "Card", date: new Date().toISOString().slice(0, 10), note: "", status: "paid" });
@@ -65,6 +66,15 @@ export default function ClientDetail() {
   };
 
   const delContract = async (cid) => { await api.delete(`/contracts/${cid}`); load(); };
+  const emailContract = async (cid) => {
+    try { await api.post(`/contracts/${cid}/email`); toast.success("Contract emailed to client"); load(); }
+    catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
+  const updateSessionStatus = async (sid, status) => {
+    try { await api.put(`/sessions/${sid}`, { status }); load(); }
+    catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
+  const toggleWeekday = (v) => setSForm((f) => ({ ...f, weekdays: f.weekdays.includes(v) ? f.weekdays.filter((x) => x !== v) : [...f.weekdays, v] }));
 
   const addPayment = async (e) => {
     e.preventDefault();
@@ -79,8 +89,16 @@ export default function ClientDetail() {
   const addSession = async (e) => {
     e.preventDefault();
     try {
-      await api.post(`/clients/${id}/sessions`, sForm);
-      toast.success("Training day added");
+      if (sForm.repeat && sForm.weekdays.length) {
+        const r = await api.post(`/clients/${id}/sessions/recurring`, {
+          start_date: sForm.date, weeks: Number(sForm.weeks) || 1, weekdays: sForm.weekdays,
+          time: sForm.time, duration: sForm.duration, note: sForm.note,
+        });
+        toast.success(`Added ${r.data.created} training days`);
+      } else {
+        await api.post(`/clients/${id}/sessions`, { date: sForm.date, time: sForm.time, duration: sForm.duration, note: sForm.note });
+        toast.success("Training day added");
+      }
       setShowSession(false); load();
     } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
   };
@@ -142,13 +160,14 @@ export default function ClientDetail() {
           </div>
           <div className="bg-white border border-border rounded-lg overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-secondary/60 text-left text-xs uppercase text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="px-5 py-3 font-medium">Time</th><th className="px-5 py-3 font-medium">Duration</th><th className="px-5 py-3 font-medium">Note</th><th></th></tr></thead>
+              <thead className="bg-secondary/60 text-left text-xs uppercase text-muted-foreground"><tr><th className="px-5 py-3 font-medium">Date</th><th className="px-5 py-3 font-medium">Time</th><th className="px-5 py-3 font-medium">Duration</th><th className="px-5 py-3 font-medium">Status</th><th className="px-5 py-3 font-medium">Note</th><th></th></tr></thead>
               <tbody>
                 {sessions.map((s) => (
                   <tr key={s.id} data-testid={`session-${s.id}`} className="border-t border-border">
                     <td className="px-5 py-3 font-medium">{new Date(s.date + "T00:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" })}</td>
                     <td className="px-5 py-3">{s.time || "—"}</td>
                     <td className="px-5 py-3 text-muted-foreground">{s.duration}</td>
+                    <td className="px-5 py-3"><select value={s.status || "scheduled"} onChange={(e) => updateSessionStatus(s.id, e.target.value)} data-testid={`session-status-${s.id}`} className={`text-xs rounded-full px-2.5 py-1 border-0 outline-none cursor-pointer ${sessionStatusCls(s.status)}`}><option value="scheduled">Scheduled</option><option value="completed">Completed</option><option value="no-show">No-show</option></select></td>
                     <td className="px-5 py-3 text-muted-foreground">{s.note || "—"}</td>
                     <td className="px-5 py-3 text-right"><button onClick={() => delSession(s.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button></td>
                   </tr>
@@ -173,11 +192,12 @@ export default function ClientDetail() {
                   <FileText className="h-8 w-8 text-primary" />
                   <div>
                     <p className="font-medium text-sm">{c.package} · {c.sessions} sessions</p>
-                    <p className="text-xs text-muted-foreground">Created {c.created_at?.slice(0, 10)} · <span className={`px-2 py-0.5 rounded-full ${contractStatus[c.status]}`}>{c.status === "signed" ? "Signed & uploaded" : "Awaiting signature"}</span></p>
+                    <p className="text-xs text-muted-foreground">Created {c.created_at?.slice(0, 10)} · <span className={`px-2 py-0.5 rounded-full ${contractStatus[c.status] || contractStatus.generated}`}>{c.status === "signed" ? "Signed & uploaded" : c.status === "sent" ? "Emailed to client" : "Awaiting signature"}</span>{c.sent_to && c.status !== "signed" ? ` · to ${c.sent_to}` : ""}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `KPStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
+                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `CoachKStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
+                  <button onClick={() => emailContract(c.id)} disabled={!client.email} data-testid={`email-contract-${c.id}`} title={client.email ? "Email agreement to client" : "Add a client email first"} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"><Send className="h-4 w-4" /> Email</button>
                   <label className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary cursor-pointer" data-testid={`upload-contract-${c.id}`}>
                     <Upload className="h-4 w-4" /> Upload signed
                     <input type="file" className="hidden" accept=".pdf,.png,.jpg,.jpeg" onChange={(e) => uploadSigned(c.id, e.target.files[0])} />
@@ -251,6 +271,20 @@ export default function ClientDetail() {
           </div>
           <Field label="Duration"><select className={inputCls} value={sForm.duration} onChange={(e) => setSForm({ ...sForm, duration: e.target.value })}><option>30 min</option><option>45 min</option><option>60 min</option><option>90 min</option></select></Field>
           <Field label="Note"><input className={inputCls} value={sForm.note} onChange={(e) => setSForm({ ...sForm, note: e.target.value })} placeholder="e.g. Lower body focus" /></Field>
+          <div className="border-t border-border pt-3">
+            <label className="flex items-center gap-2 text-sm mb-3"><input type="checkbox" checked={sForm.repeat} onChange={(e) => setSForm({ ...sForm, repeat: e.target.checked })} data-testid="session-repeat-toggle" /><Repeat className="h-4 w-4 text-primary" /> Repeat on weekly training days</label>
+            {sForm.repeat && (
+              <div className="space-y-3">
+                <div className="flex flex-wrap gap-2">
+                  {[["Mon", 0], ["Tue", 1], ["Wed", 2], ["Thu", 3], ["Fri", 4], ["Sat", 5], ["Sun", 6]].map(([lbl, val]) => (
+                    <button type="button" key={val} onClick={() => toggleWeekday(val)} data-testid={`weekday-${val}`} className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${sForm.weekdays.includes(val) ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-secondary"}`}>{lbl}</button>
+                  ))}
+                </div>
+                <Field label="For how many weeks"><input type="number" min="1" className={inputCls} value={sForm.weeks} onChange={(e) => setSForm({ ...sForm, weeks: e.target.value })} data-testid="session-weeks" /></Field>
+                <p className="text-xs text-muted-foreground">Creates a session on each selected weekday, starting the week of the date above.</p>
+              </div>
+            )}
+          </div>
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={() => setShowSession(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
             <button type="submit" data-testid="save-session-btn" className="px-4 py-2.5 rounded-md text-sm bg-primary text-primary-foreground font-medium hover:opacity-90">Add day</button>
@@ -265,7 +299,7 @@ export default function ClientDetail() {
             <Field label="Amount ($)"><input type="number" step="0.01" required className={inputCls} value={pForm.amount} onChange={(e) => setPForm({ ...pForm, amount: e.target.value })} data-testid="payment-amount" /></Field>
             <Field label="Date"><input type="date" className={inputCls} value={pForm.date} onChange={(e) => setPForm({ ...pForm, date: e.target.value })} /></Field>
           </div>
-          <Field label="Method"><select className={inputCls} value={pForm.method} onChange={(e) => setPForm({ ...pForm, method: e.target.value })}><option>Card</option><option>Cash</option><option>Bank transfer</option><option>Venmo</option><option>Other</option></select></Field>
+          <Field label="Method"><select className={inputCls} value={pForm.method} onChange={(e) => setPForm({ ...pForm, method: e.target.value })}><option>Card</option><option>Cash</option><option>PayPal</option><option>Venmo</option><option>Zelle</option><option>Bank transfer</option><option>Other</option></select></Field>
           <Field label="Note"><input className={inputCls} value={pForm.note} onChange={(e) => setPForm({ ...pForm, note: e.target.value })} placeholder="e.g. 12-session package" /></Field>
           <div className="flex justify-end gap-3 pt-2">
             <button type="button" onClick={() => setShowPayment(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>

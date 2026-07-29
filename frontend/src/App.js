@@ -9,6 +9,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import Dashboard from "@/pages/admin/Dashboard";
 import Clients from "@/pages/admin/Clients";
 import ClientDetail from "@/pages/admin/ClientDetail";
+import Insights from "@/pages/admin/Insights";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
               <Route index element={<Dashboard />} />
               <Route path="clients" element={<Clients />} />
               <Route path="clients/:id" element={<ClientDetail />} />
+              <Route path="insights" element={<Insights />} />
             </Route>
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

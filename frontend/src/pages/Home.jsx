@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowUpRight, ArrowLeft, Dumbbell, Users, Laptop,
-  Baby, Salad, Sparkles, Check,
+  Baby, Salad, Flower2, Check,
 } from "lucide-react";
 import { toast } from "sonner";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingChrome";
 import api, { apiErr } from "@/lib/api";
+import { track } from "@/lib/track";
 
 const IMG = {
   hero: "/kendra-white.jpg",
@@ -40,7 +41,7 @@ const programs = [
   { icon: Laptop, title: "Online Coaching", desc: "Custom programs, weekly check-ins, and video form reviews — train on your schedule with Kendra in your corner.", tag: "Anywhere" },
   { icon: Baby, title: "Pre & Postnatal", desc: "Safe, expert strength coaching through every trimester and beyond — stay strong during pregnancy and rebuild after baby.", tag: "Mama Strong" },
   { icon: Salad, title: "Nutrition Coaching", desc: "Personalized, sustainable nutrition that fuels your training and fits your real life — no crash diets, no guilt.", tag: "Fuel" },
-  { icon: Sparkles, title: "Mind · Body · Soul", desc: "A holistic program connecting movement, mindset, and recovery so you feel as strong inside as you look outside.", tag: "Holistic" },
+  { icon: Flower2, title: "Mind · Body · Soul", desc: "A holistic program connecting movement, mindset, and recovery so you feel as strong inside as you look outside.", tag: "Holistic" },
 ];
 
 const aboutYou = [
@@ -72,12 +73,36 @@ const Home = () => {
   const [sending, setSending] = useState(false);
   const [ti, setTi] = useState(0);
 
+  const enquire = (title) => {
+    setForm((f) => ({ ...f, goal: `Interested in: ${title}` }));
+    track("click", { label: `Enquire — ${title}` });
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    let load = 0;
+    try {
+      const nav = performance.getEntriesByType("navigation")[0];
+      if (nav) load = Math.round(nav.loadEventEnd || nav.responseEnd || 0);
+    } catch (e) {}
+    track("page_view", { value: load });
+    const seen = new Set();
+    const onScroll = () => {
+      const el = document.documentElement;
+      const pct = ((window.scrollY + window.innerHeight) / el.scrollHeight) * 100;
+      [25, 50, 75, 100].forEach((m) => { if (pct >= m && !seen.has(m)) { seen.add(m); track("scroll", { value: m }); } });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const submit = async (e) => {
     e.preventDefault();
     setSending(true);
     try {
       await api.post("/leads", form);
       toast.success("Message sent — Kendra will reach out personally.");
+      track("form_submit", { label: form.goal || "contact" });
       setForm({ name: "", email: "", phone: "", goal: "", message: "" });
     } catch (err) {
       toast.error(apiErr(err.response?.data?.detail));
@@ -106,12 +131,12 @@ const Home = () => {
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
               className="text-[#4A4744] text-lg max-w-lg mt-8 leading-relaxed">
-              KP Studio is the private strength practice of <span className="text-[#1C1B1A] font-semibold">Kendra Albritton</span> —
+              Coach K Studio is the private strength practice of <span className="text-[#1C1B1A] font-semibold">Kendra Albritton</span> —
               where women build real power, unshakeable confidence, and results that outlast any trend.
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
               className="flex flex-wrap gap-4 mt-10">
-              <a href="#contact" data-testid="hero-cta-start"
+              <a href="#contact" data-testid="hero-cta-start" onClick={() => track("click", { label: "Hero — Start Here" })}
                 className="group inline-flex items-center gap-2 bg-[#A9784E] text-white px-8 py-4 rounded-full text-sm uppercase tracking-[0.15em] hover:bg-[#8C5F3F] hover:scale-[1.03] transition-transform">
                 Start Here
                 <ArrowUpRight className="h-4 w-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -155,7 +180,7 @@ const Home = () => {
             </h2>
             <p className="text-[#4A4744] text-lg leading-relaxed mb-5">
               Kendra Albritton is a personal trainer and group fitness coach at <span className="text-[#1C1B1A] font-medium">Shapes Fitness</span>,
-              the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were handed generic
+              the boutique women's club in Flower Mound, TX. She built Coach K Studio for one reason: too many women were handed generic
               programs and told to shrink. She coaches the opposite — get <span className="text-[#1C1B1A] font-medium">stronger</span>,
               take up space, and train with intention.
             </p>
@@ -237,10 +262,10 @@ const Home = () => {
                   </div>
                   <h3 className="font-display text-2xl md:text-3xl mb-4 text-[#1C1B1A]">{p.title}</h3>
                   <p className="text-[#4A4744] text-sm leading-relaxed flex-1">{p.desc}</p>
-                  <a href="#contact" data-testid={`program-enquire-${i}`}
+                  <button type="button" onClick={() => enquire(p.title)} data-testid={`program-enquire-${i}`}
                     className="mt-8 inline-flex items-center justify-center gap-2 bg-[#A9784E] text-white px-6 py-3 rounded-full text-xs uppercase tracking-[0.15em] hover:bg-[#8C5F3F] hover:scale-[1.03] transition-transform self-start">
                     Enquire <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
+                  </button>
                 </div>
               </Reveal>
             ))}
@@ -368,7 +393,7 @@ const Home = () => {
             </h2>
             <p className="text-[#4A4744] text-lg leading-relaxed max-w-md">
               Spots are limited and every client is coached personally. Tell Kendra about your goals and she'll
-              reach out to see if KP Studio is the right fit.
+              reach out to see if Coach K Studio is the right fit.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
