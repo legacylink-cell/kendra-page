@@ -6,7 +6,7 @@ import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingC
 import api, { apiErr } from "@/lib/api";
 
 const IMG = {
-  hero: "/kendra.jpg?v=2",
+  hero: "/kendra-white.jpg",
   about: "/kendra-selfie.jpg",
   g1: "https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=1000&q=80&auto=format&fit=crop",
   g2: "https://images.unsplash.com/photo-1708011108850-49646bd34503?w=1000&q=80&auto=format&fit=crop",
@@ -120,7 +120,7 @@ const Home = () => {
       </div>
 
       {/* ABOUT */}
-      <section id="about" className="py-28 px-6 lg:px-10 bg-[#F2D9B7] text-[#1E6E6F]">
+      <section id="about" className="py-28 px-6 lg:px-10 bg-[#FFFFFF] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
@@ -171,7 +171,7 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-16">
             {programs.map((p, i) => (
               <Reveal key={p.title} delay={i * 0.12}>
-                <div data-testid={`program-${i}`} className="group h-full bg-[#F2D9B7] border border-[#7AC7BD] p-8 hover:border-brand-bronze hover:shadow-lg transition-all">
+                <div data-testid={`program-${i}`} className="group h-full bg-[#FFFFFF] border border-[#7AC7BD] p-8 hover:border-brand-bronze hover:shadow-lg transition-all">
                   <div className="flex items-center justify-between mb-8">
                     <p.icon className="h-8 w-8 text-[#1E6E6F]" />
                     <span className="text-[10px] uppercase tracking-[0.2em] text-[#1E6E6F] border border-[#7AC7BD] px-3 py-1">{p.tag}</span>
@@ -189,7 +189,7 @@ const Home = () => {
       </section>
 
       {/* RESULTS / GALLERY */}
-      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F2D9B7] text-[#1E6E6F]">
+      <section id="results" className="py-28 px-6 lg:px-10 bg-[#FFFFFF] text-[#1E6E6F]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
@@ -283,20 +283,20 @@ const Home = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   data-testid="lead-name" placeholder="Full name"
-                  className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#FFFFFF] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   data-testid="lead-phone" placeholder="Phone"
-                  className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#FFFFFF] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               </div>
               <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                 data-testid="lead-email" placeholder="Email address"
-                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#FFFFFF] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}
                 data-testid="lead-goal" placeholder="Your main goal (e.g. get stronger, lose fat, feel confident)"
-                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#FFFFFF] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none" />
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="lead-message" placeholder="Anything else Kendra should know?" rows={4}
-                className="w-full bg-[#F2D9B7] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none resize-none" />
+                className="w-full bg-[#FFFFFF] border border-[#7AC7BD] px-4 py-3.5 text-[#1E6E6F] placeholder:text-[#7AC7BD] focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
                 className="w-full bg-brand-bronze text-[#1E6E6F] py-4 font-semibold hover:bg-[#1E6E6F] hover:text-[#B6E6E9] transition-colors disabled:opacity-60">
                 {sending ? "Sending…" : "Send message"}

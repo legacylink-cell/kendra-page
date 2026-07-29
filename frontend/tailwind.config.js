@@ -18,7 +18,7 @@ module.exports = {
           text: '#B6E6E9',
           muted: '#7AC7BD',
           line: '#7AC7BD',
-          sand: '#F2D9B7',
+          sand: '#FFFFFF',
           glass: '#7AC7BD',
           mist: '#B6E6E9',
         },
