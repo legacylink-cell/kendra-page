@@ -83,7 +83,13 @@ export const MarketingFooter = () => (
     </div>
     <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-brand-line text-xs text-brand-muted flex flex-col sm:flex-row justify-between gap-2">
       <span>© {new Date().getFullYear()} KP Studio. All rights reserved.</span>
-      <span>Train fierce. Stay unbreakable.</span>
+      <span>
+        Designed by{" "}
+        <a href="https://mozeid.com/" target="_blank" rel="noopener noreferrer"
+           className="text-brand-bronze hover:text-brand-text transition-colors" data-testid="footer-mostudio">
+          Mo Studio
+        </a>
+      </span>
     </div>
   </footer>
 );

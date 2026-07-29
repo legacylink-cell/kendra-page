@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Dumbbell, Users, Laptop, Check } from "lucide-react";
+import { ArrowRight, Dumbbell, Users, Laptop, Check, Baby, Salad, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingChrome";
 import api, { apiErr } from "@/lib/api";
@@ -36,6 +36,9 @@ const programs = [
   { icon: Dumbbell, title: "1:1 Personal Training", desc: "Fully bespoke strength programming, coached in person. Every rep intentional, every session progressing toward your goal.", tag: "Signature" },
   { icon: Users, title: "Small Group Strength", desc: "Train alongside 2–4 women in a focused, high-energy room. Community accountability with individual coaching eyes on you.", tag: "Community" },
   { icon: Laptop, title: "Online Coaching", desc: "Custom programs, weekly check-ins, and video form reviews — train on your schedule with Kendra in your corner.", tag: "Anywhere" },
+  { icon: Baby, title: "Pre & Postnatal Training", desc: "Safe, expert strength coaching through every trimester and beyond — stay strong during pregnancy and rebuild with confidence after baby.", tag: "Mama Strong" },
+  { icon: Salad, title: "Nutrition Programs", desc: "Personalized, sustainable nutrition coaching that fuels your training and fits your real life — no crash diets, no guilt.", tag: "Fuel" },
+  { icon: Sparkles, title: "Mind · Body · Soul", desc: "A holistic program connecting movement, mindset, and recovery so you feel as strong on the inside as you look on the outside.", tag: "Holistic" },
 ];
 
 const testimonials = [
@@ -219,11 +222,11 @@ const Home = () => {
           {/* COMMUNITY */}
           <Reveal>
             <div className="relative overflow-hidden mt-4">
-              <img src={IMG.community} alt="Women Kendra has trained" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
+              <img src={IMG.community} alt="Women who've trained with Kendra" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
               <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
                 <p className="font-display text-4xl lg:text-5xl text-brand-text leading-none">Stronger together.</p>
-                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">Women Kendra has trained</p>
+                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">Women who've trained with Kendra</p>
               </div>
             </div>
           </Reveal>
@@ -298,7 +301,7 @@ const Home = () => {
                 className="w-full bg-[#0A0A0B] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
                 className="w-full bg-brand-bronze text-brand-bg py-4 font-medium hover:bg-brand-text transition-colors disabled:opacity-60">
-                {sending ? "Sending…" : "Send my application"}
+                {sending ? "Sending…" : "Send message"}
               </button>
             </form>
           </Reveal>
