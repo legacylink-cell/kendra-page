@@ -1,121 +1,105 @@
 {
-  "theme": "hybrid_fullstack",
-  "concept": "Warm & Powerful. A dual-experience platform. The public marketing site is an editorial, dark-themed magazine spread (Iron & Bronze) designed to elevate Kendra Albritton to the top 1%. The admin portal is a functional, light-themed workspace (Sand & Stone) for legal and operational management.",
+  "theme": "light",
   "typography": {
-    "marketing": {
-      "headings": {
-        "fontFamily": "Cormorant Garamond",
-        "weights": ["300", "400", "600"],
-        "usage": "H1, H2, large display text. Must use tight tracking (tracking-tighter) and tight leading (leading-none)."
-      },
-      "body": {
-        "fontFamily": "Outfit",
-        "weights": ["300", "400", "500"],
-        "usage": "Paragraphs, navigation, buttons. High legibility, geometric contrast to the serif headings."
-      }
-    },
-    "admin": {
-      "headings": {
-        "fontFamily": "Outfit",
-        "weights": ["500", "600", "700"],
-        "usage": "Dashboard titles, metric numbers, card headers."
-      },
-      "body": {
-        "fontFamily": "Manrope",
-        "weights": ["400", "500"],
-        "usage": "Data tables, forms, labels. Excellent for dense data readability."
-      }
-    },
-    "rules": "Never center body text. Use large serif headings with strong left alignment for the marketing site. Use uppercase wide-tracking labels (text-xs tracking-[0.2em]) for overlines and section markers."
+    "headings": "Playfair Display",
+    "body": "Manrope",
+    "description": "Playfair Display provides the elegant, high-contrast serif editorial feel matching the reference. Manrope acts as a clean, highly legible, complementary geometric sans for body copy.",
+    "type_scale": {
+      "h1": "text-5xl sm:text-6xl md:text-7xl font-serif tracking-tighter leading-tight text-charcoal",
+      "h2": "text-4xl sm:text-5xl font-serif tracking-tight leading-tight text-charcoal",
+      "h3": "text-2xl sm:text-3xl font-serif text-charcoal",
+      "body": "text-base sm:text-lg font-sans leading-relaxed text-charcoal/80",
+      "eyebrow": "text-xs sm:text-sm font-sans tracking-[0.2em] uppercase font-bold text-charcoal"
+    }
   },
   "colors": {
-    "marketing_theme_dark": {
-      "base": "#0A0A0B",
-      "surface": "#141312",
-      "surface_glass": "rgba(20, 19, 18, 0.7)",
-      "primary_accent": "#C17D59",
-      "secondary_accent": "#8A5A40",
-      "text_primary": "#F2EAE5",
-      "text_secondary": "#A39B95",
-      "border": "#2A2624",
-      "description": "Used ONLY for the public marketing website."
+    "backgrounds": {
+      "primary": "#EFE9E1",
+      "secondary": "#F5F2ED",
+      "cards": "#E5DCCF",
+      "announcement_bar": "#A9784E"
     },
-    "admin_theme_light": {
-      "base": "#F5F3F0",
-      "surface": "#FFFFFF",
-      "primary_accent": "#C17D59",
-      "text_primary": "#1C1B1A",
-      "text_secondary": "#5C5856",
-      "border": "#E5E0DA",
-      "success": "#476A49",
-      "danger": "#A04A45",
-      "description": "Used ONLY for the admin dashboard."
+    "text": {
+      "primary": "#1C1B1A",
+      "secondary": "#4A4744",
+      "on_accent": "#FFFFFF"
+    },
+    "accent": {
+      "primary": "#A9784E",
+      "hover": "#8C5F3F"
+    },
+    "borders": {
+      "light": "#DCD4C7",
+      "accent": "#A9784E"
     }
   },
   "visual_enhancers": {
-    "marketing": {
-      "texture": "Subtle grain/noise overlay on the dark backgrounds to remove digital flatness.",
-      "glassmorphism": "Used for sticky header. backdrop-blur-xl with border-b border-[#2A2624].",
-      "image_treatment": "Black/Bronze gradient overlays. Never use flat black over images. Example: bg-gradient-to-r from-black/80 via-black/40 to-transparent."
-    },
-    "admin": {
-      "cards": "Flat white background, 1px subtle border (#E5E0DA), no shadow by default. Hover adds shadow-sm and -translate-y-[1px].",
-      "forms": "High contrast borders for inputs, clearly indicating focus states with ring-2 ring-[#C17D59]."
-    }
+    "shadows": "Very soft ambient shadows only where necessary (e.g., shadow-[0_10px_40px_rgba(28,27,26,0.05)]). Prefer flat overlapping layers with thin borders over heavy shadows.",
+    "border_radius": "Large rounded corners for cards and some image blocks. Use rounded-3xl or rounded-[32px] for structural cards. Buttons should be pill-shaped (rounded-full).",
+    "textures": "Clean, airy, breathable. No heavy gradients or noise. Rely on the warmth of the background hex codes."
   },
-  "grids_and_layouts": {
-    "marketing": {
-      "spacing": "Generous. p-12, p-24, gap-16.",
-      "hero": "Asymmetrical. Huge serif heading on the left, high-contrast image on the right or background with strong gradient overlay.",
-      "bento_features": "Mode A (Tetris Grid). grid-cols-12, wide gaps, asymmetrical span logic for Services/Programs."
-    },
-    "admin": {
-      "spacing": "Dense. p-4, p-6, gap-4.",
-      "dashboard": "Mode B (High Density). grid-cols-4 or grid-cols-12. Metric cards top row, main charts/tables below. Sidebar navigation."
-    }
+  "component_names": [
+    "AnnouncementBar",
+    "FixedHeader",
+    "HeroSection",
+    "AboutKendra",
+    "AboutYouList",
+    "Differentiator",
+    "ServicesGrid",
+    "ResultsCollage",
+    "TestimonialCarousel",
+    "LeadCaptureForm",
+    "Footer"
+  ],
+  "grids": {
+    "bento_asymmetric": "grid-cols-1 md:grid-cols-12 gap-8 md:gap-12",
+    "services": "grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
   },
-  "components": {
-    "marketing": {
-      "marquee": "Use react-fast-marquee for an 'Editorial Ribbon' of fitness mantras (e.g. STRENGTH • RESILIENCE • POWER).",
-      "buttons": "Sharp edges (rounded-none or rounded-sm). Dark background with bronze border, or solid Bronze for primary CTA."
-    },
-    "admin": {
-      "shadcn_ui": "Use Table, Dialog, Form, Input, Select, Tabs, Card. Must customize radii to be sharp (rounded-sm) and match the admin color palette.",
-      "contracts": "PDF generation should trigger a download. Show visual status badges (Pending, Signed, Uploaded) for contracts/waivers."
-    }
+  "layouts": {
+    "general_spacing": "Generous vertical rhythm. Use py-20 md:py-32 for section padding. Container px-6 md:px-12 max-w-7xl mx-auto.",
+    "hero": "Asymmetric split. Text on left spanning 7 columns. White-background portrait on right spanning 5 columns, overlapping the bottom edge slightly. Top announcement bar.",
+    "eyebrow_labels": "Format as '/ SECTION NAME /' with slashes included in text. Example: '/ ABOUT YOU /'.",
+    "image_collages": "Overlapping photos. Use absolute positioning. Example: Main photo relative z-10 w-3/4. Secondary dark-bg photo absolute -bottom-12 -right-6 w-1/2 z-20 border-8 border-[#EFE9E1]. Mixed rounded and sharp corners.",
+    "services_cards": "Large rounded-3xl cards bg-[#E5DCCF] p-8 md:p-10. Elements flow: Title -> description -> Caramel solid pill button.",
+    "testimonials": "Carousel with large elegant serif quote. Custom circular left/right arrow buttons below quote. Background #F5F2ED."
   },
   "motion": {
-    "marketing": {
-      "scroll": "Smooth momentum scrolling (use Lenis if possible, or CSS smooth scroll).",
-      "reveal": "Staggered fade-up for typography using framer-motion.",
-      "hover": "Images subtly scale up (scale-105) with long duration (duration-700)."
-    },
-    "admin": {
-      "transitions": "Fast and snappy. duration-150 ease-in-out.",
-      "interactions": "Clear hover states on table rows (bg-black/5)."
-    }
+    "entrance": "Subtle fade up and in for text and images using Framer Motion (initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}). Stagger children.",
+    "hover": "Buttons scale up slightly (scale-105) with transition-transform. Cards have no hover lift, keeping the editorial flat feel, but buttons inside react.",
+    "carousel": "Smooth slide transitions for testimonials."
   },
-  "image_urls": [
-    {
-      "url": "https://images.unsplash.com/photo-1548690312-e3b507d8c110?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwxfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
-      "category": "Hero / Intense Training",
-      "description": "Woman holding black rope. Use for the main hero section with a strong dark/bronze gradient overlay."
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1Mjh8MHwxfHNlYXJjaHwzfHxmZW1hbGUlMjBwZXJzb25hbCUyMHRyYWluZXIlMjBwb3J0cmFpdCUyMHdhcm0lMjBsaWdodHxlbnwwfHx8fDE3ODUxMTgyNDB8MA&ixlib=rb-4.1.0&q=85",
-      "category": "Portrait / About Section",
-      "description": "Powerful portrait of female trainer in black top. Use for the 'About Kendra Albritton' section."
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1574680088814-c9e8a10d8a4d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njl8MHwxfHNlYXJjaHw0fHxzdHJvbmclMjBmaXRuZXNzJTIwd29tYW4lMjBneW0lMjB3YXJtJTIwbGlnaHR8ZW58MHx8fHwxNzg1MTE4MjQwfDA&ixlib=rb-4.1.0&q=85",
-      "category": "Gallery / Programs",
-      "description": "Woman in black sports bra working out. Use for Services or Transformation gallery."
-    }
-  ],
   "accessibility": {
-    "contrast": "Ensure all text meets APCA/WCAG standards. The bronze accent (#C17D59) must only be used on black or white backgrounds to ensure legibility.",
-    "testing": "All interactive elements MUST include data-testid attributes (e.g., data-testid='login-button', data-testid='client-table-row')."
+    "contrast": "Ensure text against #A9784E accent color is readable. Use #FFFFFF text on the #A9784E button, which provides an elegant look. For smaller text, use #1C1B1A on #A9784E if needed. All main body text is #1C1B1A on #EFE9E1 (extremely high contrast).",
+    "focus": "focus-visible:ring-2 focus-visible:ring-[#A9784E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#EFE9E1]"
   },
-  "instructions_to_main_agent": "1. Build two distinct layout systems: A dark-themed public layout (HTML/Tailwind + Framer Motion) and a light-themed admin layout (Shadcn + dense grids). 2. For the Admin Portal, implement mock client data, a contract/waiver mock PDF generator button, and payment logging forms. 3. DO NOT use generic fonts like Inter for headings. Ensure Cormorant Garamond is imported and applied to marketing headings.",
-  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "Do not center align the app container. Create depth through layered design elements. Never use generic 'AI slop' aesthetics. No generic gradients. Add data-testid to all interactive components. Do not use fully transparent backgrounds behind nav text. Use react-icons or lucide-react for iconography. DO NOT use placeholder image URLs; use the provided image URLs."
+  "media": {
+    "image_treatment": "Lifestyle photography should feel natural, warm, and sunlit. Kendra's existing white-background hero portrait should be placed seamlessly on the #EFE9E1 background, perhaps utilizing mix-blend-multiply if the background of the image is pure white, or positioned creatively to embrace the cutout style.",
+    "image_urls": {
+      "hero_portrait_placeholder": "https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&q=80",
+      "services_1_on_1": "https://images.unsplash.com/photo-1548690312-e3b507d8c110?auto=format&fit=crop&q=80",
+      "services_small_group": "https://images.unsplash.com/photo-1518622358385-8ea7d0794bf6?auto=format&fit=crop&q=80",
+      "services_online": "https://images.pexels.com/photos/36399974/pexels-photo-36399974.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "services_nutrition": "https://images.pexels.com/photos/13716613/pexels-photo-13716613.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "collage_lifestyle": "https://images.pexels.com/photos/8455748/pexels-photo-8455748.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+    }
+  },
+  "instructions_to_main_agent": [
+    "Set the background of the entire app to #EFE9E1.",
+    "Import Google Fonts 'Playfair Display' and 'Manrope' in index.css or via layout wrapper.",
+    "Build a fixed navigation bar with a deep header feel, containing brand logo/name on left, main links center, and 'Trainer Login' + CTA on right.",
+    "The Hero section must include an Announcement Bar at the very top. Add the white-bg portrait creatively, maybe with mix-blend-multiply to blend into the cream background.",
+    "Create the '/ ABOUT YOU /' section as a bulleted list with elegant checkmarks or custom markers.",
+    "The 'What Makes This Different' block should feature a massive Playfair Display headline.",
+    "For the Services section, create 6 specific cards: 1:1 Training, Small Group, Online Coaching, Pre & Postnatal, Nutrition, Mind·Body·Soul. Use #E5DCCF background and rounded-3xl for these cards.",
+    "Build a Testimonials carousel using Framer Motion or a simple React state, including circular left/right buttons.",
+    "Ensure the contact form at the bottom uses Shadcn UI Form/Input components but styled with warm borders (border-[#DCD4C7]), no Vercel-default styling. Form MUST post to '/api/leads'.",
+    "Add 'Trainer Login' and 'Designed by Mo Studio' in the Footer.",
+    "Use standard semantic HTML sections (<section>, <header>, <footer>). DO NOT OVER-COMPONENTIZE the marketing layout with Shadcn structural components.",
+    "Implement data-testid on all interactive elements as requested (e.g. data-testid='contact-submit-button', data-testid='nav-login-link')."
+  ],
+  "testing_attributes": {
+    "rule": "All interactive and key informational elements MUST include a data-testid attribute.",
+    "examples": ["data-testid='hero-cta-button'", "data-testid='service-card-1-on-1'", "data-testid='testimonial-next-button'", "data-testid='lead-form-submit'"]
+  },
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": "You tend to converge toward generic, 'on distribution' outputs. Avoid this: make creative, distinctive frontends. Do not use dark colors as gradients. Don't make generic centered layouts. Add transition for specific interactive elements. You MUST NOT apply universal transition (transition: all). You MUST NOT center align the app container. Use modern pill-shaped or sharp buttons with interaction animations. Every interaction needs micro-animations. Use 2-3x more spacing than feels comfortable. NEVER use AI assistant Emoji characters. Main agent relies on provided image URLs, do not use placeholder text."
 }
