@@ -56,7 +56,7 @@ const Home = () => {
     setSending(true);
     try {
       await api.post("/leads", form);
-      toast.success("Application received — Kendra will reach out personally.");
+      toast.success("Message sent — Kendra will reach out personally.");
       setForm({ name: "", email: "", phone: "", goal: "", message: "" });
     } catch (err) {
       toast.error(apiErr(err.response?.data?.detail));
@@ -110,50 +110,49 @@ const Home = () => {
       </section>
 
       {/* MARQUEE */}
-      <div className="border-y border-brand-line bg-[#17403E] py-6 overflow-hidden">
+      <div className="bg-brand-bronze py-5 overflow-hidden">
         <div className="marquee-track">
           {[...marquee, ...marquee, ...marquee, ...marquee].map((w, i) => (
-            <span key={i} className="font-display text-4xl md:text-5xl mx-8 text-brand-text/40 whitespace-nowrap flex items-center gap-16">
-              {w} <span className="text-brand-bronze text-2xl">✦</span>
+            <span key={i} className="font-display text-4xl md:text-5xl mx-8 text-[#0C2926] whitespace-nowrap flex items-center gap-16">
+              {w} <span className="text-white text-2xl">✦</span>
             </span>
           ))}
         </div>
       </div>
 
       {/* ABOUT */}
-      <section id="about" className="py-28 px-6 lg:px-10">
+      <section id="about" className="py-28 px-6 lg:px-10 bg-[#EAF6F5] text-[#0C2926]">
         <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
           <Reveal>
             <div className="relative">
-              <div className="relative overflow-hidden bg-brand-surface">
+              <div className="relative overflow-hidden bg-[#0C2926]">
                 <img src={IMG.about} alt="Kendra Albritton" className="w-full aspect-[4/5] object-cover object-top" />
-                <div className="absolute inset-0 ring-1 ring-inset ring-brand-line" />
               </div>
-              <div className="absolute -bottom-6 -right-4 bg-brand-bronze text-brand-bg p-6 hidden sm:block shadow-xl">
+              <div className="absolute -bottom-6 -right-4 bg-brand-bronze text-[#0C2926] p-6 hidden sm:block shadow-xl">
                 <p className="font-display text-5xl leading-none">10+</p>
                 <p className="text-xs uppercase tracking-[0.2em] mt-1">Years coaching women</p>
               </div>
             </div>
           </Reveal>
           <Reveal delay={0.15}>
-            <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
+            <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Meet Kendra</p>
             <h2 className="font-display text-5xl lg:text-6xl leading-none tracking-tight mb-8">
               Coaching that treats your goals like they're sacred.
             </h2>
-            <p className="text-brand-muted leading-relaxed mb-5">
-              Kendra Albritton is a personal trainer and group fitness coach at <span className="text-brand-text">Shapes Fitness</span>,
+            <p className="text-[#4C6E6A] leading-relaxed mb-5">
+              Kendra Albritton is a personal trainer and group fitness coach at <span className="text-[#0C2926] font-medium">Shapes Fitness</span>,
               the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were
-              handed generic programs and told to shrink. She coaches the opposite — get <span className="text-brand-text">stronger</span>,
+              handed generic programs and told to shrink. She coaches the opposite — get <span className="text-[#0C2926] font-medium">stronger</span>,
               take up space, and train with intention.
             </p>
-            <p className="text-brand-muted leading-relaxed mb-8">
+            <p className="text-[#4C6E6A] leading-relaxed mb-8">
               Every program is built around your body, your history, and your life. No guesswork, no fads —
               just expert programming and relentless accountability.
             </p>
             <div className="grid grid-cols-2 gap-4">
               {["Women-only coaching", "Personalized programming", "Form-first strength", "Real accountability"].map((f) => (
-                <div key={f} className="flex items-center gap-3 text-sm text-brand-text">
-                  <Check className="h-4 w-4 text-brand-bronze shrink-0" /> {f}
+                <div key={f} className="flex items-center gap-3 text-sm text-[#0C2926]">
+                  <Check className="h-4 w-4 text-[#12857F] shrink-0" /> {f}
                 </div>
               ))}
             </div>
@@ -191,15 +190,15 @@ const Home = () => {
       </section>
 
       {/* RESULTS / GALLERY */}
-      <section id="results" className="py-28 px-6 lg:px-10">
+      <section id="results" className="py-28 px-6 lg:px-10 bg-[#F7EFE0] text-[#0C2926]">
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
               <div>
-                <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
+                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-4">Proof, not promises</p>
                 <h2 className="font-display text-5xl lg:text-6xl tracking-tight leading-none">Real women. Real strength.</h2>
               </div>
-              <a href="#contact" className="text-brand-muted hover:text-brand-text text-sm inline-flex items-center gap-2">
+              <a href="#contact" className="text-[#4C6E6A] hover:text-[#0C2926] text-sm inline-flex items-center gap-2">
                 Your story is next <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -213,7 +212,7 @@ const Home = () => {
                 <div className="relative overflow-hidden group">
                   <img src={g.src} alt={g.cap} className={`w-full aspect-[3/4] object-cover ${g.pos} group-hover:scale-105 transition-transform duration-700`} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-                  <span className="absolute bottom-4 left-4 text-xs uppercase tracking-[0.2em] text-brand-text">{g.cap}</span>
+                  <span className="absolute bottom-4 left-4 text-xs uppercase tracking-[0.2em] text-white">{g.cap}</span>
                 </div>
               </Reveal>
             ))}
@@ -225,27 +224,27 @@ const Home = () => {
               <img src={IMG.community} alt="Women who've trained with Kendra" className="w-full aspect-[2/1] md:aspect-[21/9] object-cover object-top" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
               <div className="absolute bottom-6 left-6 lg:bottom-10 lg:left-10">
-                <p className="font-display text-4xl lg:text-5xl text-brand-text leading-none">Stronger together.</p>
-                <p className="text-brand-muted text-sm mt-2 uppercase tracking-[0.2em]">Women who've trained with Kendra</p>
+                <p className="font-display text-4xl lg:text-5xl text-white leading-none">Stronger together.</p>
+                <p className="text-white/70 text-sm mt-2 uppercase tracking-[0.2em]">Women who've trained with Kendra</p>
               </div>
             </div>
           </Reveal>
 
           {/* INSPIRE — beyond the studio */}
           <Reveal>
-            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-[#17403E] border border-brand-line p-6 lg:p-10">
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-14 items-center mt-24 bg-white border border-[#E8DEC9] p-6 lg:p-10 shadow-sm">
               <div className="relative overflow-hidden">
                 <img src={IMG.marathon} alt="Kendra and her fiancé at the 2024 half marathon finish line" className="w-full aspect-[4/3] object-cover" />
-                <div className="absolute bottom-4 left-4 bg-brand-bronze text-brand-bg px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
+                <div className="absolute bottom-4 left-4 bg-brand-bronze text-[#0C2926] px-4 py-2 text-xs uppercase tracking-[0.2em]">2024 · 13.1 finishers</div>
               </div>
               <div>
-                <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
+                <p className="text-[#12857F] uppercase tracking-[0.3em] text-xs mb-5">Beyond the studio</p>
                 <h3 className="font-display text-4xl lg:text-5xl leading-none tracking-tight mb-5">She lives it, too.</h3>
-                <p className="text-brand-muted leading-relaxed mb-4">
+                <p className="text-[#4C6E6A] leading-relaxed mb-4">
                   Kendra doesn't just coach the work — she does it. Here she is with her fiancé crossing the finish line
                   of the 2024 Tour des Fleurs half marathon, medals earned.
                 </p>
-                <p className="text-brand-muted leading-relaxed">
+                <p className="text-[#4C6E6A] leading-relaxed">
                   Strength isn't a look — it's a life. Train with Kendra and you're learning from someone who shows up
                   for her own goals every single day.
                 </p>
@@ -255,11 +254,11 @@ const Home = () => {
           <div className="grid md:grid-cols-3 gap-6 mt-20">
             {testimonials.map((t, i) => (
               <Reveal key={i} delay={i * 0.12}>
-                <div className="border border-brand-line p-8 h-full bg-[#17403E]">
+                <div className="border border-[#E8DEC9] p-8 h-full bg-white shadow-sm">
                   <p className="text-brand-bronze text-4xl font-display leading-none mb-4">“</p>
-                  <p className="text-brand-text leading-relaxed mb-6">{t.q}</p>
-                  <p className="text-sm text-brand-text font-medium">{t.n}</p>
-                  <p className="text-xs text-brand-muted uppercase tracking-[0.15em] mt-1">{t.r}</p>
+                  <p className="text-[#25423F] leading-relaxed mb-6">{t.q}</p>
+                  <p className="text-sm text-[#0C2926] font-medium">{t.n}</p>
+                  <p className="text-xs text-[#7A938F] uppercase tracking-[0.15em] mt-1">{t.r}</p>
                 </div>
               </Reveal>
             ))}
@@ -268,7 +267,7 @@ const Home = () => {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#17403E] border-t border-brand-line">
+      <section id="contact" className="py-28 px-6 lg:px-10 bg-[#0C2926] text-brand-text">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16">
           <Reveal>
             <p className="text-brand-bronze uppercase tracking-[0.3em] text-xs mb-5">Apply to train</p>
@@ -285,22 +284,22 @@ const Home = () => {
               <div className="grid sm:grid-cols-2 gap-4">
                 <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   data-testid="lead-name" placeholder="Full name"
-                  className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#17403E] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
                 <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   data-testid="lead-phone" placeholder="Phone"
-                  className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                  className="w-full bg-[#17403E] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               </div>
               <input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })}
                 data-testid="lead-email" placeholder="Email address"
-                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#17403E] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               <input value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })}
                 data-testid="lead-goal" placeholder="Your main goal (e.g. get stronger, lose fat, feel confident)"
-                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
+                className="w-full bg-[#17403E] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none" />
               <textarea value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })}
                 data-testid="lead-message" placeholder="Anything else Kendra should know?" rows={4}
-                className="w-full bg-[#0C2926] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
+                className="w-full bg-[#17403E] border border-brand-line px-4 py-3.5 text-brand-text placeholder:text-brand-muted focus:border-brand-bronze focus:outline-none resize-none" />
               <button type="submit" disabled={sending} data-testid="lead-submit"
-                className="w-full bg-brand-bronze text-brand-bg py-4 font-medium hover:bg-brand-text transition-colors disabled:opacity-60">
+                className="w-full bg-brand-bronze text-[#0C2926] py-4 font-semibold hover:bg-brand-text transition-colors disabled:opacity-60">
                 {sending ? "Sending…" : "Send message"}
               </button>
             </form>
