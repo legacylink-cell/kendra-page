@@ -11,7 +11,7 @@ import {
   PieChart, Pie, Cell, BarChart, Bar,
 } from "recharts";
 
-const PALETTE = ["#A9784E", "#1C1B1A", "#C9A27A", "#7A6A55", "#E5DCCF", "#D8B98C"];
+const PALETTE = ["#0FB6C4", "#0B3B4A", "#5AD0DA", "#4A5B60", "#F3FBFC", "#9AE3EA"];
 
 const fmtMs = (n) => (!n ? "—" : n >= 1000 ? `${(n / 1000).toFixed(1)}s` : `${n} ms`);
 
@@ -97,15 +97,15 @@ export default function Insights() {
                 <AreaChart data={d.views_trend} margin={{ left: -18, right: 8, top: 6 }}>
                   <defs>
                     <linearGradient id="v" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#A9784E" stopOpacity={0.35} />
-                      <stop offset="100%" stopColor="#A9784E" stopOpacity={0} />
+                      <stop offset="0%" stopColor="#0FB6C4" stopOpacity={0.35} />
+                      <stop offset="100%" stopColor="#0FB6C4" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#eee" vertical={false} />
                   <XAxis dataKey="date" tick={{ fontSize: 11 }} tickFormatter={(v) => v?.slice(5)} />
                   <YAxis allowDecimals={false} tick={{ fontSize: 11 }} width={38} />
                   <Tooltip />
-                  <Area type="monotone" dataKey="views" stroke="#A9784E" strokeWidth={2} fill="url(#v)" />
+                  <Area type="monotone" dataKey="views" stroke="#0FB6C4" strokeWidth={2} fill="url(#v)" />
                 </AreaChart>
               </ResponsiveContainer>
             ) : <EmptyHint />}
@@ -157,7 +157,7 @@ export default function Insights() {
                 <XAxis dataKey="depth" tick={{ fontSize: 11 }} />
                 <YAxis allowDecimals={false} tick={{ fontSize: 11 }} width={38} />
                 <Tooltip />
-                <Bar dataKey="count" fill="#C9A27A" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="count" fill="#5AD0DA" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           ) : <EmptyHint />}

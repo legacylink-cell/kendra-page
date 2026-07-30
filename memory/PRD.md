@@ -49,6 +49,13 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-30 — Bright Aqua theme applied platform-wide
+- New theme approved & applied everywhere: aqua #0FB6C4 primary, coral #FF6B6B pop, deep teal-navy #0B3B4A text/darks, white + light-aqua (#ECFDFF) backgrounds; Poppins headings + Roboto body.
+- Fonts: tailwind.config.js (display=Poppins, body/sans/admin=Roboto) + index.html Google Fonts + index.css body.
+- Admin colors via shadcn CSS vars in index.css :root retuned to aqua. Marketing/Login/Insights hardcoded hex swapped. ::selection = aqua.
+- New bio on homepage About; package auto-fill in schedule modal (pulls total sessions from client's latest contract).
+- Verified via screenshots: marketing home, /admin/login, dashboard, insights. /theme-preview route kept for future trials.
+
 ## 2026-07-30 — Scheduling: sync, conflicts, count-based recurring; KP rebrand
 - Rebrand: "CK Studio" → "KP Studio" across marketing site, admin, Login, PDF agreement, emails, API, and public/index.html.
 - Delete client now also deletes their sessions (frees calendar slots). Client Edit/Archive/Restore/Delete from Clients list (row menu) + client detail.

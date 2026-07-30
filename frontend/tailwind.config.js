@@ -5,10 +5,10 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        display: ['"Playfair Display"', 'serif'],
-        body: ['Manrope', 'sans-serif'],
-        sans: ['Outfit', 'sans-serif'],
-        admin: ['Manrope', 'sans-serif'],
+        display: ['Poppins', 'sans-serif'],
+        body: ['Roboto', 'sans-serif'],
+        sans: ['Roboto', 'sans-serif'],
+        admin: ['Roboto', 'sans-serif'],
       },
       colors: {
         brand: {

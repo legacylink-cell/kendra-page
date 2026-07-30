@@ -4,38 +4,38 @@
 
 body {
     margin: 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
 @layer base {
     :root {
-        /* Warm editorial palette (matches the marketing site) */
-        --background: 37 33% 91%;
-        --foreground: 30 6% 11%;
+        /* Bright aqua palette (matches the marketing site) */
+        --background: 0 0% 100%;
+        --foreground: 193 74% 17%;
         --card: 0 0% 100%;
-        --card-foreground: 30 6% 11%;
+        --card-foreground: 193 74% 17%;
         --popover: 0 0% 100%;
-        --popover-foreground: 30 6% 11%;
-        --primary: 28 37% 48%;
-        --primary-foreground: 40 33% 96%;
-        --secondary: 36 30% 86%;
-        --secondary-foreground: 30 6% 18%;
-        --muted: 36 28% 88%;
-        --muted-foreground: 30 5% 38%;
-        --accent: 35 60% 82%;
-        --accent-foreground: 30 6% 15%;
+        --popover-foreground: 193 74% 17%;
+        --primary: 187 82% 41%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 186 100% 96%;
+        --secondary-foreground: 193 74% 17%;
+        --muted: 186 60% 95%;
+        --muted-foreground: 191 13% 33%;
+        --accent: 187 65% 90%;
+        --accent-foreground: 193 74% 17%;
         --destructive: 3 58% 48%;
         --destructive-foreground: 0 0% 98%;
-        --border: 36 24% 82%;
-        --input: 36 24% 82%;
-        --ring: 28 37% 48%;
-        --chart-1: 28 37% 48%;
-        --chart-2: 30 6% 20%;
-        --chart-3: 36 30% 70%;
-        --chart-4: 35 55% 70%;
-        --chart-5: 3 58% 58%;
+        --border: 187 45% 89%;
+        --input: 187 45% 89%;
+        --ring: 187 82% 41%;
+        --chart-1: 187 82% 41%;
+        --chart-2: 0 100% 71%;
+        --chart-3: 193 74% 30%;
+        --chart-4: 186 70% 75%;
+        --chart-5: 40 90% 60%;
         --radius: 0.35rem;
     }
 }
@@ -59,7 +59,7 @@ body {
 .grain {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
 }
-::selection { background: #A9784E; color: #FFFFFF; }
+::selection { background: #0FB6C4; color: #FFFFFF; }
 
 @layer base {
     [data-debug-wrapper="true"] { display: contents !important; }
