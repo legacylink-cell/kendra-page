@@ -1,0 +1,26 @@
+{
+  "summary": "Iteration 5 — verified all 4 review bugs are fixed. BACKEND (pytest, 6/6 pass): (1) DELETE-FREES-CALENDAR — creating a client+session, GET /api/sessions shows it; deleting the client makes GET /api/sessions self-heal and drop the orphan (session no longer returned) and the previously-blocked slot becomes bookable again for another client; (2) SESSION EDIT DATE+TIME — PUT /api/sessions/{id} updates both date and time and change reflects in GET /api/clients/{cid}/sessions; (3) 409 CONFLICT REGRESSION — moving session onto a slot already booked returns 409 with 'That slot ... is already booked' message; (4) INSIGHTS EXCLUDES EMERGENT — sending page_view events with referrers app.emergent.sh, emergentagent.com, emergent.sh does NOT add them to top_sources (only google.com counted); (5) contract email still returns 200 (color change is visual only, endpoint healthy). FRONTEND (Playwright, 5/5 pass on preview URL): (1) admin login OK; (2) DOUBLE-CLICK a cal-session-<id> chip opens cal-edit-session-modal with 'Edit session — <client_name>' in title, cal-edit-date + cal-edit-time editable; (3) changing BOTH date and time and clicking cal-save-session-btn moves the chip to the new day (verified via cal-day-<newDate> inner_text contains client_name+time and cal-day-<oldDate> no longer contains it); (4) the same change reflects on client detail Schedule tab (single source of truth); (5) DELETE client via 'Delete' button + confirm-delete-client-btn removes the chip from the Dashboard calendar; (6) Insights page loads with disclaimer 'Emergent preview traffic is not counted' and Top sources shows only 'google.com' (no app.emergent.sh / emergentagent.com); (7) 409 conflict toast 'That slot (...) is already booked for <client>. Pick another time.' fires in the edit modal when target slot is taken (observed during test).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {"ui_bugs": [], "integration_issues": [], "design_issues": []},
+  "test_report_links": [
+    "/app/backend/tests/test_bugfix_iter5.py",
+    "/app/test_reports/pytest/iter5.xml"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Backend orphan cleanup runs on every GET /api/sessions — for large session tables this is O(N) per call. Fine for MVP scale; consider moving cleanup into the delete_client handler (cascade) for O(1) on read.",
+    "find_slot_conflict() queries db.sessions directly and does not filter orphaned sessions whose client is deleted (only /api/sessions self-heals). Race window: if a client is deleted but /sessions has not been hit, /clients/{id}/sessions POST could still 409 against a stale slot. Suggest calling the same orphan-cleanup inside find_slot_conflict or on client delete (delete_many({client_id})).",
+    "Dashboard.jsx openEdit stores date/time in local state but does not reset when a NEW session chip is dbl-clicked while modal is open (Modal open=!!editS so it re-renders — OK, but consider explicit setEditS(null) on modal close for safety).",
+    "Calendar chip title tooltip already hints 'double-click to edit' — good discoverability."
+  ],
+  "updated_files": [
+    "/app/backend/tests/test_bugfix_iter5.py"
+  ],
+  "success_rate": {"backend": "100% (6/6 pytest)", "frontend": "100% (5/5 flows)"},
+  "test_credentials": "kendra@kpstudio.com / KPStudio2026! (from /app/memory/test_credentials.md)",
+  "seed_data_creation": "Created & cleaned up TEST_it5_*, TEST_dc_*, TEST_final_*, TEST_ok_*, TEST_z_* clients via API and UI. Final DB state: 0 TEST_ clients, 0 sessions.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Key testids used: cal-session-<id> (double-click target on Dashboard calendar), cal-edit-session-modal, cal-edit-date, cal-edit-time, cal-save-session-btn, cal-day-YYYY-MM-DD, calendar, dashboard-page, add-client-btn, add-client-modal, client-detail-page, tab-Schedule, add-session-btn, session-date, session-time, save-session-btn, confirm-delete-client-btn. The calendar defaults to current month (July 2026 in preview env); use dates within the current month for chip visibility. /api/sessions self-heals by deleting orphan sessions (whose client_id no longer exists) on GET, but note POST /clients/{id}/sessions conflict-check does NOT filter orphans — see code review note. Delete-frees-calendar was verified BOTH via API cleanup and via UI Delete button flow. Insights Top sources block confirmed to only list real referrers (google.com) — Emergent hosts excluded by _is_preview_traffic. Contract email endpoint returns 200 (color visual change untested).",
+  "rca of the issue": "N/A — all 4 reported bugs are fixed. During testing, the 409 conflict toast appeared naturally when moving a session onto a slot occupied by leftover test data (from prior aborted run), which additionally validates the regression check for slot conflicts on PUT /api/sessions/{id}."
+}

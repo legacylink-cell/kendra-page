@@ -344,8 +344,8 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     buf = io.BytesIO()
     doc = SimpleDocTemplate(buf, pagesize=letter, topMargin=0.7 * inch, bottomMargin=0.7 * inch,
                             leftMargin=0.85 * inch, rightMargin=0.85 * inch)
-    bronze = colors.HexColor("#8A5A40")
-    dark = colors.HexColor("#1C1B1A")
+    bronze = colors.HexColor("#0FB6C4")
+    dark = colors.HexColor("#0B3B4A")
     styles = getSampleStyleSheet()
     h_brand = ParagraphStyle("brand", parent=styles["Title"], fontName="Helvetica-Bold",
                              fontSize=24, textColor=bronze, spaceAfter=9, leading=27, alignment=1)
@@ -379,7 +379,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         ("FONT", (2, 0), (2, -1), "Helvetica-Bold", 9),
         ("TEXTCOLOR", (0, 0), (0, -1), bronze),
         ("TEXTCOLOR", (2, 0), (2, -1), bronze),
-        ("LINEBELOW", (0, 0), (-1, -1), 0.4, colors.HexColor("#E5E0DA")),
+        ("LINEBELOW", (0, 0), (-1, -1), 0.4, colors.HexColor("#D6EEF1")),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
         ("TOPPADDING", (0, 0), (-1, -1), 6),
         ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
@@ -451,7 +451,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         eff = eff_raw
 
     el.append(Spacer(1, 8))
-    el.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#E5E0DA"), spaceAfter=6))
+    el.append(HRFlowable(width="100%", thickness=0.8, color=colors.HexColor("#D6EEF1"), spaceAfter=6))
     el.append(Paragraph(f"Effective date of this agreement: <b>{eff}</b>", body))
 
     sig_style = ParagraphStyle("sigfont", parent=styles["Normal"], fontName=SIG_FONT, fontSize=26, textColor=dark, leading=28)
@@ -681,7 +681,13 @@ class SessionInput(BaseModel):
 
 @api_router.get("/sessions")
 async def list_all_sessions(user: dict = Depends(get_current_user)):
-    return await db.sessions.find({}, {"_id": 0}).sort("date", 1).to_list(2000)
+    # Self-heal: drop any orphaned sessions whose client was deleted, then return the rest.
+    client_ids = {c["id"] for c in await db.clients.find({}, {"id": 1, "_id": 0}).to_list(5000)}
+    sessions = await db.sessions.find({}, {"_id": 0}).sort("date", 1).to_list(2000)
+    orphans = [s["id"] for s in sessions if s.get("client_id") not in client_ids]
+    if orphans:
+        await db.sessions.delete_many({"id": {"$in": orphans}})
+    return [s for s in sessions if s.get("client_id") in client_ids]
 
 
 @api_router.get("/clients/{client_id}/sessions")
@@ -860,10 +866,12 @@ def _inquiry_type(text: str) -> str:
 
 
 def _is_preview_traffic(e: dict) -> bool:
-    """Exclude Emergent preview/editor traffic (*.emergentagent.com).
-    The real production site (emergent.host) is intentionally NOT excluded."""
+    """Exclude Emergent platform/preview/editor traffic (the editor, preview URLs,
+    and app dashboard). The real production site (coachkstudio.com / emergent.host)
+    is intentionally NOT excluded."""
     blob = f"{e.get('host','')} {e.get('referrer','')}".lower()
-    return "emergentagent.com" in blob
+    needles = ("emergentagent.com", "app.emergent.sh", "emergent.sh")
+    return any(n in blob for n in needles)
 
 
 @api_router.get("/insights")

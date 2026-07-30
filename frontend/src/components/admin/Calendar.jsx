@@ -5,7 +5,7 @@ const WD = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MO = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const pad = (n) => String(n).padStart(2, "0");
 
-export default function Calendar({ sessions = [], onMove }) {
+export default function Calendar({ sessions = [], onMove, onEditSession }) {
   const [cursor, setCursor] = useState(() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); });
   const [dragId, setDragId] = useState(null);
   const [overDate, setOverDate] = useState(null);
@@ -57,10 +57,11 @@ export default function Calendar({ sessions = [], onMove }) {
                 {day.slice(0, 3).map((s) => {
                   const cls = s.status === "completed" ? "bg-green-100 text-green-700" : s.status === "no-show" ? "bg-red-100 text-red-700 line-through" : "bg-primary/10 text-primary";
                   return (
-                    <div key={s.id} title={`${s.client_name} ${s.time || ""} ${s.status || ""}`}
+                    <div key={s.id} title={`${s.client_name} ${s.time || ""} ${s.status || ""} — double-click to edit`}
                       draggable={!!onMove}
                       onDragStart={() => setDragId(s.id)}
                       onDragEnd={() => { setDragId(null); setOverDate(null); }}
+                      onDoubleClick={() => onEditSession && onEditSession(s)}
                       data-testid={`cal-session-${s.id}`}
                       className={`text-[11px] leading-tight rounded px-1.5 py-0.5 truncate ${cls} ${onMove ? "cursor-grab active:cursor-grabbing" : ""} ${dragId === s.id ? "opacity-40" : ""}`}>
                       {s.time && <span className="font-medium">{s.time}</span>} {s.client_name}
