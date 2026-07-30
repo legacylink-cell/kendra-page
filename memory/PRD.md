@@ -49,6 +49,14 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-30 — Bug fixes: contract theme, calendar edit, orphan cleanup, insights
+- Contract PDF recolored to aqua theme (#0FB6C4 brand/labels, #0B3B4A text, #D6EEF1 rules); verified by rendering PNGs.
+- Fixed leftover "Kendra Albritton": PDF subtitle (letter-spaced string) + index.html title/description → "Kendra Page".
+- Deleted client's sessions no longer appear on calendar: GET /api/sessions self-heals orphaned sessions; find_slot_conflict also ignores/cleans orphans.
+- Dashboard calendar: double-click a session chip opens edit modal (cal-edit-session-modal) to change date+time+duration+note (PUT /sessions/{id}); syncs to client profile.
+- Insights excludes Emergent platform traffic broadened: emergentagent.com + app.emergent.sh + emergent.sh.
+- Verified: testing_agent iteration_5.json 100% (6/6 backend, 5/5 frontend).
+
 ## 2026-07-30 — Font weight fix + Kendra Page rename
 - Headings were rendering Poppins at weight 400 (thin); added `.font-display { font-weight: 700 }` in index.css so all marketing/login headings are bold — matches approved preview.
 - Renamed "Kendra Albritton" → "Kendra Page" everywhere (site, contract PDF, emails, sender name, admin seed).

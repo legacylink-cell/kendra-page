@@ -360,7 +360,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
 
     el = []
     el.append(Paragraph("KP&nbsp;STUDIO", h_brand))
-    el.append(Paragraph("K&nbsp;E&nbsp;N&nbsp;D&nbsp;R&nbsp;A&nbsp;&nbsp;&nbsp;A&nbsp;L&nbsp;B&nbsp;R&nbsp;I&nbsp;T&nbsp;T&nbsp;O&nbsp;N", h_sub))
+    el.append(Paragraph("K&nbsp;E&nbsp;N&nbsp;D&nbsp;R&nbsp;A&nbsp;&nbsp;&nbsp;P&nbsp;A&nbsp;G&nbsp;E", h_sub))
     el.append(Paragraph("PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_doc))
     el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceBefore=12, spaceAfter=18))
 
@@ -696,13 +696,18 @@ async def list_client_sessions(client_id: str, user: dict = Depends(get_current_
 
 
 async def find_slot_conflict(date: str, time: str, exclude_id: str = None):
-    """Return an existing session occupying the same date+time (if any)."""
+    """Return an existing session occupying the same date+time (if any).
+    Ignores (and cleans up) orphaned sessions whose client was deleted."""
     if not time:
         return None
     q = {"date": date, "time": time}
     if exclude_id:
         q["id"] = {"$ne": exclude_id}
-    return await db.sessions.find_one(q, {"_id": 0})
+    existing = await db.sessions.find_one(q, {"_id": 0})
+    if existing and not await db.clients.find_one({"id": existing.get("client_id")}, {"_id": 0}):
+        await db.sessions.delete_one({"id": existing["id"]})
+        return None
+    return existing
 
 
 @api_router.post("/clients/{client_id}/sessions")
