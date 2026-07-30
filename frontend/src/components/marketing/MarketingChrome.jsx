@@ -4,7 +4,7 @@ import { Menu, X, ArrowUpRight, Facebook, Instagram } from "lucide-react";
 
 const links = [
   { href: "#about", label: "About" },
-  { href: "#approach", label: "Approach" },
+  { href: "#method", label: "Approach" },
   { href: "#programs", label: "Programs" },
   { href: "#results", label: "Results" },
   { href: "#contact", label: "Contact" },

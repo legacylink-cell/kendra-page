@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowUpRight, ArrowLeft, Dumbbell, Users, Laptop,
-  Baby, Salad, Flower2, Check,
+  Baby, Salad, Flower2, Check, Brain, Apple,
 } from "lucide-react";
 import { toast } from "sonner";
 import { MarketingNav, MarketingFooter } from "@/components/marketing/MarketingChrome";
@@ -32,7 +32,12 @@ const Reveal = ({ children, delay = 0, className = "" }) => (
 );
 
 const Eyebrow = ({ children }) => (
-  <p className="text-xs tracking-[0.25em] uppercase font-semibold text-[#0FB6C4] mb-6">/ {children} /</p>
+  <span className="inline-flex items-center gap-2 mb-6 rounded-full bg-[#0FB6C4]/10 pl-1.5 pr-4 py-1.5">
+    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FF6B6B]">
+      <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
+    </span>
+    <span className="text-[11px] tracking-[0.18em] uppercase font-bold text-[#0FB6C4]">{children}</span>
+  </span>
 );
 
 const programs = [
@@ -66,6 +71,19 @@ const testimonials = [
   { q: "The most professional, thoughtful coaching I've ever had. She treats your goals like they're sacred.", n: "Priya S.", r: "Online Coaching" },
   { q: "After two pregnancies I felt broken. Kendra rebuilt my core and my confidence — I feel unstoppable.", n: "Renee T.", r: "Pre & Postnatal" },
   { q: "She notices everything — a tweak here, a cue there. My chronic back pain is finally gone.", n: "Alison W.", r: "Small Group" },
+];
+
+const pillars = [
+  { icon: Brain, tag: "Mind", title: "Mindset & belief", desc: "We start in your head. Together we uncover your real 'why', break the limiting beliefs holding you back, and build the confidence that carries you through every session — and every setback." },
+  { icon: Dumbbell, tag: "Body", title: "Movement & strength", desc: "Form-first, progressive strength training built around your body and your history — so you get genuinely strong, move better, and train for life, not just a season." },
+  { icon: Apple, tag: "Fuel", title: "Nutrition & recovery", desc: "Sustainable, no-guilt nutrition that fits your real, busy life and actually fuels your training, your energy, and your recovery." },
+];
+
+const methodSteps = [
+  { n: "01", t: "Discover", d: "We dig into your goals, your history, and the 'why' beneath them." },
+  { n: "02", t: "Align", d: "We build a plan that syncs mindset, training, and nutrition around your real life." },
+  { n: "03", t: "Coach", d: "Hands-on, form-first sessions with weekly accountability and honest adjustments." },
+  { n: "04", t: "Transform", d: "Strength, confidence, and habits that last — and ripple out to those you love." },
 ];
 
 const Home = () => {
@@ -131,8 +149,9 @@ const Home = () => {
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
               className="text-[#4A5B60] text-lg max-w-lg mt-8 leading-relaxed">
-              KP Studio is the private strength practice of <span className="text-[#0B3B4A] font-semibold">Kendra Page</span> —
-              where women build real power, unshakeable confidence, and results that outlast any trend.
+              KP Studio is the private coaching practice of <span className="text-[#0B3B4A] font-semibold">Kendra Page</span> —
+              where women train mind, body &amp; nutrition in sync to build lasting strength, deep confidence,
+              and a healthier life that ripples out to everyone they love.
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
               className="flex flex-wrap gap-4 mt-10">
@@ -187,7 +206,7 @@ const Home = () => {
             </p>
             <p className="text-[#4A5B60] text-lg leading-relaxed mb-5">
               Witnessing women break mental barriers &amp; push past their limiting beliefs in &amp; out of the gym is what fires me up most!
-              I have a degree in psychology from Oklahoma State University (Go Pokes! 🍊) &amp; with my background in studying the mind and from
+              I have a degree in psychology from Oklahoma State University (Go Pokes!) &amp; with my background in studying the mind and from
               my decade of experience working closely with individuals in the gym, I have discovered everything begins in the mind.
             </p>
             <p className="text-[#4A5B60] text-lg leading-relaxed mb-5">
@@ -198,7 +217,7 @@ const Home = () => {
             <p className="text-[#4A5B60] text-lg leading-relaxed mb-8">
               So if you're looking to make lasting change this year &amp; years to come, I'd love the opportunity to support you on your
               journey! I'm so excited to get to continue this life changing work &amp; I look forward to supporting more of you in becoming
-              the best versions of YOU! 💪💞
+              the best versions of YOU!
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {["Women-only coaching", "Personalized programming", "Form-first strength", "Real accountability"].map((f) => (
@@ -211,6 +230,58 @@ const Home = () => {
               ))}
             </div>
           </Reveal>
+        </div>
+      </section>
+
+      {/* THE METHOD — holistic process */}
+      <section id="method" className="scroll-mt-32 py-20 md:py-32 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          <Reveal>
+            <div className="max-w-2xl">
+              <Eyebrow>How Kendra trains</Eyebrow>
+              <h2 className="font-display text-4xl sm:text-5xl md:text-6xl leading-[1.03] tracking-tight">
+                Strong starts from the <span className="italic text-[#FF6B6B]">inside out.</span>
+              </h2>
+              <p className="text-[#4A5B60] text-lg leading-relaxed mt-6">
+                Lasting results don't come from just training harder. They come from getting your mind, your body,
+                and your nutrition working together. Kendra coaches all three in sync — because when one is off,
+                progress stalls. When they align, everything changes.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8 mt-14">
+            {pillars.map((p, i) => (
+              <Reveal key={p.tag} delay={i * 0.1}>
+                <div data-testid={`pillar-${p.tag.toLowerCase()}`} className="relative h-full bg-[#ECFDFF] rounded-[28px] p-8 md:p-9 border border-[#D6EEF1] hover:-translate-y-1 transition-transform">
+                  <span className="inline-flex h-14 w-14 rounded-2xl bg-[#0FB6C4] items-center justify-center mb-6">
+                    <p.icon className="h-6 w-6 text-white" />
+                  </span>
+                  <p className="text-[11px] uppercase tracking-[0.25em] font-bold text-[#FF6B6B] mb-2">{p.tag}</p>
+                  <h3 className="font-display text-2xl md:text-3xl text-[#0B3B4A] mb-3">{p.title}</h3>
+                  <p className="text-[#4A5B60] text-sm leading-relaxed">{p.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal>
+            <p className="text-center font-display text-xl md:text-2xl text-[#0B3B4A] mt-12">
+              Mind + Body + Nutrition, <span className="text-[#0FB6C4]">in sync</span> — that's when results surface.
+            </p>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-14">
+            {methodSteps.map((s, i) => (
+              <Reveal key={s.n} delay={i * 0.08}>
+                <div data-testid={`step-${s.n}`}>
+                  <span className="font-display text-5xl text-[#0FB6C4]/25 leading-none">{s.n}</span>
+                  <h4 className="font-display text-xl text-[#0B3B4A] mt-3 mb-2">{s.t}</h4>
+                  <p className="text-[#4A5B60] text-sm leading-relaxed">{s.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
