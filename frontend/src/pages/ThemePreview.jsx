@@ -6,19 +6,15 @@ import { ArrowRight, ArrowUpRight, ArrowLeft, Dumbbell, Users, Laptop, Baby, Sal
    Nothing here touches the live site. */
 
 const C = {
-  bg: "#F7EFE3", sectionAlt: "#FBF5EA", sand: "#E7D4AB", clay: "#D2AF9A",
-  accent: "#C08B6F", accentHover: "#A9714F", card: "#FBF5EA", border: "#E7D4AB",
-  ink: "#2B2620", muted: "#6E665A", dark: "#2B2620",
+  bg: "#FFFFFF", sectionAlt: "#ECFDFF", sand: "#CFF3F6", clay: "#B9E9EE",
+  accent: "#0FB6C4", accentHover: "#0C97A3", pop: "#FF6B6B", card: "#F3FBFC", border: "#D6EEF1",
+  ink: "#0B3B4A", muted: "#4A5B60", dark: "#0B3B4A",
 };
 const IMG = { hero: "/kendra-white.jpg", aboutMain: "/kendra-selfie.jpg", aboutSub: "/kendra-cable.jpg", barbell: "/kendra-barbell.jpg", cable: "/kendra-cable.jpg", community: "/kp-community.jpg", marathon: "/kendra-marathon.jpg" };
 const H = { fontFamily: "'Poppins', sans-serif" };
 const B = { fontFamily: "'Roboto', sans-serif" };
 
-const Curve = ({ fill, flip }) => (
-  <div className="w-full overflow-hidden leading-none" style={{ transform: flip ? "rotate(180deg)" : "none" }}>
-    <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="w-full h-[60px]"><path d="M1000,4.3V0H0v4.3C0.9,23.1,126.7,99.2,500,100S1000,22.7,1000,4.3z" fill={fill} /></svg>
-  </div>
-);
+const Curve = () => null;
 const Reveal = ({ children, delay = 0, className = "" }) => (
   <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-80px" }} transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }} className={className}>{children}</motion.div>
 );
@@ -55,7 +51,7 @@ export default function ThemePreview() {
   return (
     <div style={{ background: C.bg, color: C.muted, ...B }} data-testid="theme-preview">
       <div className="text-center text-[11px] tracking-[0.2em] uppercase py-2 text-white" style={{ ...H, background: C.dark }}>
-        Theme preview · Alive &amp; Free colors + fonts on the real KP layout · not live
+        Theme preview · BRIGHT AQUA theme (aqua + coral, Poppins/Roboto) · not live
       </div>
 
       {/* NAV */}
@@ -74,7 +70,7 @@ export default function ThemePreview() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-12 gap-10 items-center">
           <div className="md:col-span-7">
             <p style={{ ...H, color: C.accent }} className="text-xs tracking-[0.25em] uppercase font-semibold mb-5">Strength for women · by a woman</p>
-            <h1 style={{ ...H, color: C.ink }} className="text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.02] tracking-tight">Come alive.<br /><span style={{ color: C.accent }} className="italic">Get strong.</span></h1>
+            <h1 style={{ ...H, color: C.ink }} className="text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.02] tracking-tight">Real strength.<br /><span style={{ color: C.pop }} className="italic">Built to last.</span></h1>
             <p style={B} className="text-lg max-w-lg mt-6 leading-relaxed">KP Studio is the private strength practice of Kendra Albritton — where women build real power, confidence, and results that last.</p>
             <div className="flex flex-wrap gap-4 mt-8"><Btn>Start Here</Btn><Btn dark>View Programs</Btn></div>
           </div>
@@ -132,7 +128,7 @@ export default function ThemePreview() {
       <section id="results" className="py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           <Eyebrow>Proof, not promises</Eyebrow>
-          <h2 style={{ ...H, color: C.ink }} className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] mb-10">Real women. <span style={{ color: C.accent }} className="italic">Real strength.</span></h2>
+          <h2 style={{ ...H, color: C.ink }} className="text-4xl sm:text-6xl font-bold tracking-tight leading-[1.05] mb-10">Real women. <span style={{ color: C.pop }} className="italic">Real strength.</span></h2>
           <div className="grid sm:grid-cols-2 gap-5">
             {[{ src: IMG.barbell, cap: "Strength platform" }, { src: IMG.cable, cap: "Every rep, coached" }].map((g, i) => (
               <div key={i} className="relative overflow-hidden rounded-[24px]"><img src={g.src} alt={g.cap} className="w-full aspect-[3/2] object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" /><span style={H} className="absolute bottom-4 left-5 text-xs uppercase tracking-[0.2em] text-white">{g.cap}</span></div>
@@ -163,7 +159,7 @@ export default function ThemePreview() {
 
       {/* CTA */}
       <section className="py-16 px-6 md:px-12 text-white text-center" style={{ background: C.accent }}>
-        <h2 style={H} className="text-3xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-3xl mx-auto">You were made to live fully alive &amp; strong</h2>
+        <h2 style={H} className="text-3xl sm:text-5xl font-bold leading-[1.1] tracking-tight max-w-3xl mx-auto">There's no feeling like living in a strong, capable body you trust</h2>
         <div className="mt-8 flex justify-center"><span style={{ ...H, background: C.dark }} className="inline-flex items-center gap-2 text-white px-8 py-4 rounded-full text-sm uppercase tracking-[0.15em] cursor-default">Apply to train</span></div>
       </section>
 
