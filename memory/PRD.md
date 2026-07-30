@@ -49,6 +49,17 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-30 — Scheduling: sync, conflicts, count-based recurring; KP rebrand
+- Rebrand: "CK Studio" → "KP Studio" across marketing site, admin, Login, PDF agreement, emails, API, and public/index.html.
+- Delete client now also deletes their sessions (frees calendar slots). Client Edit/Archive/Restore/Delete from Clients list (row menu) + client detail.
+- Recurring schedule is TOTAL-SESSIONS driven: enter total sessions + weekdays → auto-logs exactly that many across the needed weeks (e.g. 8 × Mon/Thu = 8 over 4 weeks).
+- Timeslot conflict detection: add_session / update_session(move) / recurring return 409 if date+time already booked by another client; UI shows sonner error toast.
+- Calendar drag-to-reschedule (Dashboard) → PUT /api/sessions/{id} {date}. Single source of truth: same session doc powers the client's Schedule tab, so profile stays in sync automatically. Single-session edit via pencil in Schedule tab.
+- Insights: excludes Emergent preview traffic (emergentagent.com); added "Reset analytics" (POST /api/insights/reset). Removed the "Reset all data" Dashboard button (endpoint kept for maintenance).
+- Add/Edit client + reschedule modals no longer close on backdrop click (dismissible=false).
+- Contract email: secure PDF download link (attachments unsupported by managed proxy); sender display name now "Kendra Albritton", reply-to = owner gmail.
+- Tests: iteration_4.json 100% (10/10 frontend flows); backend curl-verified for all scheduling/conflict/sync cases.
+
 ## 2026-07-29 — Contract email: link instead of attachment
 - Emergent-managed Resend proxy does NOT support attachments (playbook payload = to/subject/html/from_name/contact_email only), so the PDF never arrived. Fixed: email now embeds a secure, token-signed download link to GET /api/contracts/{id}/download?token=... (JWT type=contract_dl, 60-day exp). Verified end-to-end (valid PDF 32KB, bad token→401).
 - From address (…emergentmails.com) is platform-fixed and cannot be changed on the managed integration; only display name (EMAIL_FROM_NAME="CK Studio · Kendra Albritton") and reply-to (OWNER_EMAIL) are set. To send from a coachkstudio.com address would require the user's own Resend account + domain DNS verification.
