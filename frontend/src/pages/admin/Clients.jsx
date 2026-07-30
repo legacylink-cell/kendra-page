@@ -188,7 +188,7 @@ export default function Clients() {
       </div>
 
       {/* Add client */}
-      <Modal open={open} onClose={() => setOpen(false)} title="Add new client" testid="add-client-modal">
+      <Modal open={open} onClose={() => setOpen(false)} title="Add new client" testid="add-client-modal" dismissible={false}>
         <form onSubmit={create}>
           {editForm(form, setForm)}
           <div className="flex justify-end gap-3 pt-5">
@@ -199,7 +199,7 @@ export default function Clients() {
       </Modal>
 
       {/* Edit client */}
-      <Modal open={!!editing} onClose={() => setEditing(null)} title="Edit client" testid="edit-client-modal">
+      <Modal open={!!editing} onClose={() => setEditing(null)} title="Edit client" testid="edit-client-modal" dismissible={false}>
         <form onSubmit={saveEdit}>
           {editForm(eForm, setEForm)}
           <div className="flex justify-end gap-3 pt-5">

@@ -22,7 +22,7 @@ export default function Leads() {
   return (
     <div data-testid="leads-page">
       <h1 className="text-3xl font-bold tracking-tight mb-1">Leads</h1>
-      <p className="text-muted-foreground mb-6">Enquiries from the CK Studio website.</p>
+      <p className="text-muted-foreground mb-6">Enquiries from the KP Studio website.</p>
 
       <div className="space-y-3">
         {leads.map((l) => (

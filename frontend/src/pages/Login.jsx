@@ -36,7 +36,7 @@ export default function Login() {
       <div className="flex-1 flex items-center justify-center px-6">
         <div className="w-full max-w-md">
           <div className="text-center mb-10">
-            <div className="font-display text-5xl tracking-[-0.02em] text-[#1C1B1A]">C<span className="italic text-[#A9784E]">K</span> Studio</div>
+            <div className="font-display text-5xl tracking-[-0.02em] text-[#1C1B1A]">K<span className="italic text-[#A9784E]">P</span> Studio</div>
             <p className="text-xs uppercase tracking-[0.3em] text-[#A9784E] mt-2">Trainer Portal</p>
           </div>
           <form onSubmit={submit} data-testid="login-form" className="space-y-5 bg-white border border-[#DCD4C7] rounded-2xl p-8 shadow-sm">

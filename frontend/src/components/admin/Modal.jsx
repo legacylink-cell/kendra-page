@@ -1,9 +1,9 @@
 import { X } from "lucide-react";
 
-export default function Modal({ open, onClose, title, children, testid }) {
+export default function Modal({ open, onClose, title, children, testid, dismissible = true }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4 py-10" data-testid={testid} onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 p-4 py-10" data-testid={testid} onClick={dismissible ? onClose : undefined}>
       <div className="bg-white border border-border rounded-lg w-full max-w-lg shadow-xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <h3 className="font-semibold text-lg">{title}</h3>

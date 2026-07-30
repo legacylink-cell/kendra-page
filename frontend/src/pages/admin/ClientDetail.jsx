@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import api, { API, apiErr } from "@/lib/api";
 import Modal, { Field, inputCls } from "@/components/admin/Modal";
 import { toast } from "sonner";
-import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays, Send, Repeat, Archive, ArchiveRestore } from "lucide-react";
+import { ArrowLeft, FileText, Download, Upload, Plus, Trash2, Eye, Mail, Phone, Target, ShieldCheck, CalendarDays, Send, Repeat, Archive, ArchiveRestore, Pencil } from "lucide-react";
 
 const tabs = ["Overview", "Schedule", "Contracts & Waivers", "Payments"];
 
@@ -23,7 +23,9 @@ export default function ClientDetail() {
   const [showDelete, setShowDelete] = useState(false);
   const [sessions, setSessions] = useState([]);
   const [showSession, setShowSession] = useState(false);
-  const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "", repeat: false, weekdays: [], weeks: 4 });
+  const [showEditSession, setShowEditSession] = useState(false);
+  const [esForm, setEsForm] = useState({ id: "", date: "", time: "", duration: "60 min", note: "" });
+  const [sForm, setSForm] = useState({ date: new Date().toISOString().slice(0, 10), time: "09:00", duration: "60 min", note: "", repeat: false, weekdays: [], total_sessions: 8 });
 
   const [cForm, setCForm] = useState({ package: "1:1 Personal Training", sessions: 12, rate: 0, session_length: "60 minutes", start_date: "", end_date: "", cancellation_hours: 24, include_media_release: true });
   const [pForm, setPForm] = useState({ amount: "", method: "Card", date: new Date().toISOString().slice(0, 10), note: "", status: "paid" });
@@ -93,10 +95,10 @@ export default function ClientDetail() {
     try {
       if (sForm.repeat && sForm.weekdays.length) {
         const r = await api.post(`/clients/${id}/sessions/recurring`, {
-          start_date: sForm.date, weeks: Number(sForm.weeks) || 1, weekdays: sForm.weekdays,
+          start_date: sForm.date, total_sessions: Number(sForm.total_sessions) || 0, weekdays: sForm.weekdays,
           time: sForm.time, duration: sForm.duration, note: sForm.note,
         });
-        toast.success(`Added ${r.data.created} training days`);
+        toast.success(`Scheduled ${r.data.created} training days`);
       } else {
         await api.post(`/clients/${id}/sessions`, { date: sForm.date, time: sForm.time, duration: sForm.duration, note: sForm.note });
         toast.success("Training day added");
@@ -105,6 +107,15 @@ export default function ClientDetail() {
     } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
   };
   const delSession = async (sid) => { await api.delete(`/sessions/${sid}`); load(); };
+  const openEditSession = (s) => { setEsForm({ id: s.id, date: s.date, time: s.time || "", duration: s.duration || "60 min", note: s.note || "" }); setShowEditSession(true); };
+  const saveSession = async (e) => {
+    e.preventDefault();
+    try {
+      await api.put(`/sessions/${esForm.id}`, { date: esForm.date, time: esForm.time, duration: esForm.duration, note: esForm.note });
+      toast.success("Session updated");
+      setShowEditSession(false); load();
+    } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+  };
 
   const saveEdit = async (e) => {
     e.preventDefault();
@@ -194,7 +205,12 @@ export default function ClientDetail() {
                     <td className="px-5 py-3 text-muted-foreground">{s.duration}</td>
                     <td className="px-5 py-3"><select value={s.status || "scheduled"} onChange={(e) => updateSessionStatus(s.id, e.target.value)} data-testid={`session-status-${s.id}`} className={`text-xs rounded-full px-2.5 py-1 border-0 outline-none cursor-pointer ${sessionStatusCls(s.status)}`}><option value="scheduled">Scheduled</option><option value="completed">Completed</option><option value="no-show">No-show</option></select></td>
                     <td className="px-5 py-3 text-muted-foreground">{s.note || "—"}</td>
-                    <td className="px-5 py-3 text-right"><button onClick={() => delSession(s.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button></td>
+                    <td className="px-5 py-3 text-right">
+                      <div className="inline-flex items-center gap-1">
+                        <button onClick={() => openEditSession(s)} data-testid={`session-edit-${s.id}`} title="Reschedule / edit" className="text-muted-foreground hover:text-primary p-1"><Pencil className="h-4 w-4" /></button>
+                        <button onClick={() => delSession(s.id)} data-testid={`session-delete-${s.id}`} title="Delete" className="text-muted-foreground hover:text-destructive p-1"><Trash2 className="h-4 w-4" /></button>
+                      </div>
+                    </td>
                   </tr>
                 ))}
                 {sessions.length === 0 && <tr><td colSpan={5} className="px-5 py-10 text-center text-muted-foreground">No training days scheduled yet.</td></tr>}
@@ -221,7 +237,7 @@ export default function ClientDetail() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `CKStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
+                  <button onClick={() => blobDownload(`/contracts/${c.id}/pdf`, `KPStudio_Agreement.pdf`)} data-testid={`download-contract-${c.id}`} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary"><Download className="h-4 w-4" /> PDF</button>
                   <button onClick={() => emailContract(c.id)} disabled={!client.email} data-testid={`email-contract-${c.id}`} title={client.email ? "Email agreement to client" : "Add a client email first"} className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"><Send className="h-4 w-4" /> Email</button>
                   <label className="inline-flex items-center gap-1.5 text-sm border border-border px-3 py-2 rounded-md hover:bg-secondary cursor-pointer" data-testid={`upload-contract-${c.id}`}>
                     <Upload className="h-4 w-4" /> Upload signed
@@ -305,8 +321,12 @@ export default function ClientDetail() {
                     <button type="button" key={val} onClick={() => toggleWeekday(val)} data-testid={`weekday-${val}`} className={`px-3 py-1.5 rounded-full text-xs border transition-colors ${sForm.weekdays.includes(val) ? "bg-primary text-primary-foreground border-primary" : "border-border hover:bg-secondary"}`}>{lbl}</button>
                   ))}
                 </div>
-                <Field label="For how many weeks"><input type="number" min="1" className={inputCls} value={sForm.weeks} onChange={(e) => setSForm({ ...sForm, weeks: e.target.value })} data-testid="session-weeks" /></Field>
-                <p className="text-xs text-muted-foreground">Creates a session on each selected weekday, starting the week of the date above.</p>
+                <Field label="Total sessions in package"><input type="number" min="1" className={inputCls} value={sForm.total_sessions} onChange={(e) => setSForm({ ...sForm, total_sessions: e.target.value })} data-testid="session-total" /></Field>
+                <p className="text-xs text-muted-foreground">
+                  {sForm.weekdays.length
+                    ? `${sForm.total_sessions || 0} sessions · ${sForm.weekdays.length}×/week ≈ ${Math.ceil((Number(sForm.total_sessions) || 0) / sForm.weekdays.length)} weeks. We'll auto-schedule from the date above and skip nothing.`
+                    : "Select the weekday(s) this client trains each week."}
+                </p>
               </div>
             )}
           </div>
@@ -355,6 +375,22 @@ export default function ClientDetail() {
           </div>
         </form>
       </Modal>
+      {/* Edit / reschedule single session */}
+      <Modal open={showEditSession} onClose={() => setShowEditSession(false)} title="Reschedule session" testid="edit-session-modal" dismissible={false}>
+        <form onSubmit={saveSession} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Date"><input type="date" required className={inputCls} value={esForm.date} onChange={(e) => setEsForm({ ...esForm, date: e.target.value })} data-testid="edit-session-date" /></Field>
+            <Field label="Time"><input type="time" className={inputCls} value={esForm.time} onChange={(e) => setEsForm({ ...esForm, time: e.target.value })} data-testid="edit-session-time" /></Field>
+          </div>
+          <Field label="Duration"><select className={inputCls} value={esForm.duration} onChange={(e) => setEsForm({ ...esForm, duration: e.target.value })}><option>30 min</option><option>45 min</option><option>60 min</option><option>90 min</option></select></Field>
+          <Field label="Note"><input className={inputCls} value={esForm.note} onChange={(e) => setEsForm({ ...esForm, note: e.target.value })} placeholder="e.g. Lower body focus" /></Field>
+          <div className="flex justify-end gap-3 pt-2">
+            <button type="button" onClick={() => setShowEditSession(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
+            <button type="submit" data-testid="save-edit-session-btn" className="px-4 py-2.5 rounded-md text-sm bg-primary text-primary-foreground font-medium hover:opacity-90">Save changes</button>
+          </div>
+        </form>
+      </Modal>
+
       {/* Delete client confirm */}
       <Modal open={showDelete} onClose={() => setShowDelete(false)} title="Delete client?" testid="delete-client-modal">
         <p className="text-sm text-muted-foreground">

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import api from "@/lib/api";
+import api, { apiErr } from "@/lib/api";
+import Modal from "@/components/admin/Modal";
+import { toast } from "sonner";
 import {
   Eye, MessageSquare, TrendingUp, Gauge, Smartphone, MousePointerClick,
-  Facebook, Instagram, Plus,
+  Facebook, Instagram, Plus, RotateCcw,
 } from "lucide-react";
 import {
   ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid,
@@ -42,8 +44,21 @@ const EmptyHint = () => <p className="text-sm text-muted-foreground py-8 text-ce
 
 export default function Insights() {
   const [d, setD] = useState(null);
+  const [showReset, setShowReset] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
-  useEffect(() => { api.get("/insights").then((r) => setD(r.data)).catch(() => setD(false)); }, []);
+  const load = () => api.get("/insights").then((r) => setD(r.data)).catch(() => setD(false));
+  useEffect(() => { load(); }, []);
+
+  const doReset = async () => {
+    setResetting(true);
+    try {
+      const r = await api.post("/insights/reset");
+      toast.success(`Analytics cleared (${r.data.deleted} records). Fresh numbers from now on.`);
+      setShowReset(false); load();
+    } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
+    finally { setResetting(false); }
+  };
 
   if (d === null) return <div className="text-muted-foreground" data-testid="insights-loading">Loading insights…</div>;
   if (d === false) return <div className="text-muted-foreground">Could not load insights.</div>;
@@ -59,9 +74,15 @@ export default function Insights() {
 
   return (
     <div data-testid="insights-page">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Website Insights</h1>
-        <p className="text-muted-foreground mt-1">How visitors find, browse, and convert on your site.</p>
+      <div className="flex items-start justify-between mb-8 gap-4">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Website Insights</h1>
+          <p className="text-muted-foreground mt-1">How visitors find, browse, and convert on your site. Emergent preview traffic is not counted.</p>
+        </div>
+        <button onClick={() => setShowReset(true)} data-testid="reset-insights-btn"
+          className="shrink-0 inline-flex items-center gap-1.5 text-sm border border-border px-4 py-2 rounded-md hover:bg-secondary text-muted-foreground">
+          <RotateCcw className="h-4 w-4" /> Reset analytics
+        </button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
@@ -201,6 +222,16 @@ export default function Insights() {
           </Card>
         ))}
       </div>
+
+      <Modal open={showReset} onClose={() => setShowReset(false)} title="Reset analytics?" testid="reset-insights-modal">
+        <p className="text-sm text-muted-foreground">
+          This clears all recorded website visits, clicks and scroll data so your insights start fresh. Your clients, contracts and payments are <span className="font-semibold text-foreground">not</span> affected.
+        </p>
+        <div className="flex justify-end gap-3 pt-5">
+          <button type="button" onClick={() => setShowReset(false)} className="px-4 py-2.5 rounded-md text-sm border border-border">Cancel</button>
+          <button onClick={doReset} disabled={resetting} data-testid="confirm-reset-insights-btn" className="px-4 py-2.5 rounded-md text-sm bg-destructive text-destructive-foreground font-medium hover:opacity-90 disabled:opacity-60">{resetting ? "Clearing…" : "Reset analytics"}</button>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -17,7 +17,7 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-background text-foreground font-admin flex">
       <aside className="w-64 shrink-0 bg-white border-r border-border flex flex-col fixed h-screen" data-testid="admin-sidebar">
         <div className="px-6 py-7 border-b border-border">
-          <div className="font-admin font-bold text-xl tracking-tight text-foreground">CK Studio</div>
+          <div className="font-admin font-bold text-xl tracking-tight text-foreground">KP Studio</div>
           <p className="text-[10px] uppercase tracking-[0.25em] text-primary mt-1">Trainer Portal</p>
         </div>
         <nav className="flex-1 p-4 space-y-1">

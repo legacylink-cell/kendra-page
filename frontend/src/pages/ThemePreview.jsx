@@ -118,7 +118,7 @@ export default function ThemePreview() {
         <div style={{ background: `${C.bg}f2`, borderBottom: `1px solid ${C.border}` }} className="backdrop-blur-md">
           <nav className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
             <div className="flex flex-col leading-none">
-              <span style={{ ...H, color: C.ink }} className="text-3xl md:text-[34px] font-bold tracking-[-0.02em]">C<span style={{ color: C.accent }} className="italic">K</span> Studio</span>
+              <span style={{ ...H, color: C.ink }} className="text-3xl md:text-[34px] font-bold tracking-[-0.02em]">K<span style={{ color: C.accent }} className="italic">P</span> Studio</span>
               <span style={{ ...H, color: C.accent }} className="text-[9px] tracking-[0.4em] uppercase mt-1">Kendra Albritton</span>
             </div>
             <div className="hidden lg:flex items-center gap-9">
@@ -147,7 +147,7 @@ export default function ThemePreview() {
               <span style={{ color: C.accent }} className="italic">Built to last.</span>
             </h1>
             <p style={{ ...B, color: C.muted }} className="text-lg max-w-lg mt-8 leading-relaxed">
-              CK Studio is the private strength practice of <span style={{ color: C.ink }} className="font-semibold">Kendra Albritton</span> —
+              KP Studio is the private strength practice of <span style={{ color: C.ink }} className="font-semibold">Kendra Albritton</span> —
               where women build real power, unshakeable confidence, and results that outlast any trend.
             </p>
             <div className="flex flex-wrap gap-4 mt-10">
@@ -191,7 +191,7 @@ export default function ThemePreview() {
             </h2>
             <p style={{ ...B, color: C.muted }} className="text-lg leading-relaxed mb-5">
               Kendra Albritton is a personal trainer and group fitness coach at <span style={{ color: C.ink }} className="font-medium">Shapes Fitness</span>,
-              the boutique women's club in Flower Mound, TX. She built CK Studio for one reason: too many women were handed generic
+              the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were handed generic
               programs and told to shrink. She coaches the opposite — get <span style={{ color: C.ink }} className="font-medium">stronger</span>,
               take up space, and train with intention.
             </p>
@@ -398,7 +398,7 @@ export default function ThemePreview() {
             </h2>
             <p style={{ ...B, color: C.muted }} className="text-lg leading-relaxed max-w-md">
               Spots are limited and every client is coached personally. Tell Kendra about your goals and she'll
-              reach out to see if CK Studio is the right fit.
+              reach out to see if KP Studio is the right fit.
             </p>
           </Reveal>
           <Reveal delay={0.15}>
@@ -422,7 +422,7 @@ export default function ThemePreview() {
       <footer className="text-white py-20 px-6 md:px-12" style={{ background: C.dark }}>
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-12">
           <div>
-            <div style={H} className="text-5xl md:text-6xl font-bold tracking-[-0.02em]">C<span style={{ color: C.accent }} className="italic">K</span> Studio</div>
+            <div style={H} className="text-5xl md:text-6xl font-bold tracking-[-0.02em]">K<span style={{ color: C.accent }} className="italic">P</span> Studio</div>
             <p style={{ ...B, color: "#ffffff99" }} className="mt-4 max-w-xs text-sm leading-relaxed">
               Strength coaching for women, by Kendra Albritton. Build the body — and the belief — to match.
             </p>
@@ -447,7 +447,7 @@ export default function ThemePreview() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-14 pt-6 border-t border-white/10 text-xs flex flex-col sm:flex-row justify-between gap-2" style={{ ...B, color: "#ffffff80" }}>
-          <span>© {new Date().getFullYear()} CK Studio. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} KP Studio. All rights reserved.</span>
           <span>Designed by <span style={{ color: C.accent }}>Mo Studio</span></span>
         </div>
       </footer>

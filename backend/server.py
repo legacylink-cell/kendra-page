@@ -50,7 +50,7 @@ storage_key = None
 # Emergent managed email (Resend) — base URL is a constant, never from env.
 EMAIL_BASE_URL = "https://integrations.emergentagent.com"
 EMAIL_KEY = os.environ.get("EMERGENT_EMAIL_KEY")
-EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "CK Studio")
+EMAIL_FROM_NAME = os.environ.get("EMAIL_FROM_NAME", "KP Studio")
 OWNER_EMAIL = os.environ.get("OWNER_EMAIL")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -294,6 +294,7 @@ async def delete_client(client_id: str, user: dict = Depends(get_current_user)):
     await db.clients.delete_one({"id": client_id})
     await db.contracts.delete_many({"client_id": client_id})
     await db.payments.delete_many({"client_id": client_id})
+    await db.sessions.delete_many({"client_id": client_id})
     return {"ok": True}
 
 
@@ -358,7 +359,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     small = ParagraphStyle("small", parent=styles["Normal"], fontSize=8, leading=11, textColor=colors.grey)
 
     el = []
-    el.append(Paragraph("CK&nbsp;STUDIO", h_brand))
+    el.append(Paragraph("KP&nbsp;STUDIO", h_brand))
     el.append(Paragraph("K&nbsp;E&nbsp;N&nbsp;D&nbsp;R&nbsp;A&nbsp;&nbsp;&nbsp;A&nbsp;L&nbsp;B&nbsp;R&nbsp;I&nbsp;T&nbsp;T&nbsp;O&nbsp;N", h_sub))
     el.append(Paragraph("PERSONAL TRAINING AGREEMENT &amp; RELEASE", h_doc))
     el.append(HRFlowable(width="100%", thickness=1.2, color=bronze, spaceBefore=12, spaceAfter=18))
@@ -403,7 +404,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         "Client confirms they are participating voluntarily and have been advised to obtain a physician's clearance prior to beginning any exercise program.",
     ])
     section("5. Release &amp; Waiver of Liability", [
-        "In consideration of being permitted to participate in training with Kendra Albritton / CK Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
+        "In consideration of being permitted to participate in training with Kendra Albritton / KP Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
         "Client agrees to <b>indemnify and hold harmless</b> the Trainer from any claims brought by Client or on Client's behalf.",
     ])
     section("6. Medical Readiness (PAR-Q)", [
@@ -425,9 +426,9 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     el.append(tq)
 
     section("7. Voluntary Engagement &amp; Independent Choice", [
-        "Client affirms that they have chosen CK Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
-        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or CK Studio</b>.",
-        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and CK Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
+        "Client affirms that they have chosen KP Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
+        "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or KP Studio</b>.",
+        "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and KP Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
     ])
     section("8. Confidentiality", [
         "The Trainer will keep Client's personal and health information confidential and use it solely to deliver services, except as required by law.",
@@ -459,7 +460,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     sig = [
         [Paragraph("", sig_style), Paragraph("Kendra Albritton", sig_style)],
         [Paragraph(f"<b>Client Signature</b> — {client_name}<br/>Date: __________________", lbl),
-         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, CK Studio<br/>Date: {eff}", lbl)],
+         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, KP Studio<br/>Date: {eff}", lbl)],
     ]
     ts = Table(sig, colWidths=[3.25 * inch, 3.25 * inch], rowHeights=[34, 26])
     ts.setStyle(TableStyle([
@@ -474,7 +475,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     ]))
     el.append(ts)
     el.append(Spacer(1, 8))
-    el.append(Paragraph("CK Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
+    el.append(Paragraph("KP Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
 
     doc.build(el)
     buf.seek(0)
@@ -500,7 +501,7 @@ async def contract_pdf(contract_id: str, request: Request, auth: Optional[str] =
         raise HTTPException(status_code=404, detail="Contract not found")
     c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
     pdf = build_contract_pdf(c, ct)
-    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    fname = f"KPStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     return Response(content=pdf, media_type="application/pdf",
                     headers={"Content-Disposition": f'attachment; filename="{fname}"'})
 
@@ -546,7 +547,7 @@ async def download_contract(contract_id: str, token: str = Query(...)):
         raise HTTPException(status_code=404, detail="Contract not found")
     c = await db.clients.find_one({"id": ct["client_id"]}, {"_id": 0})
     pdf = build_contract_pdf(c, ct)
-    fname = f"CKStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
+    fname = f"KPStudio_Agreement_{c.get('name','client').replace(' ', '_')}.pdf"
     return Response(content=pdf, media_type="application/pdf",
                     headers={"Content-Disposition": f'inline; filename="{fname}"'})
 
@@ -568,7 +569,7 @@ async def email_contract(contract_id: str, user: dict = Depends(get_current_user
     html = f"""
     <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
       <tr><td style="padding:8px 0;">
-        <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">CK Studio</p>
+        <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">KP Studio</p>
         <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Albritton · Personal Training</p>
         <p>Hi {first},</p>
         <p>Your personal training agreement is ready — it includes the liability waiver, PAR-Q, and studio policies. Click below to open and download your copy (PDF):</p>
@@ -579,11 +580,11 @@ async def email_contract(contract_id: str, user: dict = Depends(get_current_user
         <p><b>Next steps:</b> please review, print &amp; sign, then send the signed copy back to
            <a href="mailto:{reply}">{reply}</a>. Once received, we'll get your first session booked.</p>
         <p>Can't wait to get started.</p>
-        <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">CK Studio</span></p>
+        <p style="margin-top:20px;">— Kendra<br/><span style="color:#8a8a8a;font-size:12px;">KP Studio</span></p>
       </td></tr>
     </table>"""
     try:
-        await send_email(c["email"], "Your CK Studio training agreement", html, reply_to=OWNER_EMAIL)
+        await send_email(c["email"], "Your KP Studio training agreement", html, reply_to=OWNER_EMAIL)
     except Exception as e:
         logger.error(f"Contract email failed: {e}")
         raise HTTPException(status_code=502, detail="Could not send the email. Please try again.")
@@ -688,11 +689,24 @@ async def list_client_sessions(client_id: str, user: dict = Depends(get_current_
     return await db.sessions.find({"client_id": client_id}, {"_id": 0}).sort("date", 1).to_list(1000)
 
 
+async def find_slot_conflict(date: str, time: str, exclude_id: str = None):
+    """Return an existing session occupying the same date+time (if any)."""
+    if not time:
+        return None
+    q = {"date": date, "time": time}
+    if exclude_id:
+        q["id"] = {"$ne": exclude_id}
+    return await db.sessions.find_one(q, {"_id": 0})
+
+
 @api_router.post("/clients/{client_id}/sessions")
 async def add_session(client_id: str, body: SessionInput, user: dict = Depends(get_current_user)):
     c = await db.clients.find_one({"id": client_id}, {"_id": 0})
     if not c:
         raise HTTPException(status_code=404, detail="Client not found")
+    conflict = await find_slot_conflict(body.date, body.time)
+    if conflict:
+        raise HTTPException(status_code=409, detail=f"That slot ({body.date} at {body.time}) is already booked for {conflict.get('client_name','another client')}. Pick another time.")
     doc = body.model_dump()
     doc["id"] = str(uuid.uuid4())
     doc["client_id"] = client_id
@@ -721,15 +735,23 @@ async def update_session(session_id: str, body: SessionUpdate, user: dict = Depe
     upd = {k: v for k, v in body.model_dump().items() if v is not None}
     if not upd:
         return {"ok": True}
-    res = await db.sessions.update_one({"id": session_id}, {"$set": upd})
-    if res.matched_count == 0:
+    existing = await db.sessions.find_one({"id": session_id}, {"_id": 0})
+    if not existing:
         raise HTTPException(status_code=404, detail="Session not found")
+    if "date" in upd or "time" in upd:
+        new_date = upd.get("date", existing.get("date"))
+        new_time = upd.get("time", existing.get("time"))
+        conflict = await find_slot_conflict(new_date, new_time, exclude_id=session_id)
+        if conflict:
+            raise HTTPException(status_code=409, detail=f"That slot ({new_date} at {new_time}) is already booked for {conflict.get('client_name','another client')}. Pick another time.")
+    await db.sessions.update_one({"id": session_id}, {"$set": upd})
     return await db.sessions.find_one({"id": session_id}, {"_id": 0})
 
 
 class RecurringInput(BaseModel):
     start_date: str
     weeks: int = 4
+    total_sessions: int = 0
     weekdays: List[int] = []   # 0=Mon .. 6=Sun (Python weekday)
     time: Optional[str] = ""
     duration: Optional[str] = "60 min"
@@ -748,15 +770,41 @@ async def add_recurring_sessions(client_id: str, body: RecurringInput, user: dic
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid start date")
     wd = set(body.weekdays)
-    docs = []
-    for i in range(max(body.weeks, 1) * 7):
-        d = start + timedelta(days=i)
-        if d.weekday() in wd:
-            docs.append({
-                "id": str(uuid.uuid4()), "client_id": client_id, "client_name": c.get("name", ""),
-                "date": d.isoformat(), "time": body.time or "", "duration": body.duration or "60 min",
-                "note": body.note or "", "status": "scheduled", "created_at": now_iso(),
-            })
+
+    # Build the target list of dates.
+    dates = []
+    if body.total_sessions and body.total_sessions > 0:
+        # Auto-schedule exactly `total_sessions` across weeks on the chosen weekdays.
+        i = 0
+        limit = body.total_sessions * 7 + 21  # safety bound
+        while len(dates) < body.total_sessions and i < limit:
+            d = start + timedelta(days=i)
+            i += 1
+            if d.weekday() in wd:
+                dates.append(d)
+    else:
+        # Fallback: every chosen weekday across `weeks` weeks.
+        for i in range(max(body.weeks, 1) * 7):
+            d = start + timedelta(days=i)
+            if d.weekday() in wd:
+                dates.append(d)
+
+    # Conflict check — reject the whole batch if any slot is already booked.
+    if body.time:
+        conflicts = []
+        for d in dates:
+            conf = await find_slot_conflict(d.isoformat(), body.time)
+            if conf:
+                conflicts.append(f"{d.isoformat()} ({conf.get('client_name','booked')})")
+        if conflicts:
+            shown = "; ".join(conflicts[:5]) + (" …" if len(conflicts) > 5 else "")
+            raise HTTPException(status_code=409, detail=f"These slots at {body.time} are already booked: {shown}. Pick another time or day.")
+
+    docs = [{
+        "id": str(uuid.uuid4()), "client_id": client_id, "client_name": c.get("name", ""),
+        "date": d.isoformat(), "time": body.time or "", "duration": body.duration or "60 min",
+        "note": body.note or "", "status": "scheduled", "created_at": now_iso(),
+    } for d in dates]
     if docs:
         await db.sessions.insert_many([dict(x) for x in docs])
     return {"ok": True, "created": len(docs)}
@@ -881,6 +929,13 @@ async def insights(user: dict = Depends(get_current_user)):
 # ---------------------------------------------------------------------------
 # Dashboard
 # ---------------------------------------------------------------------------
+@api_router.post("/insights/reset")
+async def reset_insights(user: dict = Depends(get_current_user)):
+    res = await db.events.delete_many({})
+    logger.info(f"Insights reset by {user.get('email')}: {res.deleted_count} events cleared")
+    return {"ok": True, "deleted": res.deleted_count}
+
+
 class ResetInput(BaseModel):
     confirm: str = ""
 
@@ -951,7 +1006,7 @@ async def startup():
 
 @api_router.get("/")
 async def root():
-    return {"message": "CK Studio API"}
+    return {"message": "KP Studio API"}
 
 
 app.include_router(api_router)

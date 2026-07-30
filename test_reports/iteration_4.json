@@ -1,0 +1,30 @@
+{
+  "summary": "Frontend-only regression for KP Studio rebrand + client CRUD + recurring/edit sessions + timeslot conflict + insights reset. Executed end-to-end Playwright flows against REACT_APP_BACKEND_URL. 100% of the 10 requested user flows pass. Verified: (1) Marketing home and /admin/login both render 'KP Studio' branding; (2) Dashboard shows 'Welcome back, Kendra' and sidebar brand 'KP Studio' + drag hint 'Drag any session to reschedule'; (3) Add-client modal STAYS OPEN on backdrop click (dismissible=false) and closes only via Cancel/X (verified via mouse.click on backdrop coords); (4) Row menu (client-menu-<id>) Edit updates the row, Archive moves client to Archived filter tab, restore via edit->status=active brings back to Active, Delete via confirm-delete-client-btn removes the row (toast 'Client deleted'); (5) Recurring schedule with total_sessions=8, weekdays Mon+Thu created exactly 8 sessions spanning ~4 weeks and showed 'Scheduled 8 training days' success toast; (6) session-edit-<id> opens edit-session-modal and successfully reschedules a single session (row updated to 10:30); (7) Timeslot conflict: client B posting the same date+time as client A returned HTTP 409 with visible sonner error toast 'That slot (2026-08-09 at 11:00) is already booked for TEST_ConfA_...'; different time succeeded; (8) Delete-frees-slot verified indirectly - after deleting the owning client, the previously-blocked slot becomes bookable (409 no longer fires); (9) Insights page loads with 'Emergent preview traffic is not counted' text and reset-insights-btn opens reset-insights-modal; confirm-reset-insights-btn clears analytics without error; (10) All admin pages render brand 'KP Studio'. Only 1 minor issue found and auto-fixed by testing agent: /app/frontend/public/index.html still had 'CK Studio' in <title> and meta description - fixed to 'KP Studio'.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_new_features.py",
+    "/app/backend/tests/backend_test.py"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "ClientDetail.jsx is 406 lines and holds 6 modals + 4 tabs; splitting SessionsTab/ContractsTab/PaymentsTab into files would improve maintainability.",
+    "Modal backdrop-click dismiss is toggled by a prop (dismissible) but the ESC key still closes non-dismissible modals via onClose? Verify - not tested here, but consider adding a session-modal-close hardening if desired.",
+    "public/index.html brand meta/title had leftover 'CK Studio' - fixed. Consider adding a lint/grep step in CI to catch old brand strings on future rebrands.",
+    "The Add-session modal auto-closes after successful add but stays open on 409 conflict (good UX). Confirmed working in test."
+  ],
+  "updated_files": [
+    "/app/frontend/public/index.html"
+  ],
+  "success_rate": {"backend": "not tested this iteration (skip)", "frontend": "100% (10/10 requested flows)"},
+  "test_credentials": "kendra@kpstudio.com / KPStudio2026! (from /app/memory/test_credentials.md).",
+  "seed_data_creation": "Created and cleaned up: TEST_A_<ts>, TEST_B_<ts>, TEST_ConfA_<ts>, TEST_ConfB_<ts>. DB should be empty of TEST_* clients after this run.",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "All key data-testids verified: add-client-btn, add-client-modal (dismissible=false works), edit-client-modal, client-menu-<id>, client-edit-<id>, client-archive-<id>, client-delete-<id>, confirm-delete-client-btn, client-filter-{active,archived,active}, client-row-<id>, client-detail-page, tab-Schedule, add-session-btn, session-date, session-time, session-repeat-toggle, weekday-1/4, session-total, save-session-btn, session-<id>, session-edit-<id>, edit-session-modal, edit-session-date, edit-session-time, save-edit-session-btn, reset-insights-btn, reset-insights-modal, confirm-reset-insights-btn. Timeslot conflict toast wording: 'That slot (YYYY-MM-DD at HH:MM) is already booked for <client_name>. Pick another time.' HTML5 drag-drop was NOT physically dragged (Playwright limitation for HTML5 native draggable) - only verified hint text is present and Calendar.jsx wires draggable + onMove -> PUT /sessions/{id}; the underlying reschedule via edit-session pencil works, which uses the same endpoint.",
+  "rca of the issue": "Only issue found - public/index.html had residual 'CK Studio' branding in <title> and description meta. Root cause: earlier rebrand PR updated JSX source strings but missed the static public/index.html template. Mitigation: fixed both strings in index.html to 'KP Studio'. To prevent regressions, recommend adding a CI grep guard: `grep -rn 'CK Studio\\|Coach K' frontend/ && exit 1`."
+}
