@@ -71,7 +71,7 @@ export default function ThemePreview() {
           <div className="md:col-span-7">
             <p style={{ ...H, color: C.accent }} className="text-xs tracking-[0.25em] uppercase font-semibold mb-5">Strength for women · by a woman</p>
             <h1 style={{ ...H, color: C.ink }} className="text-5xl sm:text-6xl md:text-7xl font-bold leading-[1.02] tracking-tight">Real strength.<br /><span style={{ color: C.pop }} className="italic">Built to last.</span></h1>
-            <p style={B} className="text-lg max-w-lg mt-6 leading-relaxed">KP Studio is the private strength practice of Kendra Albritton — where women build real power, confidence, and results that last.</p>
+            <p style={B} className="text-lg max-w-lg mt-6 leading-relaxed">KP Studio is the private strength practice of Kendra Page — where women build real power, confidence, and results that last.</p>
             <div className="flex flex-wrap gap-4 mt-8"><Btn>Start Here</Btn><Btn dark>View Programs</Btn></div>
           </div>
           <div className="md:col-span-5 relative">
@@ -94,7 +94,7 @@ export default function ThemePreview() {
           <Reveal delay={0.15} className="md:col-span-7 order-1 md:order-2">
             <Eyebrow>Meet Kendra</Eyebrow>
             <h2 style={{ ...H, color: C.ink }} className="text-4xl sm:text-5xl font-bold leading-[1.08] tracking-tight mb-6">Coaching that treats your goals like they're sacred</h2>
-            <p style={B} className="text-lg leading-relaxed mb-6">Hi ya'll! I'm Kendra Albritton and I've had the joy of leading others to their health &amp; fitness goals for over a decade. Since becoming a mom, my passion is supporting women in becoming their strongest &amp; healthiest — for themselves and their loved ones.</p>
+            <p style={B} className="text-lg leading-relaxed mb-6">Hi ya'll! I'm Kendra Page and I've had the joy of leading others to their health &amp; fitness goals for over a decade. Since becoming a mom, my passion is supporting women in becoming their strongest &amp; healthiest — for themselves and their loved ones.</p>
             <div className="grid sm:grid-cols-2 gap-3">
               {["Women-only coaching", "Personalized programming", "Form-first strength", "Real accountability"].map((f) => (
                 <div key={f} style={{ ...B, color: C.ink }} className="flex items-center gap-3 text-sm"><span className="h-6 w-6 rounded-full flex items-center justify-center shrink-0" style={{ background: `${C.accent}26` }}><Check className="h-3.5 w-3.5" style={{ color: C.accent }} /></span>{f}</div>
@@ -185,7 +185,7 @@ export default function ThemePreview() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
           <div>
             <div style={H} className="text-4xl font-bold tracking-tight">KP<span style={{ color: C.accent }} className="italic">.</span> Studio</div>
-            <p style={{ ...B, color: "#ffffff99" }} className="mt-3 max-w-xs text-sm">Strength coaching for women, by Kendra Albritton.</p>
+            <p style={{ ...B, color: "#ffffff99" }} className="mt-3 max-w-xs text-sm">Strength coaching for women, by Kendra Page.</p>
             <div className="flex gap-3 mt-5">{[Instagram, Facebook].map((Ic, i) => <span key={i} className="h-9 w-9 rounded-full border border-white/20 flex items-center justify-center"><Ic className="h-4 w-4" /></span>)}</div>
           </div>
           <div style={{ ...B, color: "#ffffffb0" }} className="text-sm space-y-2"><p style={{ ...H, color: C.accent }} className="uppercase tracking-[0.25em] text-xs mb-3">Explore</p><span className="block">About Kendra</span><span className="block">Programs</span><span className="block">Results</span></div>

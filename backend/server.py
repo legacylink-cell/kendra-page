@@ -366,7 +366,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
 
     el.append(Paragraph("1. Parties &amp; Program", h1))
     data = [
-        ["Client", c.get("name", ""), "Trainer", "Kendra Albritton"],
+        ["Client", c.get("name", ""), "Trainer", "Kendra Page"],
         ["Email", c.get("email", "") or "—", "Phone", c.get("phone", "") or "—"],
         ["Program", ct.get("package", ""), "Sessions", str(ct.get("sessions", ""))],
         ["Session Length", ct.get("session_length", ""), "Rate", f"${ct.get('rate', 0):,.2f}"],
@@ -404,7 +404,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
         "Client confirms they are participating voluntarily and have been advised to obtain a physician's clearance prior to beginning any exercise program.",
     ])
     section("5. Release &amp; Waiver of Liability", [
-        "In consideration of being permitted to participate in training with Kendra Albritton / KP Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
+        "In consideration of being permitted to participate in training with Kendra Page / KP Studio, Client hereby <b>releases, waives, and discharges</b> the Trainer, her agents, and affiliates from any and all liability, claims, demands, or causes of action arising out of or related to any loss, damage, or injury sustained while participating in training, to the fullest extent permitted by law.",
         "Client agrees to <b>indemnify and hold harmless</b> the Trainer from any claims brought by Client or on Client's behalf.",
     ])
     section("6. Medical Readiness (PAR-Q)", [
@@ -426,7 +426,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     el.append(tq)
 
     section("7. Voluntary Engagement &amp; Independent Choice", [
-        "Client affirms that they have chosen KP Studio and Kendra Albritton <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
+        "Client affirms that they have chosen KP Studio and Kendra Page <b>freely, voluntarily, and of their own accord</b>, and that no one has required, referred, or directed them to engage these services. Client is seeking out and retaining the Trainer on their own initiative.",
         "Client represents and warrants that their engagement of the Trainer does <b>not violate any non-compete, non-solicitation, exclusivity, or similar agreement</b> the Client may have with any gym, studio, employer, or other party. Any such obligation is solely between the Client and that third party and <b>does not apply to, bind, or involve the Trainer or KP Studio</b>.",
         "Client agrees to <b>indemnify, defend, and hold harmless</b> the Trainer and KP Studio from any claim, demand, or liability arising out of any such non-compete or restrictive agreement between the Client and any third party. The Trainer shall not be held liable in any way for the Client's own contractual obligations to others.",
     ])
@@ -458,9 +458,9 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     lbl = ParagraphStyle("siglbl", parent=small, fontSize=8.5, leading=12)
     client_name = c.get("name", "")
     sig = [
-        [Paragraph("", sig_style), Paragraph("Kendra Albritton", sig_style)],
+        [Paragraph("", sig_style), Paragraph("Kendra Page", sig_style)],
         [Paragraph(f"<b>Client Signature</b> — {client_name}<br/>Date: __________________", lbl),
-         Paragraph(f"<b>Trainer Signature</b> — Kendra Albritton, KP Studio<br/>Date: {eff}", lbl)],
+         Paragraph(f"<b>Trainer Signature</b> — Kendra Page, KP Studio<br/>Date: {eff}", lbl)],
     ]
     ts = Table(sig, colWidths=[3.25 * inch, 3.25 * inch], rowHeights=[34, 26])
     ts.setStyle(TableStyle([
@@ -475,7 +475,7 @@ def build_contract_pdf(c: dict, ct: dict) -> bytes:
     ]))
     el.append(ts)
     el.append(Spacer(1, 8))
-    el.append(Paragraph("KP Studio — Kendra Albritton · This agreement is provided for the mutual protection of client and trainer.", small))
+    el.append(Paragraph("KP Studio — Kendra Page · This agreement is provided for the mutual protection of client and trainer.", small))
 
     doc.build(el)
     buf.seek(0)
@@ -570,7 +570,7 @@ async def email_contract(contract_id: str, user: dict = Depends(get_current_user
     <table width="100%" cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;color:#1C1B1A;">
       <tr><td style="padding:8px 0;">
         <p style="font-size:18px;margin:0 0 4px;color:#A9784E;font-weight:bold;">KP Studio</p>
-        <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Albritton · Personal Training</p>
+        <p style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a8a8a;margin:0 0 18px;">Kendra Page · Personal Training</p>
         <p>Hi {first},</p>
         <p>Your personal training agreement is ready — it includes the liability waiver, PAR-Q, and studio policies. Click below to open and download your copy (PDF):</p>
         <p style="margin:22px 0;">
@@ -986,7 +986,7 @@ async def seed_admin():
     existing = await db.users.find_one({"email": email})
     if existing is None:
         await db.users.insert_one({"email": email, "password_hash": hash_password(pw),
-                                   "name": "Kendra Albritton", "role": "admin", "created_at": now_iso()})
+                                   "name": "Kendra Page", "role": "admin", "created_at": now_iso()})
         logger.info("Admin seeded")
     elif not verify_password(pw, existing["password_hash"]):
         await db.users.update_one({"email": email}, {"$set": {"password_hash": hash_password(pw)}})

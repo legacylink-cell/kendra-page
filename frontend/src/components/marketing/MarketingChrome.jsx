@@ -29,7 +29,7 @@ export const MarketingNav = () => {
         <nav className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
           <a href="#top" className="flex flex-col leading-none" data-testid="nav-logo">
             <span className="font-display text-3xl md:text-[34px] tracking-[-0.02em] text-[#0B3B4A]">K<span className="italic text-[#0FB6C4]">P</span> <span className="tracking-tight">Studio</span></span>
-            <span className="text-[9px] tracking-[0.4em] text-[#0FB6C4] uppercase mt-1">Kendra Albritton</span>
+            <span className="text-[9px] tracking-[0.4em] text-[#0FB6C4] uppercase mt-1">Kendra Page</span>
           </a>
           <div className="hidden lg:flex items-center gap-9">
             {links.map((l) => (
@@ -72,7 +72,7 @@ export const MarketingFooter = () => (
       <div>
         <div className="font-display text-5xl md:text-6xl tracking-[-0.02em]">K<span className="italic text-[#0FB6C4]">P</span> <span className="tracking-tight">Studio</span></div>
         <p className="text-[#FFFFFF]/60 mt-4 max-w-xs text-sm leading-relaxed">
-          Strength coaching for women, by Kendra Albritton. Build the body — and the belief — to match.
+          Strength coaching for women, by Kendra Page. Build the body — and the belief — to match.
         </p>
         <div className="flex items-center gap-3 mt-6" data-testid="footer-socials">
           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" data-testid="footer-instagram"

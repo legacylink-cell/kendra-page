@@ -131,7 +131,7 @@ const Home = () => {
             </motion.h1>
             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.35 }}
               className="text-[#4A5B60] text-lg max-w-lg mt-8 leading-relaxed">
-              KP Studio is the private strength practice of <span className="text-[#0B3B4A] font-semibold">Kendra Albritton</span> —
+              KP Studio is the private strength practice of <span className="text-[#0B3B4A] font-semibold">Kendra Page</span> —
               where women build real power, unshakeable confidence, and results that outlast any trend.
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.5 }}
@@ -150,7 +150,7 @@ const Home = () => {
           <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="md:col-span-5 relative">
             <div className="relative rounded-[32px] overflow-hidden bg-[#F3FBFC]">
-              <img src={IMG.hero} alt="Kendra Albritton" className="w-full h-full object-cover mix-blend-multiply" />
+              <img src={IMG.hero} alt="Kendra Page" className="w-full h-full object-cover mix-blend-multiply" />
             </div>
             <div className="absolute -bottom-5 -left-3 sm:left-6 bg-[#0B3B4A] text-[#FFFFFF] px-6 py-4 rounded-2xl shadow-[0_10px_40px_rgba(28,27,26,0.15)]">
               <p className="font-display text-4xl leading-none">10+</p>
@@ -166,7 +166,7 @@ const Home = () => {
           <Reveal className="md:col-span-5 order-2 md:order-1">
             <div className="relative">
               <div className="relative rounded-[28px] overflow-hidden aspect-[4/5] w-4/5">
-                <img src={IMG.aboutMain} alt="Kendra Albritton" className="w-full h-full object-cover object-top" />
+                <img src={IMG.aboutMain} alt="Kendra Page" className="w-full h-full object-cover object-top" />
               </div>
               <div className="absolute bottom-[-2rem] right-0 w-1/2 aspect-square rounded-[20px] overflow-hidden border-8 border-[#ECFDFF] shadow-[0_10px_40px_rgba(28,27,26,0.12)]">
                 <img src={IMG.aboutSub} alt="Kendra coaching" className="w-full h-full object-cover" />
@@ -179,7 +179,7 @@ const Home = () => {
               Coaching that treats your goals like they're sacred.
             </h2>
             <p className="text-[#4A5B60] text-lg leading-relaxed mb-5">
-              Hi ya'll! My name is <span className="text-[#0B3B4A] font-medium">Kendra Albritton</span> and I have had the joy &amp; pleasure of
+              Hi ya'll! My name is <span className="text-[#0B3B4A] font-medium">Kendra Page</span> and I have had the joy &amp; pleasure of
               leading others to achieve their health &amp; fitness goals for over a decade now. Since obtaining my ACE personal training
               certification back in 2016, I have worked with all ages including kids to seniors and both men and women. However, since becoming
               a first time mom back in 2019 &amp; now being postpartum with my second little babe, my passion is to support women in becoming
