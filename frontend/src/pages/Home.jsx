@@ -179,14 +179,26 @@ const Home = () => {
               Coaching that treats your goals like they're sacred.
             </h2>
             <p className="text-[#4A4744] text-lg leading-relaxed mb-5">
-              Kendra Albritton is a personal trainer and group fitness coach at <span className="text-[#1C1B1A] font-medium">Shapes Fitness</span>,
-              the boutique women's club in Flower Mound, TX. She built KP Studio for one reason: too many women were handed generic
-              programs and told to shrink. She coaches the opposite — get <span className="text-[#1C1B1A] font-medium">stronger</span>,
-              take up space, and train with intention.
+              Hi ya'll! My name is <span className="text-[#1C1B1A] font-medium">Kendra Albritton</span> and I have had the joy &amp; pleasure of
+              leading others to achieve their health &amp; fitness goals for over a decade now. Since obtaining my ACE personal training
+              certification back in 2016, I have worked with all ages including kids to seniors and both men and women. However, since becoming
+              a first time mom back in 2019 &amp; now being postpartum with my second little babe, my passion is to support women in becoming
+              their strongest &amp; healthiest for themselves as well as their loved ones.
+            </p>
+            <p className="text-[#4A4744] text-lg leading-relaxed mb-5">
+              Witnessing women break mental barriers &amp; push past their limiting beliefs in &amp; out of the gym is what fires me up most!
+              I have a degree in psychology from Oklahoma State University (Go Pokes! 🍊) &amp; with my background in studying the mind and from
+              my decade of experience working closely with individuals in the gym, I have discovered everything begins in the mind.
+            </p>
+            <p className="text-[#4A4744] text-lg leading-relaxed mb-5">
+              I coach my clients to dig deep in discovering their <span className="text-[#1C1B1A] font-medium">'why'</span> behind their
+              fitness &amp; health goals so they may obtain lasting &amp; long term success that will not only change their lives for the
+              better, but have a positive impact on future generations!
             </p>
             <p className="text-[#4A4744] text-lg leading-relaxed mb-8">
-              Every program is built around your body, your history, and your life. No guesswork, no fads —
-              just expert programming and relentless accountability.
+              So if you're looking to make lasting change this year &amp; years to come, I'd love the opportunity to support you on your
+              journey! I'm so excited to get to continue this life changing work &amp; I look forward to supporting more of you in becoming
+              the best versions of YOU! 💪💞
             </p>
             <div className="grid sm:grid-cols-2 gap-4">
               {["Women-only coaching", "Personalized programming", "Form-first strength", "Real accountability"].map((f) => (

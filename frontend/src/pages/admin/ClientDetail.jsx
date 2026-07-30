@@ -107,6 +107,14 @@ export default function ClientDetail() {
     } catch (err) { toast.error(apiErr(err.response?.data?.detail)); }
   };
   const delSession = async (sid) => { await api.delete(`/sessions/${sid}`); load(); };
+  const openSessionModal = () => {
+    const latest = contracts[0];
+    if (latest?.sessions) {
+      const remaining = Math.max(Number(latest.sessions) - sessions.length, 0) || Number(latest.sessions);
+      setSForm((f) => ({ ...f, total_sessions: remaining, repeat: true }));
+    }
+    setShowSession(true);
+  };
   const openEditSession = (s) => { setEsForm({ id: s.id, date: s.date, time: s.time || "", duration: s.duration || "60 min", note: s.note || "" }); setShowEditSession(true); };
   const saveSession = async (e) => {
     e.preventDefault();
@@ -192,7 +200,7 @@ export default function ClientDetail() {
         <div>
           <div className="flex justify-between items-center mb-4">
             <p className="text-sm text-muted-foreground">Lock in {client.name.split(" ")[0]}'s training days &amp; times.</p>
-            <button onClick={() => setShowSession(true)} data-testid="add-session-btn" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-md text-sm font-medium hover:opacity-90"><Plus className="h-4 w-4" /> Add training day</button>
+            <button onClick={openSessionModal} data-testid="add-session-btn" className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-4 py-2.5 rounded-md text-sm font-medium hover:opacity-90"><Plus className="h-4 w-4" /> Add training day</button>
           </div>
           <div className="bg-white border border-border rounded-lg overflow-hidden">
             <table className="w-full text-sm">
@@ -322,6 +330,9 @@ export default function ClientDetail() {
                   ))}
                 </div>
                 <Field label="Total sessions in package"><input type="number" min="1" className={inputCls} value={sForm.total_sessions} onChange={(e) => setSForm({ ...sForm, total_sessions: e.target.value })} data-testid="session-total" /></Field>
+                {contracts[0]?.sessions ? (
+                  <p className="text-xs text-primary" data-testid="session-total-autofill">Auto-filled from contract: {contracts[0].package} · {contracts[0].sessions} sessions{sessions.length ? ` (${sessions.length} already scheduled)` : ""}.</p>
+                ) : null}
                 <p className="text-xs text-muted-foreground">
                   {sForm.weekdays.length
                     ? `${sForm.total_sessions || 0} sessions · ${sForm.weekdays.length}×/week ≈ ${Math.ceil((Number(sForm.total_sessions) || 0) / sForm.weekdays.length)} weeks. We'll auto-schedule from the date above and skip nothing.`
