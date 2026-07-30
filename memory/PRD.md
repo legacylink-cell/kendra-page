@@ -49,6 +49,10 @@ Website + backend admin portal for a female personal trainer (KP Studio, trainer
 - Admin portal retheme: shadcn CSS vars switched to warm cream/caramel/charcoal to match site; Insights charts recolored warm.
 - Tests: iteration_3.json 100% pass (13/13 new backend + 23/23 legacy; admin UI selectors verified).
 
+## 2026-07-30 — Font weight fix + Kendra Page rename
+- Headings were rendering Poppins at weight 400 (thin); added `.font-display { font-weight: 700 }` in index.css so all marketing/login headings are bold — matches approved preview.
+- Renamed "Kendra Albritton" → "Kendra Page" everywhere (site, contract PDF, emails, sender name, admin seed).
+
 ## 2026-07-30 — Bright Aqua theme applied platform-wide
 - New theme approved & applied everywhere: aqua #0FB6C4 primary, coral #FF6B6B pop, deep teal-navy #0B3B4A text/darks, white + light-aqua (#ECFDFF) backgrounds; Poppins headings + Roboto body.
 - Fonts: tailwind.config.js (display=Poppins, body/sans/admin=Roboto) + index.html Google Fonts + index.css body.

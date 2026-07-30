@@ -42,6 +42,8 @@ body {
 
 @layer base {
     * { @apply border-border; }
+    /* Poppins display headings need weight to match design (old serif looked fine at 400) */
+    .font-display { font-weight: 700; }
 }
 
 /* Marquee */
